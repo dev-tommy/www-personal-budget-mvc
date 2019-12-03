@@ -29,18 +29,17 @@
 
     public function match($url)
     {
-        $reg_exp = "/^(?<controller>[a-z-]+)\/(?<action>[a-z-]+)$/i";
-        if (preg_match($reg_exp, $url, $matches))
-        {
-            $params = [];
-
-            foreach ($matches as $key => $match) {
-                if (is_string($key)) {
-                    $params[$key] = $match;
+        foreach ($this->routes as $route => $params) {
+            if (preg_match($route, $url, $matches))
+            {
+                foreach ($matches as $key => $match) {
+                    if (is_string($key)) {
+                        $params[$key] = $match;
+                    }
                 }
+                $this->params = $params;
+                return true;
             }
-            $this->params = $params;
-            return true;
         }
         return false;
     }
