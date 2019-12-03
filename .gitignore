@@ -6,3 +6,4 @@
 !*.php
 !*.png
 !*.sql
+!*.htaccess
