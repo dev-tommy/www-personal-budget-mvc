@@ -9,6 +9,10 @@
  * e-mail: tomasz.frydrychowicz.programista@gmail.com
  */
 
+// controllers
+require '../App/Controllers/Incomes.php';
+
+//routeing
 require '../Core/Router.php';
 
 $router = new Router();
