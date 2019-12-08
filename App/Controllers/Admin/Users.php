@@ -20,7 +20,7 @@ class Users extends \Core\Controller
 
     public function indexAction()
     {
-
+        echo 'Users index';
     }
 
     protected function after()
