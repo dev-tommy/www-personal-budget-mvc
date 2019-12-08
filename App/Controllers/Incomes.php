@@ -1,5 +1,6 @@
 <?php
 
+namespace App\Controllers;
 /**
  * Incomes controller v0.1
  *
