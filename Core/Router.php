@@ -48,6 +48,7 @@ namespace Core;
 
     public function dispatch($url)
     {
+        $url = $this->removeQueryStringVariables($url);
         if ($this->match($url)) {
             $controller = $this->params['controller'];
             $controller = $this->convertToStudlyCaps($controller);
