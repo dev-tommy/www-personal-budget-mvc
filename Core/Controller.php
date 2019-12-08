@@ -19,4 +19,25 @@ namespace Core;
     {
         $this->route_params = $route_params;
     }
+
+    public function __call($name, $arguments)
+    {
+        $method = $name . 'Action';
+        if (method_exists($this, $method)) {
+            call_user_func_array([$this, $method], $arguments);
+            $this->after();
+        } else {
+            echo "Method $method not found in controller". get_class($this);
+        }
+    }
+
+    protected function before()
+    {
+
+    }
+
+    protected function after()
+    {
+
+    }
  }
