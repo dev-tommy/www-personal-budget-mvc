@@ -87,6 +87,17 @@ namespace Core;
         return $url;
     }
 
+    protected function getNamespace()
+    {
+        $namespace = 'App\Controllers\\';
+
+        if (array_key_exists('namespace', $this->params)) {
+            $namespace .= $this->params['namespace'] . '\\';
+        }
+
+        return $namespace;
+    }
+
     protected function convertToStudlyCaps($string)
     {
         return str_replace(' ','', ucwords(str_replace('-', ' ', $string)));
