@@ -22,7 +22,7 @@ $router->add('posts', ['controller' => 'Posts', 'action' => 'index']);
 $router->add('{controller}/{action}');
 $router->add('{controller}/{id:\d+}/{action}');
 
-
+/*
 $url = $_SERVER['QUERY_STRING'];
 
 if ($router->match($url)) {
@@ -32,3 +32,7 @@ if ($router->match($url)) {
 } else {
     echo "No route found for URL '$url'";
 }
+
+*/
+
+$router->dispatch($_SERVER['QUERY_STRING']);
