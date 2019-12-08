@@ -5,7 +5,7 @@
  *
  * PHP version 7.3
  *
- * Author: Tomasz Frydrychowicz
+ * Created with course PHP MVC framework by author Dave Hollingworth
  * e-mail: tomasz.frydrychowicz.programista@gmail.com
  */
 
