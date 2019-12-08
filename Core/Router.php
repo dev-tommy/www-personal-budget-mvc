@@ -70,6 +70,12 @@
         }
     }
 
+    protected function convertToStudlyCaps($string)
+    {
+        return str_replace(' ','', ucwords(str_replace('-', ' ', $string)));
+    }
+
+
     public function getParams()
     {
         return $this->params;
