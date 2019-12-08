@@ -12,32 +12,42 @@ namespace App\Controllers;
 
 class Incomes extends \Core\Controller
 {
-    public function index()
+    protected function before()
+    {
+        
+    }
+
+    protected function after()
+    {
+        
+    }
+    
+    public function indexAction()
     {
         echo "index page";
     }
 
-    public function add()
+    public function addAction()
     {
         echo "Add new income";
     }
 
-    public function edit()
+    public function editAction()
     {
         echo "Edit income";
     }
 
-    public function delete()
+    public function deleteAction()
     {
         echo "Delete income";
     }
 
-    public function rename()
+    public function renameAction()
     {
         echo "Rename income";
     }
 
-    public function view()
+    public function viewAction()
     {
         echo "View income";
     }

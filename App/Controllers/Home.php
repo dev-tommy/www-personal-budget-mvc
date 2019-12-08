@@ -12,7 +12,17 @@ namespace App\Controllers;
 
 class Home extends \Core\Controller
 {
-    public function index()
+    protected function before()
+    {
+
+    }
+
+    protected function after()
+    {
+
+    }
+
+    public function indexAction()
     {
         echo "index home page";
     }
