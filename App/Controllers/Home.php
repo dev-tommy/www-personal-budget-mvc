@@ -10,7 +10,7 @@ namespace App\Controllers;
  * e-mail: tomasz.frydrychowicz.programista@gmail.com
  */
 
-class Home
+class Home extends \Core\Controller
 {
     public function index()
     {

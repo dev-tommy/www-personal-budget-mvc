@@ -10,7 +10,7 @@ namespace App\Controllers;
  * e-mail: tomasz.frydrychowicz.programista@gmail.com
  */
 
-class Incomes
+class Incomes extends \Core\Controller
 {
     public function index()
     {
