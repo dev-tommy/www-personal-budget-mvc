@@ -9,15 +9,7 @@
  * e-mail: tomasz.frydrychowicz.programista@gmail.com
  */
 
-// autoloader controllers
-spl_autoload_register(function ($class) {
-    $root = dirname(__DIR__);
-    $file = $root . '/' . str_replace('\\', '/', $class) . '.php';
-    if (is_readable($file)) {
-        require $file;
-    }
-});
-
+ require '../vendor/autoload.php';
 
 //routing
 
