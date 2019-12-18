@@ -8,3 +8,4 @@ vendor/*
 !*.png
 !*.sql
 !*.htaccess
+!*.json
