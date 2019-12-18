@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Controllers;
+
+use \Core\View;
 /**
  * Incomes controller v0.1
  *
@@ -24,6 +26,6 @@ class Home extends \Core\Controller
 
     public function indexAction()
     {
-        echo "index home page";
+        View::render('Home/index.php');
     }
 }
