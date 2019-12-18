@@ -9,3 +9,4 @@ vendor/*
 !*.sql
 !*.htaccess
 !*.json
+!*.lock
