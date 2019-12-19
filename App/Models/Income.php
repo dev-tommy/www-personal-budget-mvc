@@ -2,21 +2,16 @@
 
 namespace App\Models;
 
+use Core\Model;
 use PDO;
 use PDOException;
 
-class Income
+class Income extends \Core\Model
 {
     public static function getAll()
     {
-        $host = 'localhost';
-        $dbname = 'personalBudget';
-        $username = 'root';
-        $password = 'mysql';
-
         try {
-            $db = new PDO("mysql:host=$host; dbname=$dbname; charset=utf8",
-                          $username, $password);
+            $db = static::getDB();
             $sql = 'SELECT id, name FROM incomes_category_default';
             $stmt = $db->query($sql);
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
