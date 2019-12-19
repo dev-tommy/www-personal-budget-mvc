@@ -1,6 +1,10 @@
 <?php
 
 namespace App\Controllers;
+
+use \Core\View;
+use App\Models\Income;
+
 /**
  * Incomes controller v0.1
  *
@@ -14,17 +18,19 @@ class Incomes extends \Core\Controller
 {
     protected function before()
     {
-        
+
     }
 
     protected function after()
     {
-        
+
     }
-    
+
     public function indexAction()
     {
-        echo "index page";
+        $incomes = Income::getAll();
+
+        View::renderTemplate('Incomes/index.html', ['incomes' => $incomes]);
     }
 
     public function addAction()

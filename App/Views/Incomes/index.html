@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Incomes view</title>
+</head>
+
+<body>
+    <h1>Incomes !!</h1>
+    <p>Home view test page</p>
+    <ul>
+        {% for income in incomes %}
+        <li>ID: {{ income.id }},  NAME: {{ income.name }}</li>
+        {% endfor %}
+    </ul>
+
+</body>
+
+</html>
