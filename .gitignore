@@ -1,5 +1,4 @@
 *.*
-vendor/*
 !*.htm
 !*.html
 !*.css
@@ -10,3 +9,5 @@ vendor/*
 !*.htaccess
 !*.json
 !*.lock
+vendor/*
+App/Config.php
