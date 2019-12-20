@@ -2,6 +2,7 @@
 
 namespace Core;
 
+use Core\Log;
 /**
  * Base model
  *
@@ -13,6 +14,32 @@ namespace Core;
 
 class Error
 {
+    const PAGE_NOT_FOUND = 404;
+    const SERVER_ERROR = 500;
+
+    private static function showDescription($exception)
+    {
+        View::renderTemplate('error.html',
+        [
+            'className' => get_class($exception),
+            'message' => $exception->getMessage(),
+            'stackTrace' => $exception->getTraceAsString(),
+            'fileName' => $exception->getFile(),
+            'lineNumber' => $exception->getLine()
+        ]
+        );
+    }
+
+    private static function getCorrectHttpResponseCode($exception)
+    {
+        $code = $exception->getCode();
+        if ($code != Error::PAGE_NOT_FOUND) {
+            $code = Error::SERVER_ERROR;
+        }
+        http_response_code($code);
+        return $code;
+    }
+
     public static function errorHandler($level, $message, $file, $line)
     {
         if (error_reporting() != 0) {
@@ -22,28 +49,12 @@ class Error
 
     public static function exceptionHandler($exception)
     {
-        $code = $exception->getCode();
-        if ($code != 404) {
-            $code = 500;
-        }
-        http_response_code($code);
+        $code = Error::getCorrectHttpResponseCode($exception);
 
         if (\App\Config::SHOW_ERRORS) {
-            echo "<h1>Fatal error</h1>";
-            echo "<p>Uncaught exception: '" . get_class($exception) . "'</p>";
-            echo "<p>Message: '" . $exception->getMessage() . "'</p>";
-            echo "<p>Stack trace:<pre>" . $exception->getTraceAsString() . "</pre></p>";
-            echo "<p>Thrown in '" . $exception->getFile() . "' on line " . $exception->getLine() . "</p>";
+            Error::showDescription($exception);
         } else {
-            $log = dirname(__DIR__) . '/logs/' . date('Y-m-d') . '.txt';
-            ini_set('error_log', $log);
-
-            $message = "Uncaught exception: '" . get_class($exception) . "'";
-            $message .= " with message: '" . $exception->getMessage() . "'";
-            $message .= "\nStack trace: " . $exception->getTraceAsString();
-            $message .= "\nThrown in '" . $exception->getFile() . "' on line " . $exception->getLine();
-
-            error_log($message);
+            //Log::addException($exception);
             View::renderTemplate("$code.html");
         }
     }
