@@ -6,3 +6,8 @@
 !*.php
 !*.png
 !*.sql
+!*.htaccess
+!*.json
+!*.lock
+vendor/*
+App/Config.php

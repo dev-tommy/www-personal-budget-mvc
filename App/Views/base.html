@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+    <nav>
+        <a href="/">Home</a> |
+        <a href="/incomes">Incomes</a> |
+        <a href="/incomess">Wrong page</a> |
+        <a href="/incomes/error">Error page</a>
+    </nav>
+
+    {% block body %}
+    {% endblock %}
+</body>
+
+</html>
