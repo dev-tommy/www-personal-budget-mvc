@@ -27,7 +27,7 @@ namespace Core;
             call_user_func_array([$this, $method], $arguments);
             $this->after();
         } else {
-            echo "Method $method not found in controller". get_class($this);
+            throw new \Exception("Method $method not found in controller". get_class($this));
         }
     }
 
