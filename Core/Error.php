@@ -1,6 +1,8 @@
 <?php
 
 namespace Core;
+
+use Core\Log;
 /**
  * Base model
  *
@@ -22,19 +24,6 @@ class Error
         echo "<p>Message: '" . $exception->getMessage() . "'</p>";
         echo "<p>Stack trace:<pre>" . $exception->getTraceAsString() . "</pre></p>";
         echo "<p>Thrown in '" . $exception->getFile() . "' on line " . $exception->getLine() . "</p>";
-    }
-
-    private static function addExceptionToLog($exception)
-    {
-        $log = dirname(__DIR__) . '/logs/' . date('Y-m-d') . '.txt';
-        ini_set('error_log', $log);
-
-        $message = "Uncaught exception: '" . get_class($exception) . "'";
-        $message .= " with message: '" . $exception->getMessage() . "'";
-        $message .= "\nStack trace: " . $exception->getTraceAsString();
-        $message .= "\nThrown in '" . $exception->getFile() . "' on line " . $exception->getLine();
-
-        error_log($message);
     }
 
     private static function getCorrectHttpResponseCode($exception)
@@ -61,7 +50,7 @@ class Error
         if (\App\Config::SHOW_ERRORS) {
             Error::showDescription($exception);
         } else {
-            //Error::addExceptionToLog($exception);
+            //Log::addException($exception);
             View::renderTemplate("$code.html");
         }
     }
