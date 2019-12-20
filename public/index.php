@@ -11,7 +11,12 @@
 
  require '../vendor/autoload.php';
 
-//routing
+//error and exception handling
+error_reporting(E_ALL);
+set_error_handler('Core\Error::errorHandler');
+set_exception_handler('Core\Error::exceptionHandler');
+
+ //routing
 
 $router = new Core\Router();
 
