@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Development error{% endblock %}
+
+{% block body %}
+
+    <h1>Development error</h1>
+    <p>Uncaught exception: {{ className }}</p>
+    <p>Message: {{ message }}</p>
+    <p>Stack trace:
+        <pre>{{ stackTrace }}</pre>
+    </p>
+    <p>Thrown in {{ fileName }} on line {{ lineNumber }}</p>
+
+{% endblock %}
