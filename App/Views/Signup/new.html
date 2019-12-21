@@ -5,7 +5,26 @@
 {% block footer %}
 
     <script>
-
+        $(document).ready(function() {
+            $('#formSignup').validate({
+                rules: {
+                    name: {
+                        required: true
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    password: {
+                        required: true,
+                        minlength: 8
+                    },
+                    password_confirmation: {
+                        equalTo: '#inputPassword'
+                    }
+                }
+            });
+        });
     </script>
 
 {% endblock %}
@@ -22,14 +41,14 @@
         </ul>
     {% endif %}
 
-    <form method="post" action="/signup/create">
+    <form method="post" action="/signup/create" id="formSignup">
         <div>
             <label for="inputName">Name</label>
             <input id="inputName" name="name" placeholder="Name" autofocus value="{{ user.name }}" required/>
         </div>
         <div>
             <label for="inputEmail">Email address</label>
-            <input type="email" id="inputName" name="email" placeholder="Email address"  value="{{ user.email }}" required/>
+            <input type="email" id="inputEmail" name="email" placeholder="Email address"  value="{{ user.email }}" required/>
         </div>
         <div>
             <label for="inputPassword">Password</label>
