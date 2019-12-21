@@ -48,6 +48,10 @@ class User extends \Core\Model
             $this->errors[] = 'Invalid emial';
         }
 
+        if ($this->emailExists($this->email)) {
+            $this->errors[] = 'Email already taken';
+        }
+
         if ($this->password != $this->password_confirmation) {
             $this->errors[] = 'Password must match confirmation';
         }
@@ -63,5 +67,19 @@ class User extends \Core\Model
         if (preg_match('/.*\d+.*/i', $this->password) == 0) {
             $this->errors[] = 'Password needs at least one number';
         }
+    }
+
+    protected function emailExists($email)
+    {
+        $sql = 'SELECT * FROM users WHERE email = :email';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->fetch() !== false;
     }
 }
