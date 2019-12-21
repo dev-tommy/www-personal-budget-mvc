@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\User;
 use \Core\View;
 
 /**
@@ -25,7 +26,7 @@ class Signup extends \Core\Controller
 
     public function createAction()
     {
-        var_dump($_POST);
+        $user = new User($_POST);
     }
 
     public function newAction()
