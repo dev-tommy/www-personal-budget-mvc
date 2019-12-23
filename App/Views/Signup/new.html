@@ -3,6 +3,7 @@
 {% block title %}Sign up{% endblock %}
 
 {% block footer %}
+    <script src="/js/hideShowPassword.min.js"></script>
 
     <script>
         $.validator.addMethod('validPassword',
@@ -36,9 +37,6 @@
                         required: true,
                         minlength: 8,
                         validPassword: true
-                    },
-                    password_confirmation: {
-                        equalTo: '#inputPassword'
                     }
                 },
                 messages: {
@@ -47,6 +45,12 @@
                     }
                 }
             });
+
+            $('#inputPassword').hideShowPassword({
+                show: false,
+                innerToggle: 'focus'
+            });
+
         });
     </script>
 
@@ -77,10 +81,6 @@
             <label for="inputPassword">Password</label>
             <input type="password" id="inputPassword" name="password" placeholder="Password" required
             pattern = "^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" title="Min. 8 chars, at least one letter and number" />
-        </div>
-        <div>
-            <label for="inputPasswordConfirmation">Repeat password</label>
-            <input type="password" id="inputPasswordConfirmation" name="password_confirmation" placeholder="Repeat password" required/>
         </div>
 
         <button type="submit">Sign up</button>
