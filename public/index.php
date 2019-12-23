@@ -23,6 +23,7 @@ $router = new Core\Router();
 $router->add('', ['controller' => 'Home', 'action' => 'index']);
 $router->add('incomes', ['controller' => 'Incomes', 'action' => 'index']);
 $router->add('signup', ['controller' => 'Signup', 'action' => 'new']);
+$router->add('login', ['controller' => 'Login', 'action' => 'new']);
 $router->add('{controller}/{action}');
 //$router->add('{controller}/{id:\d+}/{action}');
 //$router->add('admin/{controller}/{action}', ['namespace' => 'Admin']);
