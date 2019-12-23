@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use \Core\View;
+
 /**
  * Login controller v0.1
  *
@@ -23,6 +25,6 @@ class Login extends \Core\Controller
 
     public function newAction()
     {
-
+        View::renderTemplate('Login/new.html');
     }
 }
