@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Log in</h1>
 
-    <form>
+    <form action="/login/create" method="POST">
         <div>
             <label for="inputEmail">Email address</label>
             <input type="email" id="inputEmail" name="email" placeholder="Email address" autofocus />

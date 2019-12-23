@@ -27,4 +27,9 @@ class Login extends \Core\Controller
     {
         View::renderTemplate('Login/new.html');
     }
+
+    public function createAction()
+    {
+        echo($_REQUEST['email'].', '. $_REQUEST['password']);
+    }
 }
