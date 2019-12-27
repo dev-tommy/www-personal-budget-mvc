@@ -67,6 +67,11 @@ class User extends \Core\Model
 
     public static function emailExists($email)
     {
+        return static::findByEmail($email) !== false; 
+    }
+
+    public static function findByEmail($email)
+    {
         $sql = 'SELECT * FROM users WHERE email = :email';
 
         $db = static::getDB();
@@ -76,6 +81,6 @@ class User extends \Core\Model
 
         $stmt->execute();
 
-        return $stmt->fetch() !== false;
+        return $stmt->fetch();
     }
 }
