@@ -32,5 +32,7 @@ class Login extends \Core\Controller
     public function createAction()
     {
         $user = User::findByEmail($_POST['email']);
+
+        var_dump($user);
     }
 }
