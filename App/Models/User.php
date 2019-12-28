@@ -48,7 +48,7 @@ class User extends \Core\Model
             $this->errors[] = 'Invalid emial';
         }
 
-        if ($this->static::emailExists($this->email)) {
+        if (static::emailExists($this->email)) {
             $this->errors[] = 'Email already taken';
         }
 
@@ -83,5 +83,16 @@ class User extends \Core\Model
         $stmt->execute();
 
         return $stmt->fetch();
+    }
+
+    public static function authenticate($email, $password)
+    {
+        $user = static::findByEmail($email);
+        if ($user) {
+            if (password_verify($password, $user->password_hash)) {
+                return $user;
+            }
+        }
+        return false;
     }
 }
