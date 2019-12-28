@@ -64,5 +64,7 @@ class Login extends \Core\Controller
 
         // Finally, destroy the session.
         session_destroy();
+
+        $this->redirect('/');
     }
 }
