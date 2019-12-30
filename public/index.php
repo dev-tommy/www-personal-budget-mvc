@@ -8,6 +8,7 @@
  * Created with course PHP MVC framework by author Dave Hollingworth
  * e-mail: tomasz.frydrychowicz.programista@gmail.com
  */
+ini_set('session.cookie_lifetime', '864000');
 
  require '../vendor/autoload.php';
 
