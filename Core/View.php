@@ -35,7 +35,7 @@ class View
             $twig = new \Twig\Environment($loader);
             $twig->addGlobal('is_logged_in', \App\Auth::isLoggedIn());
             $twig->addGlobal('current_user', \App\Auth::getUser());
-            $twig->addGlobal('flash_message', \App\Flash::getMessage());
+            $twig->addGlobal('flash_messages', \App\Flash::getMessage());
         }
 
         echo $twig->render($template, $args);
