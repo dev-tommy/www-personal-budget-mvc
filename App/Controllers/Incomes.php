@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use \Core\View;
-use App\Models\Income;
+use \App\Models\Income;
 
 /**
  * Incomes controller v0.1
@@ -14,22 +14,11 @@ use App\Models\Income;
  * e-mail: tomasz.frydrychowicz.programista@gmail.com
  */
 
-class Incomes extends \Core\Controller
+class Incomes extends Authenticated
 {
-    protected function before()
-    {
-
-    }
-
-    protected function after()
-    {
-
-    }
-
     public function indexAction()
     {
         $incomes = Income::getAll();
-
         View::renderTemplate('Incomes/index.html', ['incomes' => $incomes]);
     }
 

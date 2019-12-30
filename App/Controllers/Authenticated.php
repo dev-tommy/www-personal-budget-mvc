@@ -2,10 +2,8 @@
 
 namespace App\Controllers;
 
-use \App\Auth;
-use \Core\View;
 /**
- * Incomes controller v0.1
+ * Authenticated base controller v0.1
  *
  * PHP version 7.3
  *
@@ -13,10 +11,10 @@ use \Core\View;
  * e-mail: tomasz.frydrychowicz.programista@gmail.com
  */
 
-class Home extends \Core\Controller
-{
-    public function indexAction()
+ abstract class Authenticated extends \Core\Controller
+ {
+    protected function before()
     {
-        View::renderTemplate('Home/index.html');
+        $this->requireLogin();
     }
-}
+ }

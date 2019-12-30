@@ -2,6 +2,8 @@
 
 namespace Core;
 
+use \App\Auth;
+
 /**
  * Base controller
  *
@@ -24,6 +26,7 @@ namespace Core;
     {
         $method = $name . 'Action';
         if (method_exists($this, $method)) {
+            $this->before();
             call_user_func_array([$this, $method], $arguments);
             $this->after();
         } else {
@@ -45,5 +48,13 @@ namespace Core;
     {
         header('Location: http://' . $_SERVER['HTTP_HOST'] . $url, true, 303);
         exit;
+    }
+
+    public function requireLogin()
+    {
+        if (!Auth::isLoggedIn()) {
+            Auth::rememberRequestedPage();
+            $this->redirect('/login');
+        }
     }
  }
