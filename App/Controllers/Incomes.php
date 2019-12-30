@@ -14,12 +14,8 @@ use \App\Models\Income;
  * e-mail: tomasz.frydrychowicz.programista@gmail.com
  */
 
-class Incomes extends \Core\Controller
+class Incomes extends Authenticated
 {
-    protected function before()
-    {
-        $this->requireLogin();
-    }
     public function indexAction()
     {
         $incomes = Income::getAll();
