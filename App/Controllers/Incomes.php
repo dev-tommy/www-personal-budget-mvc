@@ -21,6 +21,7 @@ class Incomes extends \Core\Controller
     {
         if (! Auth::isLoggedIn())
         {
+            Auth::rememberRequestedPage();
             $this->redirect('/login');
         }
         $incomes = Income::getAll();

@@ -47,4 +47,14 @@ class Auth
     {
         return isset($_SESSION['user_id']);
     }
+
+    public static function rememberRequestedPage()
+    {
+        $_SESSION['return_to'] = $_SERVER['REQUEST_URI'];
+    }
+
+    public static function getReturnToPage()
+    {
+        return $_SESSION['return_to'] ?? '/';
+    }
 }
