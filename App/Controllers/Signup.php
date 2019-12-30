@@ -28,8 +28,7 @@ class Signup extends \Core\Controller
     {
         $user = new User($_POST);
         if ($user->save()) {
-            header('Location: http://' . $_SERVER['HTTP_HOST'] . '/signup/success', true, 303);
-            exit;
+            $this->redirect('/signup/success');
         } else {
             View::renderTemplate('Signup/new.html',
             [
