@@ -3,6 +3,7 @@
 namespace Core;
 
 use \App\Auth;
+use \App\Flash;
 
 /**
  * Base controller
@@ -53,6 +54,7 @@ use \App\Auth;
     public function requireLogin()
     {
         if (!Auth::isLoggedIn()) {
+            Flash::addMessage('Please log in !!');
             Auth::rememberRequestedPage();
             $this->redirect('/login');
         }
