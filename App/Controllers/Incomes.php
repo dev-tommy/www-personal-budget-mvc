@@ -17,16 +17,6 @@ use App\Models\Income;
 
 class Incomes extends \Core\Controller
 {
-    protected function before()
-    {
-
-    }
-
-    protected function after()
-    {
-
-    }
-
     public function indexAction()
     {
         if (! Auth::isLoggedIn())
