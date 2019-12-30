@@ -33,6 +33,7 @@ class Login extends \Core\Controller
     {
         $user = User::authenticate($_POST['email'], $_POST['password']);
         if ($user) {
+            session_regenerate_id(true);
             $_SESSION['user_id'] = $user->id;
             $this->redirect('/');
         } else {
