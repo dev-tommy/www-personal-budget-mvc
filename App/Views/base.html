@@ -7,6 +7,12 @@
 </head>
 
 <body>
+    {% for message in flash_messages %}
+        <div>
+            {{ message }}
+        </div>
+    {% endfor %}
+
     <nav>
         <a href="/">Home</a> |
         <a href="/incomes">Incomes</a> |
