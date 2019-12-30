@@ -5,8 +5,7 @@
 {% block body %}
     <h1>Hello {{ name }} !!</h1>
 
-    {% if session.user_id %}
-        User with ID {{ session.user_id }} is logged in.
+    {% if is_logged_in %}
         <a href="/logout">Log out !!</a>
     {% else %}
         <a href="/signup">Sign up !!</a>
