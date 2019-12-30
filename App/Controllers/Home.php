@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use \App\Auth;
 use \Core\View;
 /**
  * Incomes controller v0.1
@@ -14,23 +15,8 @@ use \Core\View;
 
 class Home extends \Core\Controller
 {
-    protected function before()
-    {
-
-    }
-
-    protected function after()
-    {
-
-    }
-
     public function indexAction()
     {
-        View::renderTemplate('Home/index.html',
-            [
-                'name' => 'Tom',
-                'colours' => ['red', 'green' , 'blue']
-            ]
-        );
+        View::renderTemplate('Home/index.html');
     }
 }
