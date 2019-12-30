@@ -35,6 +35,7 @@ class View
             $twig = new \Twig\Environment($loader);
             $twig->addGlobal('session' , $_SESSION);
             $twig->addGlobal('is_logged_in', \App\Auth::isLoggedIn());
+            $twig->addGlobal('current_user', \App\Auth::getUser());
         }
 
         echo $twig->render($template, $args);
