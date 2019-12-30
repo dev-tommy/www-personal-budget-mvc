@@ -20,4 +20,11 @@ class Flash
         }
         $_SESSION['flash_notifications'][] = $message;
     }
+
+    public static function getMessage()
+    {
+        if (!isset($_SESSION['flash_notifocations'])) {
+            return $_SESSION['flash_notifications'];
+        }
+    }
 }
