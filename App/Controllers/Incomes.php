@@ -2,9 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Auth;
 use \Core\View;
-use App\Models\Income;
+use \App\Models\Income;
 
 /**
  * Incomes controller v0.1
@@ -17,13 +16,12 @@ use App\Models\Income;
 
 class Incomes extends \Core\Controller
 {
+    protected function before()
+    {
+        $this->requireLogin();
+    }
     public function indexAction()
     {
-        if (! Auth::isLoggedIn())
-        {
-            Auth::rememberRequestedPage();
-            $this->redirect('/login');
-        }
         $incomes = Income::getAll();
         View::renderTemplate('Incomes/index.html', ['incomes' => $incomes]);
     }
