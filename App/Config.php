@@ -20,4 +20,6 @@ class Config
     const DB_PASSWORD = 'mysql';
     //log config
     const SHOW_ERRORS = true;
+    //key for hash
+    const SECRET_KEY = 'hasslo';
 }
