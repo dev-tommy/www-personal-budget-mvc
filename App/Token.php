@@ -24,4 +24,9 @@ class Token
         return $this->token;
     }
 
+    public function getHash()
+    {
+        return hash_hmac('sha256', $this->token, "secret");
+    }
+
 }
