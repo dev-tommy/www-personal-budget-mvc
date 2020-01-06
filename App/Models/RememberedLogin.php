@@ -23,4 +23,9 @@ class RememberedLogin extends \Core\Model
 
         return $stmt->fetch();
     }
+
+    public function getUser()
+    {
+        return User::findByID($this->user_id);
+    }
 }
