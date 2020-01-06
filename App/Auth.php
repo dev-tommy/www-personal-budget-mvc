@@ -70,6 +70,17 @@ class Auth
     {
         if (isset($_SESSION['user_id'])) {
             return User::findByID($_SESSION['user_id']);
+        } else {
+
+        }
+    }
+
+    protected static function loginFromRememberCookie()
+    {
+        $cookie = $_COOKIE['remember_me'] ?? false;
+
+        if ($cookie) {
+            
         }
     }
 }
