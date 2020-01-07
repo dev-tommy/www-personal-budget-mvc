@@ -36,6 +36,7 @@ class View
             $twig->addGlobal('is_logged_in', \App\Auth::isLoggedIn());
             $twig->addGlobal('current_user', \App\Auth::getUser());
             $twig->addGlobal('flash_messages', \App\Flash::getMessage());
+            $twig->addGlobal('current_year', date("Y"));
         }
 
         echo $twig->render($template, $args);
