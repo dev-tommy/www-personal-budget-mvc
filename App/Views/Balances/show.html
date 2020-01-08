@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% set balances_active = 'active' %}
+
+{% block title %}Pokaż blians{% endblock %}
+
+{% block balance_calendar%}
+    <button class="btn btn-primary btn-sm px-2 my-1" data-toggle="modal" data-target="#periodSelectionWindow" type="button">
+        <i class="material-icons">calendar_today</i>
+    </button>
+    <button class="btn btn-warning btn-sm pl-0 my-1" data-toggle="modal" data-target="#periodSelectionWindow" type="button">
+        <span class="text-button"> Bilans za.. </span>
+    </button>
+    </div>
+
+    <div class="btn-group mx-2">
+{% endblock %}
+
+{% block body %}
+<div class="container move-under-navbar">
+    <div class="row">
+        <div class="col-md-10 offset-md-1 text-center ">
+            <div id="periodBalanceCaption" class="card shadow p-2 sentence-period font-italic font-weight-light">
+                {{ periodBalanceMsg }}
+            </div>
+        </div>
+    </div>
+    <div class="row my-4">
+        <div class="col-md-6 col-12 text-center">
+            <div class="card shadow-lg mb-5 bg-white rounded">
+                <div class="card-header bg-info card-topic text-center"> Przychody </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead class="bg-success text-light">
+                            <tr>
+                                <th scope="col" class="text-left">Kategoria</th>
+                                <th scope="col" class="text-right">Kwota [zł]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{ incomes }}
+                        </tbody>
+                        <tfoot>
+                            <tr class="table-success">
+                                <th scope="row" class="text-left">Razem:</th>
+                                <td id="sum-of-incomes" class="text-right font-weight-bold text-warning bg-dark h4">
+                                    {{ totalIncomesAmount }}
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-12 text-center">
+            <div class="card shadow-lg mb-5 bg-white rounded">
+                <div class="card-header bg-info card-topic text-center"> Wydatki </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead class="bg-danger text-light">
+                            <tr>
+                                <th scope="col" class="text-left">Kategoria</th>
+                                <th scope="col" class="text-right">Kwota [zł]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{ expenses }}
+                        </tbody>
+                        <tfoot>
+                            <tr class="table-success">
+                                <th scope="row" class="text-left">Razem:</th>
+                                <td id="sum-of-expenses" class="text-right font-weight-bold text-warning bg-dark h4">
+                                   {{ totalExpensesAmount }}
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 text-center">
+            <div>
+                <h3 id="balance"> Twój bilans: </h3>
+                <div class="h5" id="balanceComment"> </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 text-center">
+            <canvas width="900" height="700" id="chartpie">
+                Sorry, canvas not supported
+            </canvas>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block modal %}
+<div class="modal fade" id="periodSelectionWindow" tabindex="0" role="dialog">
+    <div class="modal-dialog  modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="periodSelectionWindowTitle">Wybierz przediał czasu:</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true" class="text-danger">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <button type="button" class="btn btn-primary btn-lg btn-block" data-dismiss="modal"
+                    onclick="setPeriod('currentMonth')">Bieżący miesiąc</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block" data-dismiss="modal"
+                    onclick="setPeriod('previousMonth')">Poprzedni
+                    miesiąc</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block" data-dismiss="modal"
+                    onclick="setPeriod('currentYear')">Bieżący rok</button>
+                <div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text my-2">Od: </div>
+                        </div>
+                        <input type="date" id="fromDateBalance" class="form-control my-2" onclick="enableButton()"
+                            name="date" min="2000-01-01" required>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text ">Do: </div>
+                        </div>
+                        <input type="date" id="toDateBalance" class="form-control" onclick="enableButton()" name="date"
+                            min="2000-01-01" required>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Anuluj</button>
+                <button type="submit" id="setBalanceDates" class="btn btn-success" data-dismiss="modal"
+                    onclick="showBalance('fromDateBalance', 'toDateBalance')">Ustaw</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

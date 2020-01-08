@@ -24,8 +24,10 @@ session_start();
 
 $router = new Core\Router();
 
-$router->add('', ['controller' => 'Home', 'action' => 'index']);
-$router->add('incomes', ['controller' => 'Incomes', 'action' => 'index']);
+$router->add('', ['controller' => 'Signup', 'action' => 'new']);
+$router->add('incomes', ['controller' => 'Incomes', 'action' => 'add']);
+$router->add('expenses', ['controller' => 'Expenses', 'action' => 'add']);
+$router->add('balances', ['controller' => 'Balances', 'action' => 'show']);
 $router->add('signup', ['controller' => 'Signup', 'action' => 'new']);
 $router->add('login', ['controller' => 'Login', 'action' => 'new']);
 $router->add('logout', ['controller' => 'Login', 'action' => 'destroy']);
