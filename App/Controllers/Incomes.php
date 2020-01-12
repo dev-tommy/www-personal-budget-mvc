@@ -16,12 +16,6 @@ use \App\Models\Income;
 
 class Incomes extends Authenticated
 {
-    public function indexAction()
-    {
-        $incomes = Income::getAll();
-        View::renderTemplate('Incomes/index.html', ['incomes' => $incomes]);
-    }
-
     public function addAction()
     {
         echo "Add new income";
@@ -46,7 +40,6 @@ class Incomes extends Authenticated
     {
         echo "View income";
     }
-
 }
 
 
