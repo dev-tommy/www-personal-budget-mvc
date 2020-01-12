@@ -18,8 +18,10 @@ class Incomes extends Authenticated
 {
     public function addAction()
     {
+        $incomes = Income::getAllCategory();
         View::renderTemplate('Incomes/add.html', [
-            'alertshow' => 'true',
+            'incomes' => $incomes,
+            'alertshow' => 'false',
             'alertmessage' => 'Błąd logowania'
         ]);
     }
