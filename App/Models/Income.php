@@ -76,7 +76,7 @@ class Income extends \Core\Model
         //}
     }
 
-    public static function getAll()
+    public static function getAllCategory()
     {
         try {
             $db = static::getDB();
