@@ -24,6 +24,20 @@ class Incomes extends Authenticated
         ]);
     }
 
+    public function createAction()
+    {
+        $income = new Income($_POST);
+        if ($income->add()) {
+            View::renderTemplate('Incomes/success.html');
+        } else {
+            View::renderTemplate('Incomes/add.html', [
+                'isValid' => $income->isValid,
+                'warnings' => $income->warnings,
+                'oldValues' => $_POST
+            ]);
+        }
+    }
+
     public function editAction()
     {
         echo "Edit income";
