@@ -17,8 +17,11 @@
                                     <i class="material-icons">attach_money</i>
                                 </span>
                             </div>
-                            <input name="amount" type="number" class="form-control" placeholder="Kwota" step="0.01"
-                                required>
+                            <input name="amount" {# type="number" required #} class="form-control {{ isValid.amount }}" placeholder="Kwota" step="0.01"
+                                value="{{ oldValues.amount }}">
+                                <div class="invalid-feedback">
+                                    {{ warnings.amount }}
+                                </div>
                         </div>
 
                         <div class="input-group mb-3">
@@ -27,7 +30,7 @@
                                     <i class="material-icons">calendar_today</i>
                                 </span>
                             </div>
-                            <input name="date" type="date" id="defaultToday" class="form-control" min="2000-01-01"
+                            <input name="date" type="date" id="defaultToday" class="form-control {{ date_valid }}" min="2000-01-01"
                                 required>
                         </div>
 
@@ -37,13 +40,16 @@
                                     <i class="material-icons">shop</i>
                                 </span>
                             </div>
-                            <select name="category" class="form-control" required>
+                            <select id="category" name="category" class="form-control {{ category_valid }}" {# required #}>
                                 <option disabled value="" selected>Wybierz kategorię</option>
                                 <option value=1>Wynagrodzenie</option>
                                 <option value=2>Odsetki bankowe</option>
                                 <option value=3>Sprzedaż Allegro</option>
                                 <option value=4>Inne</option>
                             </select>
+                            <script>
+                                document.getElementById("category").selectedIndex = "{{ oldValues.category }}";
+                            </script>
                         </div>
 
                         <div class="input-group mb-3">
@@ -52,7 +58,7 @@
                                     <i class="material-icons">comment</i>
                                 </span>
                             </div>
-                            <textarea class="form-control " name="comment" rows=4 cols=45 maxlength=180
+                            <textarea class="form-control {{ comment_valid }}" name="comment" rows=4 cols=45 maxlength=180
                                 placeholder="Komentarz (opcjonalnie):"></textarea>
                         </div>
                     </div>
@@ -85,5 +91,13 @@
         </div>
     </div>
 </div>
-</main>
+
+{% if income.errors is not empty %}
+<p>Errors:</p>
+<ul>
+    {% for error in income.errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 {% endblock %}
