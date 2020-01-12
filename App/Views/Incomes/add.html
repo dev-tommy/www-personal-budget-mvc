@@ -42,10 +42,9 @@
                             </div>
                             <select id="category" name="category" class="form-control {{ category_valid }}" {# required #}>
                                 <option disabled value="" selected>Wybierz kategorię</option>
-                                <option value=1>Wynagrodzenie</option>
-                                <option value=2>Odsetki bankowe</option>
-                                <option value=3>Sprzedaż Allegro</option>
-                                <option value=4>Inne</option>
+                                {% for income in incomes %}
+                                    <option value={{ income.id }}>{{ income.name }}</option>
+                                {% endfor %}
                             </select>
                             <script>
                                 document.getElementById("category").selectedIndex = "{{ oldValues.category }}";
