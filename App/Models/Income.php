@@ -9,6 +9,8 @@ use PDOException;
 
 class Income extends \Core\Model
 {
+    public $warnings = [];
+
     public function __construct($data = [])
     {
         foreach ($data as $key => $value) {
@@ -18,7 +20,7 @@ class Income extends \Core\Model
 
     public function add()
     {
-        //$this->validate();
+        $this->validate();
         if (empty($this->isValid)) {
             //$sql = 'INSERT INTO users (username, password_hash, email)
             //    VALUES(:username, :password_hash, :email)';
@@ -36,6 +38,42 @@ class Income extends \Core\Model
             return $stmt->execute();
         }
         return false;
+    }
+
+    public function validate()
+    {
+        if ($this->amount == '') {
+            $this->isValid['amount'] = 'is-invalid';
+            $this->warnings['amount'] = 'Brak kwoty przychodu';
+        } else {
+            $this->amount = str_replace(",", ".", $this->amount);
+            if (!is_numeric($this->amount)) {
+                $this->isValid['amount'] = 'is-invalid';
+                $this->warnings['amount'] = 'Zły format kwoty';
+            }
+        }
+
+
+
+        //if (filter_var($this->email, FILTER_VALIDATE_EMAIL) === false) {
+        //    $this->errors[] = 'Invalid emial';
+        //}
+
+        //if (static::emailExists($this->email)) {
+        //    $this->errors[] = 'Email already taken';
+        //}
+
+        //if (strlen($this->password) < 8) {
+        //    $this->errors[] = 'Please enter at least 8 chars for the password';
+        //}
+        //
+        //if (preg_match('/.*[a-z]+.*/i', $this->password) == 0) {
+        //    $this->errors[] = 'Password needs at least one letter';
+        //}
+
+        //if (preg_match('/.*\d+.*/i', $this->password) == 0) {
+        //    $this->errors[] = 'Password needs at least one number';
+        //}
     }
 
     public static function getAll()
