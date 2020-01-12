@@ -80,7 +80,11 @@
                 {% endif %}
             {% endblock %}
         </nav>
-        <div class="alert alert-danger m-2 alert-dismissible fade show {% if alertshow != 'true' %} d-none {% endif %}" role="alert">
+        <div class="alert alert-danger m-2 alert-dismissible fade show
+        {% if alertshow != 'true' %}
+            d-none
+        {% endif %}"
+        role="alert">
             <strong>Uwaga!</strong> {{ alertmessage }}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
