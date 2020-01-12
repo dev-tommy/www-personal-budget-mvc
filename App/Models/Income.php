@@ -9,6 +9,13 @@ use PDOException;
 
 class Income extends \Core\Model
 {
+    public function __construct($data = [])
+    {
+        foreach ($data as $key => $value) {
+            $this->$key = $value;
+        }
+    }
+
     public function add()
     {
         //$this->validate();
