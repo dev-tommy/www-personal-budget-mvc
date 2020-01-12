@@ -18,7 +18,10 @@ class Incomes extends Authenticated
 {
     public function addAction()
     {
-        echo "Add new income";
+        View::renderTemplate('Incomes/add.html', [
+            'alertshow' => 'true',
+            'alertmessage' => 'Błąd logowania'
+        ]);
     }
 
     public function editAction()
