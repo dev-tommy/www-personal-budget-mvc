@@ -37,26 +37,6 @@ class Incomes extends Authenticated
             ]);
         }
     }
-
-    public function editAction()
-    {
-        echo "Edit income";
-    }
-
-    public function deleteAction()
-    {
-        echo "Delete income";
-    }
-
-    public function renameAction()
-    {
-        echo "Rename income";
-    }
-
-    public function viewAction()
-    {
-        echo "View income";
-    }
 }
 
 
