@@ -42,7 +42,7 @@ class Income extends \Core\Model
 
     public function validate()
     {
-        if ($this->amount == '') {
+        if (!isset($this->amount) || ($this->amount == '')) {
             $this->isValid['amount'] = 'is-invalid';
             $this->warnings['amount'] = 'Brak kwoty przychodu';
         } else {
@@ -66,6 +66,8 @@ class Income extends \Core\Model
                 }
             }
         }
+
+
     }
 
     public static function getAllCategory()
