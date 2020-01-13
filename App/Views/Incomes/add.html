@@ -30,8 +30,11 @@
                                     <i class="material-icons">calendar_today</i>
                                 </span>
                             </div>
-                            <input name="date" type="date" id="defaultToday" class="form-control {{ date_valid }}" min="2000-01-01"
+                            <input name="date" type="date" id="defaultToday" class="form-control {{ isValid.date }}" min="2000-01-01"
                                 required>
+                                <div class="invalid-feedback">
+                                    {{ warnings.date }}
+                                </div>
                         </div>
 
                         <div class="input-group mb-3">
@@ -40,7 +43,7 @@
                                     <i class="material-icons">shop</i>
                                 </span>
                             </div>
-                            <select id="category" name="category" class="form-control {{ category_valid }}" {# required #}>
+                            <select id="category" name="category" class="form-control {{ isValid.category }}" {# required #}>
                                 <option disabled value="" selected>Wybierz kategorię</option>
                                 {% for income in incomes %}
                                     <option value={{ income.id }}>{{ income.name }}</option>
@@ -49,6 +52,9 @@
                             <script>
                                 document.getElementById("category").selectedIndex = "{{ oldValues.category }}";
                             </script>
+                            <div class="invalid-feedback">
+                                {{ warnings.category }}
+                            </div>
                         </div>
 
                         <div class="input-group mb-3">
@@ -57,8 +63,11 @@
                                     <i class="material-icons">comment</i>
                                 </span>
                             </div>
-                            <textarea class="form-control {{ comment_valid }}" name="comment" rows=4 cols=45 maxlength=180
+                            <textarea class="form-control {{ isValid.comment }}" name="comment" rows=4 cols=45 maxlength=180
                                 placeholder="Komentarz (opcjonalnie):"></textarea>
+                            <div class="invalid-feedback">
+                                {{ warnings.comment }}
+                            </div>
                         </div>
                     </div>
 
