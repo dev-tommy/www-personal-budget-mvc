@@ -53,27 +53,19 @@ class Income extends \Core\Model
             }
         }
 
-
-
-        //if (filter_var($this->email, FILTER_VALIDATE_EMAIL) === false) {
-        //    $this->errors[] = 'Invalid emial';
-        //}
-
-        //if (static::emailExists($this->email)) {
-        //    $this->errors[] = 'Email already taken';
-        //}
-
-        //if (strlen($this->password) < 8) {
-        //    $this->errors[] = 'Please enter at least 8 chars for the password';
-        //}
-        //
-        //if (preg_match('/.*[a-z]+.*/i', $this->password) == 0) {
-        //    $this->errors[] = 'Password needs at least one letter';
-        //}
-
-        //if (preg_match('/.*\d+.*/i', $this->password) == 0) {
-        //    $this->errors[] = 'Password needs at least one number';
-        //}
+        if (!isset($this->category)) {
+            $this->isValid['category'] = 'is-invalid';
+            $this->warnings['category'] = 'Brak wybranej kategorii';
+        } else {
+            $categories = static::getAllCategory();
+            $this->isValid['category'] = 'is-invalid';
+            $this->warnings['category'] = 'Wybrana kategoria nie istnieje';
+            foreach ($categories as $category) {
+                if ($this->category == $category['id']) {
+                    unset($this->isValid['category']);
+                }
+            }
+        }
     }
 
     public static function getAllCategory()
@@ -88,6 +80,5 @@ class Income extends \Core\Model
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
-
     }
 }
