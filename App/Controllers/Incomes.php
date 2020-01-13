@@ -20,22 +20,24 @@ class Incomes extends Authenticated
     {
         $incomes = Income::getAllCategory();
         View::renderTemplate('Incomes/add.html', [
-            'incomes' => $incomes,
-            'alertshow' => 'false',
-            'alertmessage' => 'Błąd logowania'
+            'incomes' => $incomes
         ]);
     }
 
     public function createAction()
     {
         $income = new Income($_POST);
+        $incomes = Income::getAllCategory();
         if ($income->add()) {
             View::renderTemplate('Incomes/success.html');
         } else {
             View::renderTemplate('Incomes/add.html', [
+                'alertshow' => 'true',
+                'alertmessage' => 'Przychód nie został dodany!',
                 'isValid' => $income->isValid,
                 'warnings' => $income->warnings,
-                'oldValues' => $_POST
+                'oldValues' => $_POST,
+                'incomes' => $incomes
             ]);
         }
     }
