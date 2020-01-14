@@ -20,7 +20,9 @@ class Incomes extends Authenticated
     {
         $incomes = Income::getAllCategory();
         View::renderTemplate('Incomes/add.html', [
-            'incomes' => $incomes
+            'incomes' => $incomes,
+            'default_date' => 'true',
+            'current_date' => date("Y-m-d")
         ]);
     }
 
