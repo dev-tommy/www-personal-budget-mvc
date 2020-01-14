@@ -68,8 +68,8 @@
                                     <i class="material-icons">comment</i>
                                 </span>
                             </div>
-                            <textarea class="form-control {{ isValid.comment }}" name="comment" rows=4 cols=45 maxlength=180
-                                placeholder="Komentarz (opcjonalnie):"></textarea>
+                            <textarea class="form-control {{ isValid.comment }} maxlength=180" name="comment" rows=4 cols=45
+                                placeholder="Komentarz (opcjonalnie):">{{ oldValues.comment }}</textarea>
                             <div class="invalid-feedback">
                                 {{ warnings.comment }}
                             </div>
@@ -80,18 +80,18 @@
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <div class="btn-group mr-5">
-                                    <button class="btn btn-success btn-sm px-2" type="submit">
+                                    <button class="btn btn-success btn-sm px-2" name="button_submit" type="submit">
                                         <i class="material-icons">add_circle</i>
                                     </button>
-                                    <button class="btn btn-warning btn-sm pl-0 text-button" type="submit">
+                                    <button class="btn btn-warning btn-sm pl-0 text-button" name="button_submit" type="submit">
                                         Dodaj
                                     </button>
                                 </div>
                                 <div class="btn-group ml-5">
-                                    <button class="btn btn-danger btn-sm px-2" type="reset">
+                                    <button class="btn btn-danger btn-sm px-2" name="button_reset" type="submit">
                                         <i class="material-icons">cancel</i>
                                     </button>
-                                    <button class="btn btn-warning btn-sm pl-0 text-button" type="reset">
+                                    <button class="btn btn-warning btn-sm pl-0 text-button" name="button_reset" type="submit">
                                         Wyczyść
                                     </button>
                                 </div>
