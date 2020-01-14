@@ -31,7 +31,12 @@
                                 </span>
                             </div>
                             <input name="date" type="date" id="defaultToday" class="form-control {{ isValid.date }}" min="2000-01-01"
-                                required>
+                                {% if default_date == 'true' %}
+                                    value="{{ current_date }}"
+                                {% else %}
+                                    value="{{ oldValues.date }}"
+                                {% endif %}
+                                >
                                 <div class="invalid-feedback">
                                     {{ warnings.date }}
                                 </div>
