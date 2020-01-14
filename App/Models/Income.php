@@ -86,7 +86,7 @@ class Income extends \Core\Model
         if (!isset($this->comment)) {
             $this->comment = '';
         } else {
-            if (!preg_match('/^[a-zA-Z0-9 .,!]+$/', $this->comment)) {
+            if (!preg_match('/^[a-zA-Z0-9 .,!]*$/', $this->comment)) {
                 $this->isValid['comment'] = 'is-invalid';
                 $this->warnings['comment'] = 'Dozwolone znaki to: a-z, A-Z, 0-9, spacja, kropka, przecinek';
             } else if (strlen($this->comment) > 180 ) {
