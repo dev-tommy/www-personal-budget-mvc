@@ -105,12 +105,4 @@
     </div>
 </div>
 
-{% if income.errors is not empty %}
-<p>Errors:</p>
-<ul>
-    {% for error in income.errors %}
-    <li>{{ error }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
 {% endblock %}
