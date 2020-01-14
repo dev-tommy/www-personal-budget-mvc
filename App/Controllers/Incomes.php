@@ -16,37 +16,38 @@ use \App\Models\Income;
 
 class Incomes extends Authenticated
 {
-    public function indexAction()
-    {
-        $incomes = Income::getAll();
-        View::renderTemplate('Incomes/index.html', ['incomes' => $incomes]);
-    }
-
     public function addAction()
     {
-        echo "Add new income";
+        $incomes = Income::getAllCategory();
+        View::renderTemplate('Incomes/add.html', [
+            'incomes' => $incomes,
+            'default_date' => 'true',
+            'current_date' => date("Y-m-d")
+        ]);
     }
 
-    public function editAction()
+    public function createAction()
     {
-        echo "Edit income";
-    }
+        if (isset($_POST['button_reset'])) {
+            $this->addAction();
+            exit();
+        }
 
-    public function deleteAction()
-    {
-        echo "Delete income";
+        $income = new Income($_POST);
+        $incomes = Income::getAllCategory();
+        if ($income->add()) {
+            View::renderTemplate('Incomes/success.html');
+        } else {
+            View::renderTemplate('Incomes/add.html', [
+                'alertshow' => 'true',
+                'alertmessage' => 'Przychód nie został dodany!',
+                'isValid' => $income->isValid,
+                'warnings' => $income->warnings,
+                'oldValues' => $_POST,
+                'incomes' => $incomes
+            ]);
+        }
     }
-
-    public function renameAction()
-    {
-        echo "Rename income";
-    }
-
-    public function viewAction()
-    {
-        echo "View income";
-    }
-
 }
 
 

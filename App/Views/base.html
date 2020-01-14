@@ -17,15 +17,9 @@
     <script src="/js/script.js"></script>
 </head>
 
-<body onload="setActualDate();">
+<body">
     <header>
-        <!-- {% for message in flash_messages %}
-        <div>
-            {{ message }}
-        </div>
-        {% endfor %} -->
-
-        <nav class="navbar navbar-dark bg-custom navbar-expand-lg fixed-top">
+        <nav class="navbar navbar-dark bg-custom navbar-expand-lg"> <!-- fixed-top"> -->
             <a class="navbar-brand" href="/"><img src="img/logo.png" width="36" height="36"
                     class="d-inline-block mr-1 align-bottom" alt="">
                 <span class="h3 text-warning">Budżet osobisty </span>
@@ -33,7 +27,6 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainmenu" aria-controls="mainmenu" aria-expanded="false" aria-label="Przełącznik nawigacji">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             {% block navbar %}
                 {% if not is_logged_in %}
                     <div class="collapse navbar-collapse" id="mainmenu">
@@ -87,6 +80,16 @@
                 {% endif %}
             {% endblock %}
         </nav>
+        <div class="alert alert-danger m-2 alert-dismissible fade show
+        {% if alertshow != 'true' %}
+            d-none
+        {% endif %}"
+        role="alert">
+            <strong>Uwaga!</strong> {{ alertmessage }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
     </header>
     <main>
         {% block body %} {% endblock %}
@@ -111,6 +114,6 @@
     {% endblock %}
 
     {% block modal %} {% endblock %}
-</body
+</body>
 
 </html>
