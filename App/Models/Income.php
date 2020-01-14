@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Auth;
 use Core\Model;
+use DateTime;
 use PDO;
 use PDOException;
 
@@ -67,7 +68,26 @@ class Income extends \Core\Model
             }
         }
 
+        if (!isset($this->date) || ($this->date == '')) {
+            $this->isValid['date'] = 'is-invalid';
+            $this->warnings['date'] = 'Brak daty przychodu';
+        } else {
+            if (!$this->validateDate($this->date)) {
+                $this->isValid['date'] = 'is-invalid';
+                $this->warnings['date'] = 'Prawidłowy format daty to: RRRR-MM-DD, np.: 2019-12-31';
+            } else {
+                if ($this->date > date('Y-m-d')) {
+                    $this->isValid['date'] = 'is-invalid';
+                    $this->warnings['date'] = 'Maksymalna data to '.date('Y-m-d');
+                }
+            }
+        }
+    }
 
+    private function validateDate($date, $format = 'Y-m-d')
+    {
+        $d = DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) === $date;
     }
 
     public static function getAllCategory()
