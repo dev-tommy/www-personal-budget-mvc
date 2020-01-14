@@ -28,6 +28,11 @@ class Incomes extends Authenticated
 
     public function createAction()
     {
+        if (isset($_POST['button_reset'])) {
+            $this->addAction();
+            exit();
+        }
+
         $income = new Income($_POST);
         $incomes = Income::getAllCategory();
         if ($income->add()) {
