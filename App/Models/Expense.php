@@ -66,6 +66,20 @@ class Income extends \Core\Model
             }
         }
 
+        if (!isset($this->payment)) {
+            $this->isValid['payment'] = 'is-invalid';
+            $this->warnings['payment'] = 'Brak wybranej metody płatności';
+        } else {
+            $payments = static::getAllPayments();
+            $this->isValid['payment'] = 'is-invalid';
+            $this->warnings['payment'] = 'Wybrana metoda płatności nie istnieje';
+            foreach ($payments as $payment) {
+                if ($this->payment == $payment['id']) {
+                    unset($this->isValid['payment']);
+                }
+            }
+        }
+
         if (!isset($this->date) || ($this->date == '')) {
             $this->isValid['date'] = 'is-invalid';
             $this->warnings['date'] = 'Brak daty przychodu';
