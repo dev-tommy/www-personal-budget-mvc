@@ -7,7 +7,7 @@ use DateTime;
 use PDO;
 use PDOException;
 
-class Income extends \Core\Model
+class Expense extends \Core\Model
 {
     public $warnings = [];
 
