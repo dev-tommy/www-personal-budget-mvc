@@ -20,7 +20,7 @@ class Income extends \Core\Model
 
     public function add()
     {
-        //$this->validate();
+        $this->validate();
         if (empty($this->isValid)) {
             $sql = 'INSERT INTO expenses (user_id, expense_category_assigned_to_user_id, payment_method_assigned_to_user_id, amount, date_of_expense, expense_comment) VALUES (:user_id, :expense_category_assigned_to_user_id, payment_method_assigned_to_user_id, :amount, :date_of_expense, :expense_comment)';
 
@@ -37,6 +37,61 @@ class Income extends \Core\Model
             return $stmt->execute();
         }
         return false;
+    }
+
+    public function validate()
+    {
+        if (!isset($this->amount) || ($this->amount == '')) {
+            $this->isValid['amount'] = 'is-invalid';
+            $this->warnings['amount'] = 'Brak kwoty przychodu';
+        } else {
+            $this->amount = str_replace(",", ".", $this->amount);
+            if (!is_numeric($this->amount)) {
+                $this->isValid['amount'] = 'is-invalid';
+                $this->warnings['amount'] = 'Zły format kwoty';
+            }
+        }
+
+        if (!isset($this->category)) {
+            $this->isValid['category'] = 'is-invalid';
+            $this->warnings['category'] = 'Brak wybranej kategorii';
+        } else {
+            $categories = static::getAllCategory();
+            $this->isValid['category'] = 'is-invalid';
+            $this->warnings['category'] = 'Wybrana kategoria nie istnieje';
+            foreach ($categories as $category) {
+                if ($this->category == $category['id']) {
+                    unset($this->isValid['category']);
+                }
+            }
+        }
+
+        if (!isset($this->date) || ($this->date == '')) {
+            $this->isValid['date'] = 'is-invalid';
+            $this->warnings['date'] = 'Brak daty przychodu';
+        } else {
+            if (!$this->validateDate($this->date)) {
+                $this->isValid['date'] = 'is-invalid';
+                $this->warnings['date'] = 'Prawidłowy format daty to: RRRR-MM-DD, np.: 2019-12-31';
+            } else {
+                if ($this->date > date('Y-m-d')) {
+                    $this->isValid['date'] = 'is-invalid';
+                    $this->warnings['date'] = 'Maksymalna data to ' . date('Y-m-d');
+                }
+            }
+        }
+
+        if (!isset($this->comment)) {
+            $this->comment = '';
+        } else {
+            if (!preg_match('/^[a-zA-Z0-9 .,!]*$/', $this->comment)) {
+                $this->isValid['comment'] = 'is-invalid';
+                $this->warnings['comment'] = 'Dozwolone znaki to: a-z, A-Z, 0-9, spacja, kropka, przecinek';
+            } else if (strlen($this->comment) > 180) {
+                $this->isValid['comment'] = 'is-invalid';
+                $this->warnings['comment'] = 'Maksymalna długość komentarza to 180 znaków';
+            }
+        }
     }
 
     private function validateDate($date, $format = 'Y-m-d')
