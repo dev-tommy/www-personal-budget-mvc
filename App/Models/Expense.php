@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Core\Model;
+use DateTime;
 use PDO;
 use PDOException;
 
@@ -36,6 +37,12 @@ class Income extends \Core\Model
             return $stmt->execute();
         }
         return false;
+    }
+
+    private function validateDate($date, $format = 'Y-m-d')
+    {
+        $d = DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) === $date;
     }
 
     public static function getAllCategory()
