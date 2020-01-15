@@ -17,13 +17,36 @@ class Expenses extends Authenticated
 {
     public function addAction()
     {
-        $expenses = Expense::getAllCategory();
+        $categories = Expense::getAllCategory();
         $payments = Expense::getAllPayments();
         View::renderTemplate('Incomes/add.html', [
-            'expenses' => $expenses,
+            'categories' => $categories,
             'payments' => $payments,
             'default_date' => 'true',
             'current_date' => date("Y-m-d")
         ]);
+    }
+
+    public function createAction()
+    {
+        if (isset($_POST['button_reset'])) {
+            $this->addAction();
+            exit();
+        }
+
+        $expense = new Expense($_POST);
+        $categories = Expense::getAllCategory();
+        if ($expense->add()) {
+            View::renderTemplate('Expenses/success.html');
+        } else {
+            View::renderTemplate('Expenses/add.html', [
+                'alertshow' => 'true',
+                'alertmessage' => 'Przychód nie został dodany!',
+                'isValid' => $income->isValid,
+                'warnings' => $income->warnings,
+                'oldValues' => $_POST,
+                'categories' => $categories
+            ]);
+        }
     }
 }
