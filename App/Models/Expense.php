@@ -22,7 +22,7 @@ class Expense extends \Core\Model
     {
         $this->validate();
         if (empty($this->isValid)) {
-            $sql = 'INSERT INTO expenses (user_id, expense_category_assigned_to_user_id, payment_method_assigned_to_user_id, amount, date_of_expense, expense_comment) VALUES (:user_id, :expense_category_assigned_to_user_id, payment_method_assigned_to_user_id, :amount, :date_of_expense, :expense_comment)';
+            $sql = 'INSERT INTO expenses (user_id, expense_category_assigned_to_user_id, payment_method_assigned_to_user_id, amount, date_of_expense, expense_comment) VALUES (:user_id, :expense_category_assigned_to_user_id, :payment_method_assigned_to_user_id, :amount, :date_of_expense, :expense_comment)';
 
             $db = static::getDB();
             $stmt = $db->prepare($sql);
@@ -100,7 +100,7 @@ class Expense extends \Core\Model
         } else {
             if (!preg_match('/^[a-zA-Z0-9 .,!]*$/', $this->comment)) {
                 $this->isValid['comment'] = 'is-invalid';
-                $this->warnings['comment'] = 'Dozwolone znaki to: a-z, A-Z, 0-9, spacja, kropka, przecinek';
+                $this->warnings['comment'] = 'Dozwolone znaki to: a-z, A-Z, 0-9, spacja, kropka, przecinek, wykrzyknik';
             } else if (strlen($this->comment) > 180) {
                 $this->isValid['comment'] = 'is-invalid';
                 $this->warnings['comment'] = 'Maksymalna długość komentarza to 180 znaków';
