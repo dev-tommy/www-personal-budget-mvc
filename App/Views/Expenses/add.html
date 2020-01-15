@@ -17,8 +17,11 @@
                                     <i class="material-icons">attach_money</i>
                                 </span>
                             </div>
-                            <input type="number" class="form-control" name="amount" placeholder="Kwota" step="0.01"
-                                required>
+                            <input {# type="number" required #} class="form-control  {{ isValid.amount }}" name="amount" placeholder="Kwota" step="0.01"
+                                value="{{ oldValues.amount }}">
+                            <div class="invalid-feedback">
+                                {{ warnings.amount }}
+                            </div>
                         </div>
 
                         <div class="input-group mb-3">
@@ -27,8 +30,16 @@
                                     <i class="material-icons">calendar_today</i>
                                 </span>
                             </div>
-                            <input type="date" id="defaultToday" class="form-control" name="date" min="2000-01-01"
-                                required>
+                            <input type="date" id="defaultToday" class="form-control {{ isValid.date }}" name="date" min="2000-01-01"
+                                {% if default_date == 'true' %}
+                                    value="{{ current_date }}"
+                                {% else %}
+                                    value="{{ oldValues.date }}"
+                                {% endif %}
+                                >
+                                <div class="invalid-feedback">
+                                    {{ warnings.date }}
+                                </div>
                         </div>
 
                         <div class="input-group mb-3">
@@ -37,12 +48,21 @@
                                     <i class="material-icons">payment</i>
                                 </span>
                             </div>
-                            <select name="payment" class="form-control" required>
+                            <select id="payment" name="payment" class="form-control" {# required #}>
                                 <option disabled value="" selected>Wybierz rodzaj płatności</option>
                                 <option value=1>Gotówka</option>
                                 <option value=2>Karta debetowa</option>
                                 <option value=3>Karta kredytowa</option>
+                                {% for payment in payments %}
+                                <option value={{ payment.id }}>{{ payment.name }}</option>
+                                {% endfor %}
                             </select>
+                            <script>
+                                document.getElementById("payment").selectedIndex = "{{ oldValues.payment }}";
+                            </script>
+                            <div class="invalid-feedback">
+                                {{ warnings.payment }}
+                            </div>
                         </div>
 
                         <div class="input-group mb-3">
@@ -51,26 +71,18 @@
                                     <i class="material-icons">shop</i>
                                 </span>
                             </div>
-                            <select name="category" class="form-control" required>
+                            <select id="category" name="category" class="form-control" {# required #}>
                                 <option disabled value="" selected>Wybierz kategorię</option>
-                                <option value=1>Jedzenie</option>
-                                <option value=2>Mieszkanie</option>
-                                <option value=3>Transport</option>
-                                <option value=4>Telekomunikacja</option>
-                                <option value=5>Opieka zdrowotna</option>
-                                <option value=6>Ubranie</option>
-                                <option value=7>Higiena</option>
-                                <option value=8>Dzieci</option>
-                                <option value=9>Rozrywka</option>
-                                <option value=10>Wycieczka</option>
-                                <option value=11>Szkolenia</option>
-                                <option value=12>Książki</option>
-                                <option value=13>Oszczędności</option>
-                                <option value=14>Na złotą jesień, czyli emeryturę</option>
-                                <option value=15>Spłata długów</option>
-                                <option value=16>Darowizna</option>
-                                <option value=17>Inne wydatki</option>
+                                {% for expense in expenses %}
+                                <option value={{ expense.id }}>{{ expense.name }}</option>
+                                {% endfor %}
                             </select>
+                            <script>
+                                document.getElementById("category").selectedIndex = "{{ oldValues.category }}";
+                            </script>
+                            <div class="invalid-feedback">
+                                {{ warnings.category }}
+                            </div>
                         </div>
 
                         <div class="input-group mb-3">
@@ -79,8 +91,11 @@
                                     <i class="material-icons">comment</i>
                                 </span>
                             </div>
-                            <textarea class="form-control " name="comment" rows=4 cols=45 maxlength=180
-                                placeholder="Komentarz (opcjonalnie):"></textarea>
+                            <textarea class="form-control {{ isValid.comment }} maxlength=180" name="comment" rows=4 cols=45
+                                placeholder="Komentarz (opcjonalnie):">{{ oldValues.comment }}</textarea>
+                            <div class="invalid-feedback">
+                                {{ warnings.comment }}
+                            </div>
                         </div>
                     </div>
 
