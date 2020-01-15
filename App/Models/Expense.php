@@ -50,4 +50,17 @@ class Income extends \Core\Model
             echo $e->getMessage();
         }
     }
+
+    public static function getAllPayments()
+    {
+        try {
+            $db = static::getDB();
+            $sql = 'SELECT id, name FROM payment_methods_default';
+            $stmt = $db->query($sql);
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
 }
