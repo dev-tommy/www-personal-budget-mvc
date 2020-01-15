@@ -50,9 +50,6 @@
                             </div>
                             <select id="payment" name="payment" class="form-control" {# required #}>
                                 <option disabled value="" selected>Wybierz rodzaj płatności</option>
-                                <option value=1>Gotówka</option>
-                                <option value=2>Karta debetowa</option>
-                                <option value=3>Karta kredytowa</option>
                                 {% for payment in payments %}
                                 <option value={{ payment.id }}>{{ payment.name }}</option>
                                 {% endfor %}
