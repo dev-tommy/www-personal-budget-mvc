@@ -16,4 +16,25 @@ class Income extends \Core\Model
             $this->$key = $value;
         }
     }
+
+    public function add()
+    {
+        //$this->validate();
+        if (empty($this->isValid)) {
+            $sql = 'INSERT INTO expenses (user_id, expense_category_assigned_to_user_id, payment_method_assigned_to_user_id, amount, date_of_expense, expense_comment) VALUES (:user_id, :expense_category_assigned_to_user_id, payment_method_assigned_to_user_id, :amount, :date_of_expense, :expense_comment)';
+
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+
+            $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+            $stmt->bindValue(':expense_category_assigned_to_user_id', $this->category, PDO::PARAM_INT);
+            $stmt->bindValue(':payment_method_assigned_to_user_id', $this->payment, PDO::PARAM_INT);
+            $stmt->bindValue(':amount', $this->amount, PDO::PARAM_STR);
+            $stmt->bindValue(':date_of_expense', $this->date, PDO::PARAM_STR);
+            $stmt->bindValue(':expense_comment', $this->comment, PDO::PARAM_STR);
+
+            return $stmt->execute();
+        }
+        return false;
+    }
 }
