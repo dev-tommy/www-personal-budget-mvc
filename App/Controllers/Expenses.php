@@ -42,8 +42,8 @@ class Expenses extends Authenticated
             View::renderTemplate('Expenses/add.html', [
                 'alertshow' => 'true',
                 'alertmessage' => 'Przychód nie został dodany!',
-                'isValid' => $income->isValid,
-                'warnings' => $income->warnings,
+                'isValid' => $expense->isValid,
+                'warnings' => $expense->warnings,
                 'oldValues' => $_POST,
                 'categories' => $categories
             ]);
