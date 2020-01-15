@@ -36,6 +36,7 @@ class Expenses extends Authenticated
 
         $expense = new Expense($_POST);
         $categories = Expense::getAllCategory();
+        $payments = Expense::getAllPayments();
         if ($expense->add()) {
             View::renderTemplate('Expenses/success.html');
         } else {
@@ -45,7 +46,8 @@ class Expenses extends Authenticated
                 'isValid' => $expense->isValid,
                 'warnings' => $expense->warnings,
                 'oldValues' => $_POST,
-                'categories' => $categories
+                'categories' => $categories,
+                'payments' => $payments
             ]);
         }
     }
