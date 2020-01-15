@@ -48,7 +48,7 @@
                                     <i class="material-icons">payment</i>
                                 </span>
                             </div>
-                            <select id="payment" name="payment" class="form-control" {# required #}>
+                            <select id="payment" name="payment" class="form-control {{ isValid.payment }}" {# required #}>
                                 <option disabled value="" selected>Wybierz rodzaj płatności</option>
                                 {% for payment in payments %}
                                 <option value={{ payment.id }}>{{ payment.name }}</option>
@@ -68,7 +68,7 @@
                                     <i class="material-icons">shop</i>
                                 </span>
                             </div>
-                            <select id="category" name="category" class="form-control" {# required #}>
+                            <select id="category" name="category" class="form-control {{ isValid.category }}" {# required #}>
                                 <option disabled value="" selected>Wybierz kategorię</option>
                                 {% for category in categories %}
                                 <option value={{ category.id }}>{{ category.name }}</option>
