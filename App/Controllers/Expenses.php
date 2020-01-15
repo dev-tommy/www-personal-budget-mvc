@@ -19,7 +19,7 @@ class Expenses extends Authenticated
     {
         $categories = Expense::getAllCategory();
         $payments = Expense::getAllPayments();
-        View::renderTemplate('Incomes/add.html', [
+        View::renderTemplate('Expenses/add.html', [
             'categories' => $categories,
             'payments' => $payments,
             'default_date' => 'true',
