@@ -37,4 +37,17 @@ class Income extends \Core\Model
         }
         return false;
     }
+
+    public static function getAllCategory()
+    {
+        try {
+            $db = static::getDB();
+            $sql = 'SELECT id, name FROM expenses_category_default';
+            $stmt = $db->query($sql);
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
 }
