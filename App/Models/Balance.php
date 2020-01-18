@@ -77,7 +77,8 @@ class Balance extends \Core\Model
         WHERE
             i_userid.id = i.income_category_assigned_to_user_id AND
             i.date_of_income >= '2000-01-01' AND
-            i.date_of_income <= '2020-12-31' AND i.user_id='4'
+            i.date_of_income <= '2020-12-31' AND
+            i.user_id='4'
             GROUP BY i.income_category_assigned_to_user_id
         ";
 
@@ -89,6 +90,24 @@ class Balance extends \Core\Model
 
     public static function getExpenses()
     {
-        return 0;
+        $sql = "
+        SELECT
+            e_userid.name AS 'Category',
+            SUM(e.amount) AS 'Sum_of_amounts'
+        FROM
+            expenses AS e,
+            expenses_category_default AS e_userid
+        WHERE
+            e_userid.id = e.expense_category_assigned_to_user_id AND
+            e.date_of_expense >= '2000-01-01' AND
+            e.date_of_expense <= '2020-12-31' AND
+            e.user_id='4'
+            GROUP BY e.expense_category_assigned_to_user_id
+        ";
+
+        $db = static::getDB();
+        $stmt = $db->query($sql);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 }
