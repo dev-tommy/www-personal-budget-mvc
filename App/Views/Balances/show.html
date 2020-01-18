@@ -39,8 +39,8 @@
                         <tbody>
                             {% for income in incomes %}
                             <tr>
-                                <th scope="row" class="text-left">{{ income.income_category_assigned_to_user_id }}</th>
-                                <td class="text-right">{{ income.amount }}</td>
+                                <th scope="row" class="text-left">{{ income.Category }}</th>
+                                <td class="text-right">{{ income.Sum_of_amounts }}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -70,8 +70,8 @@
                         <tbody>
                             {% for expense in expenses %}
                             <tr>
-                                <th scope="row" class="text-left">{{ expense.expense_category_assigned_to_user_id }}</th>
-                                <td class="text-right">{{ expense.amount }}</td>
+                                <th scope="row" class="text-left">{{ expense.Category }}</th>
+                                <td class="text-right">{{ expense.Sum_of_amounts }}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
