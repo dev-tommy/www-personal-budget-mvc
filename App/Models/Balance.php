@@ -67,7 +67,24 @@ class Balance extends \Core\Model
     }
     public static function getIncomes()
     {
-        return 0;
+        $sql = "
+        SELECT
+            i_userid.name AS 'Category',
+            SUM(i.amount) AS 'Sum_of_amounts'
+        FROM
+            incomes AS i,
+            incomes_category_default AS i_userid
+        WHERE
+            i_userid.id = i.income_category_assigned_to_user_id AND
+            i.date_of_income >= '2000-01-01' AND
+            i.date_of_income <= '2020-12-31' AND i.user_id='4'
+            GROUP BY i.income_category_assigned_to_user_id
+        ";
+
+        $db = static::getDB();
+        $stmt = $db->query($sql);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
     public static function getExpenses()
