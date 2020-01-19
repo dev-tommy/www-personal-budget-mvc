@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% set balances_active = 'active' %}
 
-{% block title %}Pokaż blians{% endblock %}
-
+{% block title %} Pokaż blians {% endblock %}
+{% block body_onload %} onload="calculateBalance(); drawChart();" {% endblock %}
 {% block balance_calendar%}
     <button class="btn btn-primary btn-sm px-2 my-1" data-toggle="modal" data-target="#periodSelectionWindow" type="button">
         <i class="material-icons">calendar_today</i>
@@ -13,6 +13,22 @@
     </div>
 
     <div class="btn-group mx-2">
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function drawChart() {
+        var elements = {
+            {{ chartElements }}
+        };
+        var colors = {
+            {{ chartColors }}
+        };
+        var canvas = document.getElementById('chartpie');
+        var chart = chartJS.PieChart(elements, colors, canvas);
+        chart.draw();
+        }
+    </script>
 {% endblock %}
 
 {% block body %}
