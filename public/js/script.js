@@ -34,7 +34,7 @@ function enableButton() {
 }
 
 function showBalance(fromInputDateId, toInputDateId) {
-    location.href = "viewBalance-bs.php?startDate=" + document.getElementById(fromInputDateId).value + "&endDate=" + document.getElementById(toInputDateId).value;
+    location.href = "the-balance-of-period?startDate=" + document.getElementById(fromInputDateId).value + "&endDate=" + document.getElementById(toInputDateId).value;
 }
 
 
