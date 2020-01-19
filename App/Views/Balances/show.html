@@ -149,9 +149,9 @@
                         <input type="date" id="fromDateBalance" class="form-control my-2 {{ isValid.fromDate }}" onclick="enableButton()"
                             name="date" min="2000-01-01" required
                             {% if default_date == 'true' %}
-                                value="{{ current_date }}"
+                                value="{{ current_fromDate }}"
                             {% else %}
-                                value="{{ oldValues.date }}"
+                                value="{{ oldValues.fromDate }}"
                             {% endif %}
                         >
                         <div class="invalid-feedback">
@@ -165,9 +165,9 @@
                         <input type="date" id="toDateBalance" class="form-control {{ isValid.toDate }}" onclick="enableButton()" name="date"
                             min="2000-01-01" required
                             {% if default_date == 'true' %}
-                                value="{{ current_date }}"
+                                value="{{ current_toDate }}"
                             {% else %}
-                                value="{{ oldValues.date }}"
+                                value="{{ oldValues.toDate }}"
                             {% endif %}
                         >
                         <div class="invalid-feedback">
