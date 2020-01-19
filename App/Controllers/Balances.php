@@ -24,8 +24,8 @@ class Balances extends Authenticated
             'incomes' => $incomes,
             'expenses' => $expenses,
             'periodBalanceMsg' => 'Bilans z bieżącego miesiąca',
-            'totalIncomesAmount' => '5000,23',
-            'totalExpensesAmount' => '3450,11'
+            'totalIncomesAmount' => Balance::getTotalIncomesAmount(),
+            'totalExpensesAmount' => Balance::getTotalExpensesAmount()
             ]);
     }
 }
