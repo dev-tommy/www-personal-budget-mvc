@@ -16,16 +16,138 @@ use \App\Models\Balance;
 
 class Balances extends Authenticated
 {
-    public function showAction()
+    public $months = array('styczeń', 'luty', 'marzec', 'kwiecień', 'maj', 'czerwiec', 'lipiec', 'sierpień', 'wrzesień', 'październik', 'listopad', 'grudzień');
+
+    public function showAction($startDate = '', $endDate = '')
     {
-        $incomes = Balance::getIncomes();
-        $expenses = Balance::getExpenses();
+
+        $incomes = Balance::getIncomes('2000-01-01', '2020-12-31');
+        $expenses = Balance::getExpenses('2000-01-01', '2020-12-31');
         View::renderTemplate('Balances/show.html', [
             'incomes' => $incomes,
             'expenses' => $expenses,
             'periodBalanceMsg' => 'Bilans z bieżącego miesiąca',
             'totalIncomesAmount' => Balance::getTotalIncomesAmount(),
-            'totalExpensesAmount' => Balance::getTotalExpensesAmount()
+            'totalExpensesAmount' => Balance::getTotalExpensesAmount(),
+            'default_date' => 'true',
+            'current_date' => date("Y-m-d")
             ]);
+    }
+
+    public function showForPeriodAction()
+    {
+        $alertShow = 'false';
+        $alert = '';
+
+        $startDate = strtotime($_GET["startDate"]);
+        if ($startDate > strtotime(date("Y-m-d"))) {
+            $startDate = strtotime(date("Y-m-d"));
+            $alertShow = 'true';
+            $alert = "Data początkowa była późniejsza od dzisiejszej! Skorygowano!";
+        }
+
+        $endDate = strtotime($_GET["endDate"]);
+        if ($endDate > strtotime(date("Y-m-d"))) {
+            $endDate = strtotime(date("Y-m-d"));
+            $alertShow = 'true';
+            $alert = "Data końcowa była późniejsza od dzisiejszej! Skorygowano!";
+        }
+
+        if ($startDate > $endDate) {
+            $startDate = $endDate;
+            $alertShow = 'true';
+            $alert = "Data początkowa była późniejsza od końcowej! Skorygowano!";
+        }
+
+        $startDate = date("Y-m-d", $startDate);
+        $endDate = date("Y-m-d", $endDate);
+        $msg = "Bilans za okres:\n od " . $startDate . " do " . $endDate;
+
+        $incomes = Balance::getIncomes($startDate, $endDate);
+        $expenses = Balance::getExpenses($startDate, $endDate);
+        View::renderTemplate('Balances/show.html', [
+            'incomes' => $incomes,
+            'expenses' => $expenses,
+            'periodBalanceMsg' => $msg,
+            'totalIncomesAmount' => Balance::getTotalIncomesAmount(),
+            'totalExpensesAmount' => Balance::getTotalExpensesAmount(),
+            'default_date' => 'true',
+            'current_fromDate' => date("Y-m")."-01",
+            'current_toDate' => date("Y-m-d"),
+            'alertshow' => $alertShow,
+            'alertmessage' => $alert
+        ]);
+    }
+
+    public function showPreviousMonthAction()
+    {
+        $startDate = strtotime(date("Y-m") . "-01");
+        $startDate = strtotime("-1 month", $startDate);
+        $endDate = strtotime("+1 month, -1 day", $startDate);
+        $previousMonthName =  $this->months[date("m", $startDate) - 1];
+
+        $startDate = date("Y-m-d", $startDate);
+        $endDate = date("Y-m-d", $endDate);
+        $msg = 'Bilans z poprzedniego miesiąca [' . $previousMonthName . ']:';
+
+        $incomes = Balance::getIncomes($startDate, $endDate);
+        $expenses = Balance::getExpenses($startDate, $endDate);
+        View::renderTemplate('Balances/show.html', [
+            'incomes' => $incomes,
+            'expenses' => $expenses,
+            'periodBalanceMsg' => $msg,
+            'totalIncomesAmount' => Balance::getTotalIncomesAmount(),
+            'totalExpensesAmount' => Balance::getTotalExpensesAmount(),
+            'default_date' => 'true',
+            'current_fromDate' => date("Y-m") . "-01",
+            'current_toDate' => date("Y-m-d")
+        ]);
+    }
+
+    public function showCurrentMonthAction()
+    {
+        $startDate = strtotime(date("Y-m") . "-01");
+        $endDate = strtotime("+1 month, -1 day", $startDate);
+        $currentMonthName =  $this->months[date("m") - 1];
+
+        $startDate = date("Y-m-d", $startDate);
+        $endDate = date("Y-m-d", $endDate);
+        $msg = 'Bilans z bieżącego miesiąca [' . $currentMonthName . ']:';
+
+        $incomes = Balance::getIncomes($startDate, $endDate);
+        $expenses = Balance::getExpenses($startDate, $endDate);
+        View::renderTemplate('Balances/show.html', [
+            'incomes' => $incomes,
+            'expenses' => $expenses,
+            'periodBalanceMsg' => $msg,
+            'totalIncomesAmount' => Balance::getTotalIncomesAmount(),
+            'totalExpensesAmount' => Balance::getTotalExpensesAmount(),
+            'default_date' => 'true',
+            'current_fromDate' => date("Y-m") . "-01",
+            'current_toDate' => date("Y-m-d")
+        ]);
+    }
+
+    public function showCurrentYearAction()
+    {
+        $startDate = strtotime(date("Y") . "-01-01");
+        $endDate = strtotime(date("Y-m-d"));
+
+        $startDate = date("Y-m-d", $startDate);
+        $endDate = date("Y-m-d", $endDate);
+        $msg = 'Bilans z bieżącego roku [' . date("Y") . ']:';
+
+        $incomes = Balance::getIncomes($startDate, $endDate);
+        $expenses = Balance::getExpenses($startDate, $endDate);
+        View::renderTemplate('Balances/show.html', [
+            'incomes' => $incomes,
+            'expenses' => $expenses,
+            'periodBalanceMsg' => $msg,
+            'totalIncomesAmount' => Balance::getTotalIncomesAmount(),
+            'totalExpensesAmount' => Balance::getTotalExpensesAmount(),
+            'default_date' => 'true',
+            'current_fromDate' => date("Y-m") . "-01",
+            'current_toDate' => date("Y-m-d")
+        ]);
     }
 }
