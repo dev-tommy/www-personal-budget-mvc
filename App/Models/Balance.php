@@ -65,8 +65,9 @@ class Balance extends \Core\Model
         $_SESSION["endDate"] =  $endDate;
         $_SESSION["periodBalanceMsg"] = $msg;
     }
-    public static function getIncomes()
+    public static function getIncomes($startDate, $endDate)
     {
+        $id = $_SESSION['user_id'];
         $sql = "
         SELECT
             i_userid.name AS 'Category',
@@ -76,9 +77,9 @@ class Balance extends \Core\Model
             incomes_category_default AS i_userid
         WHERE
             i_userid.id = i.income_category_assigned_to_user_id AND
-            i.date_of_income >= '2000-01-01' AND
-            i.date_of_income <= '2020-12-31' AND
-            i.user_id='4'
+            i.date_of_income >= '$startDate' AND
+            i.date_of_income <= '$endDate' AND
+            i.user_id='$id'
             GROUP BY i.income_category_assigned_to_user_id
         ";
 
@@ -133,8 +134,9 @@ class Balance extends \Core\Model
         return $result[0]['Total'];
     }
 
-    public static function getExpenses()
+    public static function getExpenses($startDate, $endDate)
     {
+        $id = $_SESSION['user_id'];
         $sql = "
         SELECT
             e_userid.name AS 'Category',
@@ -144,9 +146,9 @@ class Balance extends \Core\Model
             expenses_category_default AS e_userid
         WHERE
             e_userid.id = e.expense_category_assigned_to_user_id AND
-            e.date_of_expense >= '2000-01-01' AND
-            e.date_of_expense <= '2020-12-31' AND
-            e.user_id='4'
+            e.date_of_expense >= '$startDate' AND
+            e.date_of_expense <= '$endDate' AND
+            e.user_id='$id'
             GROUP BY e.expense_category_assigned_to_user_id
         ";
 
