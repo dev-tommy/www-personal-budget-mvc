@@ -146,15 +146,33 @@
                         <div class="input-group-prepend">
                             <div class="input-group-text my-2">Od: </div>
                         </div>
-                        <input type="date" id="fromDateBalance" class="form-control my-2" onclick="enableButton()"
-                            name="date" min="2000-01-01" required>
+                        <input type="date" id="fromDateBalance" class="form-control my-2 {{ isValid.fromDate }}" onclick="enableButton()"
+                            name="date" min="2000-01-01" required
+                            {% if default_date == 'true' %}
+                                value="{{ current_date }}"
+                            {% else %}
+                                value="{{ oldValues.date }}"
+                            {% endif %}
+                        >
+                        <div class="invalid-feedback">
+                            {{ warnings.fromDate }}
+                        </div>
                     </div>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <div class="input-group-text ">Do: </div>
                         </div>
-                        <input type="date" id="toDateBalance" class="form-control" onclick="enableButton()" name="date"
-                            min="2000-01-01" required>
+                        <input type="date" id="toDateBalance" class="form-control {{ isValid.toDate }}" onclick="enableButton()" name="date"
+                            min="2000-01-01" required
+                            {% if default_date == 'true' %}
+                                value="{{ current_date }}"
+                            {% else %}
+                                value="{{ oldValues.date }}"
+                            {% endif %}
+                        >
+                        <div class="invalid-feedback">
+                            {{ warnings.toDate }}
+                        </div>
                     </div>
                 </div>
             </div>
