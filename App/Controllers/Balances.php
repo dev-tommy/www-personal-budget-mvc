@@ -18,6 +18,15 @@ class Balances extends Authenticated
 {
     public $months = array('styczeń', 'luty', 'marzec', 'kwiecień', 'maj', 'czerwiec', 'lipiec', 'sierpień', 'wrzesień', 'październik', 'listopad', 'grudzień');
 
+    private function calcSum($sqlArray)
+    {
+        $sum = 0.0;
+        foreach ($sqlArray as $values) {
+           $sum += floatval($values['Sum_of_amounts']);
+        }
+        return $sum;
+    }
+
     public function showForPeriodAction()
     {
         $alertShow = 'false';
@@ -53,8 +62,8 @@ class Balances extends Authenticated
             'incomes' => $incomes,
             'expenses' => $expenses,
             'periodBalanceMsg' => $msg,
-            'totalIncomesAmount' => Balance::getTotalIncomesAmount(),
-            'totalExpensesAmount' => Balance::getTotalExpensesAmount(),
+            'totalIncomesAmount' => $this->calcSum($incomes),
+            'totalExpensesAmount' => $this->calcSum($expenses),
             'default_date' => 'true',
             'current_fromDate' => date("Y-m")."-01",
             'current_toDate' => date("Y-m-d"),
@@ -80,8 +89,8 @@ class Balances extends Authenticated
             'incomes' => $incomes,
             'expenses' => $expenses,
             'periodBalanceMsg' => $msg,
-            'totalIncomesAmount' => Balance::getTotalIncomesAmount(),
-            'totalExpensesAmount' => Balance::getTotalExpensesAmount(),
+            'totalIncomesAmount' => $this->calcSum($incomes),
+            'totalExpensesAmount' => $this->calcSum($expenses),
             'default_date' => 'true',
             'current_fromDate' => date("Y-m") . "-01",
             'current_toDate' => date("Y-m-d")
@@ -104,8 +113,8 @@ class Balances extends Authenticated
             'incomes' => $incomes,
             'expenses' => $expenses,
             'periodBalanceMsg' => $msg,
-            'totalIncomesAmount' => Balance::getTotalIncomesAmount(),
-            'totalExpensesAmount' => Balance::getTotalExpensesAmount(),
+            'totalIncomesAmount' => $this->calcSum($incomes),
+            'totalExpensesAmount' => $this->calcSum($expenses),
             'default_date' => 'true',
             'current_fromDate' => date("Y-m") . "-01",
             'current_toDate' => date("Y-m-d")
@@ -127,8 +136,8 @@ class Balances extends Authenticated
             'incomes' => $incomes,
             'expenses' => $expenses,
             'periodBalanceMsg' => $msg,
-            'totalIncomesAmount' => Balance::getTotalIncomesAmount(),
-            'totalExpensesAmount' => Balance::getTotalExpensesAmount(),
+            'totalIncomesAmount' => $this->calcSum($incomes),
+            'totalExpensesAmount' => $this->calcSum($expenses),
             'default_date' => 'true',
             'current_fromDate' => date("Y-m") . "-01",
             'current_toDate' => date("Y-m-d")
