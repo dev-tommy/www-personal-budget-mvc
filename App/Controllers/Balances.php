@@ -18,22 +18,6 @@ class Balances extends Authenticated
 {
     public $months = array('styczeń', 'luty', 'marzec', 'kwiecień', 'maj', 'czerwiec', 'lipiec', 'sierpień', 'wrzesień', 'październik', 'listopad', 'grudzień');
 
-    public function showAction($startDate = '', $endDate = '')
-    {
-
-        $incomes = Balance::getIncomes('2000-01-01', '2020-12-31');
-        $expenses = Balance::getExpenses('2000-01-01', '2020-12-31');
-        View::renderTemplate('Balances/show.html', [
-            'incomes' => $incomes,
-            'expenses' => $expenses,
-            'periodBalanceMsg' => 'Bilans z bieżącego miesiąca',
-            'totalIncomesAmount' => Balance::getTotalIncomesAmount(),
-            'totalExpensesAmount' => Balance::getTotalExpensesAmount(),
-            'default_date' => 'true',
-            'current_date' => date("Y-m-d")
-            ]);
-    }
-
     public function showForPeriodAction()
     {
         $alertShow = 'false';
