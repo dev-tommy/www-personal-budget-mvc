@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% set balances_active = 'active' %}
 
-{% block title %}Pokaż blians{% endblock %}
-
+{% block title %} Pokaż blians {% endblock %}
+{% block body_onload %} onload="calculateBalance(); drawChart();" {% endblock %}
 {% block balance_calendar%}
     <button class="btn btn-primary btn-sm px-2 my-1" data-toggle="modal" data-target="#periodSelectionWindow" type="button">
         <i class="material-icons">calendar_today</i>
@@ -13,6 +13,34 @@
     </div>
 
     <div class="btn-group mx-2">
+{% endblock %}
+
+{% block scripts %}
+            <script type="text/javascript">
+                // Load google charts
+                google.charts.load('current', { 'packages': ['corechart'] });
+                google.charts.setOnLoadCallback(drawChart);
+
+                // Draw the chart and set the chart values
+                function drawChart() {
+                    var data = google.visualization.arrayToDataTable([
+                        ['Wydatek', 'Suma'],
+                            {% for key, chartElement in chartElements %}
+                                ['{{ key }}', {{ chartElement }}]
+                            {%- if not loop.last -%}
+                                ,
+                            {% endif %}
+                            {% endfor %}
+                        ]);
+
+                // Optional; add a title and set the width and height of the chart
+                var options = { 'title': 'Bilans wydatków', 'width': '1000', 'height': '1000' };
+
+                // Display the chart inside the <div> element with id="piechart"
+                var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                chart.draw(data, options);
+                }
+            </script>
 {% endblock %}
 
 {% block body %}
@@ -37,7 +65,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{ incomes }}
+                            {% for income in incomes %}
+                            <tr>
+                                <th scope="row" class="text-left">{{ income.Category }}</th>
+                                <td class="text-right">{{ income.Sum_of_amounts }}</td>
+                            </tr>
+                            {% endfor %}
                         </tbody>
                         <tfoot>
                             <tr class="table-success">
@@ -63,7 +96,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{ expenses }}
+                            {% for expense in expenses %}
+                            <tr>
+                                <th scope="row" class="text-left">{{ expense.Category }}</th>
+                                <td class="text-right">{{ expense.Sum_of_amounts }}</td>
+                            </tr>
+                            {% endfor %}
                         </tbody>
                         <tfoot>
                             <tr class="table-success">
@@ -87,10 +125,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12 text-center">
-            <canvas width="900" height="700" id="chartpie">
-                Sorry, canvas not supported
-            </canvas>
+        <div class="col-4 text-center" id="piechart">
         </div>
 
     </div>
@@ -120,15 +155,33 @@
                         <div class="input-group-prepend">
                             <div class="input-group-text my-2">Od: </div>
                         </div>
-                        <input type="date" id="fromDateBalance" class="form-control my-2" onclick="enableButton()"
-                            name="date" min="2000-01-01" required>
+                        <input type="date" id="fromDateBalance" class="form-control my-2 {{ isValid.fromDate }}" onclick="enableButton()"
+                            name="date" min="2000-01-01" required
+                            {% if default_date == 'true' %}
+                                value="{{ current_fromDate }}"
+                            {% else %}
+                                value="{{ oldValues.fromDate }}"
+                            {% endif %}
+                        >
+                        <div class="invalid-feedback">
+                            {{ warnings.fromDate }}
+                        </div>
                     </div>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <div class="input-group-text ">Do: </div>
                         </div>
-                        <input type="date" id="toDateBalance" class="form-control" onclick="enableButton()" name="date"
-                            min="2000-01-01" required>
+                        <input type="date" id="toDateBalance" class="form-control {{ isValid.toDate }}" onclick="enableButton()" name="date"
+                            min="2000-01-01" required
+                            {% if default_date == 'true' %}
+                                value="{{ current_toDate }}"
+                            {% else %}
+                                value="{{ oldValues.toDate }}"
+                            {% endif %}
+                        >
+                        <div class="invalid-feedback">
+                            {{ warnings.toDate }}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -34,20 +34,20 @@ function enableButton() {
 }
 
 function showBalance(fromInputDateId, toInputDateId) {
-    location.href = "viewBalance-bs.php?startDate=" + document.getElementById(fromInputDateId).value + "&endDate=" + document.getElementById(toInputDateId).value;
+    location.href = "the-balance-of-period?startDate=" + document.getElementById(fromInputDateId).value + "&endDate=" + document.getElementById(toInputDateId).value;
 }
 
 
 function setPeriod(period) {
     switch (period) {
         case 'previousMonth':
-            location.href = "viewBalance-bs.php?periodBalance=previousMonth";
+            location.href = "the-balance-of-the-previous-month";
             break;
         case 'currentYear':
-            location.href = "viewBalance-bs.php?periodBalance=currentYear";
+            location.href = "the-balance-of-the-current-year";
             break;
         default:
-            location.href = "viewBalance-bs.php?periodBalance=currentMonth";
+            location.href = "the-balance-of-the-current-month";
             break;
     }
 }
