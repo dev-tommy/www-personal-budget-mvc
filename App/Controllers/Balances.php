@@ -37,18 +37,22 @@ class Balances extends Authenticated
         $chartElements = array();
         $sum = $this->calcSum($expenses);
         foreach ($expenses as $expense) {
-            $chartElements[$expense['Category']] = $expense['Sum_of_amounts']/$sum;
+            $chartElements[$expense['Category']] = $expense['Sum_of_amounts']/$sum * 100;
         }
-
-        /*
-        foreach ($chartElementsTmp as $key => $value)
-            {
-                $percentage = $value / $sum;
-                $chartElements .= "'" . $key . "  ".round($percentage * 100)."%' : " . $percentage . ",\n\t\t\t\t";
-                //$chartElements .= "'" . $key . "  " . round($percentage * 100) . "%' : " . "'".$this->rand_color()."'" . ",\n\t\t\t\t";
-            } */
         return $chartElements;
     }
+
+    private function getChartColors($expenses)
+    {
+        $chartColors = array();
+        $sum = $this->calcSum($expenses);
+        foreach ($expenses as $expense) {
+            $chartColors[$expense['Category'].' '. round($expense['Sum_of_amounts'] / $sum * 100).'%'] = $this->rand_color();
+        }
+        return $chartColors;
+    }
+
+
 
     public function showForPeriodAction()
     {
@@ -141,7 +145,8 @@ class Balances extends Authenticated
             'default_date' => 'true',
             'current_fromDate' => date("Y-m") . "-01",
             'current_toDate' => date("Y-m-d"),
-            'chartElements' => $this->getChartElements($expenses)
+            'chartElements' => $this->getChartElements($expenses),
+            'chartColors' => $this->getChartColors($expenses)
         ]);
     }
 
