@@ -19,7 +19,9 @@
     <script>
         function drawChart() {
         var elements = {
-            {{ chartElements }}
+            {% for key, chartElement in chartElements %}
+                '{{ key }} {{ chartElement|round(2) }}%' : {{ chartElement }},
+            {% endfor %}
         };
         var colors = {
             {{ chartColors }}
