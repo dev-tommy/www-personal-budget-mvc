@@ -1,31 +1,34 @@
 {% extends "base.html" %}
 
-{% block title %}Log in{% endblock %}
+{% block title %}Logowanie{% endblock %}
 
 {% block body %}
-    <h1>Log in</h1>
+<div class="container move-under-navbar">
+    <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+            <div class="card shadow-lg mb-5 bg-white rounded">
+                <div class="card-header bg-info card-topic text-center"> UWAGA !!! </div>
+                <div class="card-body text-center">
+                    <i class="material-icons btn btn-success btn-sm px-2 my-2">done</i>
+                    <h4>Proszę się zalogować w górnym menu!</h4>
+                </div>
 
-    <form action="/login/create" method="POST">
-        <div>
-            <label for="inputEmail">Email address</label>
-            <input type="email" id="inputEmail" name="email" placeholder="Email address" autofocus value="{{ email }}"/>
+                <div class="card-footer bg-info text-white ">
+                    <form action="/">
+                        <div class="col-md-12 text-center">
+                            <div class="btn-group">
+                                <button class="btn btn-success btn-sm px-2" type="submit">
+                                    <i class="material-icons">add_circle</i>
+                                </button>
+                                <button class="btn btn-warning btn-sm pl-0 text-button" type="submit">
+                                    Ok
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div>
-            <label for="inputPassword">Password</label>
-            <input type="password" id="inputPassword" name="password" placeholder="Password" />
-        </div>
-        <div>
-            <label>
-                <input type="checkbox" name="remember_me"
-                    {% if remember_me %}
-                        checked="checked"
-                    {% endif %}
-                /> Remember me
-            </label>
-        </div>
-
-        <button type="submit">Log in</button>
-    </form>
-
-
+    </div>
+</div>
 {% endblock %}
