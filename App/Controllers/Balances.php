@@ -27,14 +27,27 @@ class Balances extends Authenticated
         return $sum;
     }
 
-    function rand_color()
+    private function rand_color()
     {
         return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
     }
 
     private function getChartElements($expenses)
     {
+        $chartElements = array();
+        $sum = $this->calcSum($expenses);
+        foreach ($expenses as $expense) {
+            $chartElements[$expense['Category']] = $expense['Sum_of_amounts']/$sum;
+        }
 
+        /*
+        foreach ($chartElementsTmp as $key => $value)
+            {
+                $percentage = $value / $sum;
+                $chartElements .= "'" . $key . "  ".round($percentage * 100)."%' : " . $percentage . ",\n\t\t\t\t";
+                //$chartElements .= "'" . $key . "  " . round($percentage * 100) . "%' : " . "'".$this->rand_color()."'" . ",\n\t\t\t\t";
+            } */
+        return $chartElements;
     }
 
     public function showForPeriodAction()
@@ -127,7 +140,8 @@ class Balances extends Authenticated
             'totalExpensesAmount' => $this->calcSum($expenses),
             'default_date' => 'true',
             'current_fromDate' => date("Y-m") . "-01",
-            'current_toDate' => date("Y-m-d")
+            'current_toDate' => date("Y-m-d"),
+            'chartElements' => $this->getChartElements($expenses)
         ]);
     }
 
