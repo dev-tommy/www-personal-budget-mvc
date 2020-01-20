@@ -27,32 +27,14 @@ class Balances extends Authenticated
         return $sum;
     }
 
-    private function rand_color()
-    {
-        return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
-    }
-
     private function getChartElements($expenses)
     {
         $chartElements = array();
-        $sum = $this->calcSum($expenses);
         foreach ($expenses as $expense) {
-            $chartElements[$expense['Category']] = $expense['Sum_of_amounts']/$sum * 100;
+            $chartElements[$expense['Category']] = $expense['Sum_of_amounts'];
         }
         return $chartElements;
     }
-
-    private function getChartColors($expenses)
-    {
-        $chartColors = array();
-        $sum = $this->calcSum($expenses);
-        foreach ($expenses as $expense) {
-            $chartColors[$expense['Category'].' '. round($expense['Sum_of_amounts'] / $sum * 100).'%'] = $this->rand_color();
-        }
-        return $chartColors;
-    }
-
-
 
     public function showForPeriodAction()
     {
@@ -95,7 +77,8 @@ class Balances extends Authenticated
             'current_fromDate' => date("Y-m")."-01",
             'current_toDate' => date("Y-m-d"),
             'alertshow' => $alertShow,
-            'alertmessage' => $alert
+            'alertmessage' => $alert,
+            'chartElements' => $this->getChartElements($expenses)
         ]);
     }
 
@@ -120,7 +103,8 @@ class Balances extends Authenticated
             'totalExpensesAmount' => $this->calcSum($expenses),
             'default_date' => 'true',
             'current_fromDate' => date("Y-m") . "-01",
-            'current_toDate' => date("Y-m-d")
+            'current_toDate' => date("Y-m-d"),
+            'chartElements' => $this->getChartElements($expenses)
         ]);
     }
 
@@ -145,8 +129,7 @@ class Balances extends Authenticated
             'default_date' => 'true',
             'current_fromDate' => date("Y-m") . "-01",
             'current_toDate' => date("Y-m-d"),
-            'chartElements' => $this->getChartElements($expenses),
-            'chartColors' => $this->getChartColors($expenses)
+            'chartElements' => $this->getChartElements($expenses)
         ]);
     }
 
@@ -169,7 +152,8 @@ class Balances extends Authenticated
             'totalExpensesAmount' => $this->calcSum($expenses),
             'default_date' => 'true',
             'current_fromDate' => date("Y-m") . "-01",
-            'current_toDate' => date("Y-m-d")
+            'current_toDate' => date("Y-m-d"),
+            'chartElements' => $this->getChartElements($expenses)
         ]);
     }
 }
