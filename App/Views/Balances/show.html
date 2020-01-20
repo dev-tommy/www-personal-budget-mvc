@@ -20,11 +20,13 @@
         function drawChart() {
         var elements = {
             {% for key, chartElement in chartElements %}
-                '{{ key }} {{ chartElement|round(2) }}%' : {{ chartElement }},
+                '{{ key }} {{ chartElement|round() }}%' : {{ chartElement }},
             {% endfor %}
         };
         var colors = {
-            {{ chartColors }}
+            {% for key, chartColor in chartColors %}
+                '{{ key }}' : {{ chartColor }},
+            {% endfor %}
         };
         var canvas = document.getElementById('chartpie');
         var chart = chartJS.PieChart(elements, colors, canvas);
