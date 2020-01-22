@@ -32,7 +32,11 @@ class Signup extends \Core\Controller
         } else {
             View::renderTemplate('Signup/new.html',
             [
-                'user' => $user
+                'alertshow' => 'true',
+                'alertmessage' => 'Użytkownik nie został zarejestrowany!',
+                'isValid' => $user->isValid,
+                'warnings' => $user->warnings,
+                'oldValues' => $_POST
             ]
         );
         }
