@@ -40,9 +40,9 @@ class User extends \Core\Model
 
     public function validate()
     {
-        if ($this->name == '') {
+        if (strlen($this->name) < 6) {
             $this->isValid['name'] = 'is-invalid';
-            $this->warnings['name'] = 'Nazwa użytkownika jest wymagana';
+            $this->warnings['name'] = 'Nazwa użytkownika jest wymagana i musi mieć min. 6 znków';
             //$this->warnings[] = 'Name is required';
         }
 
