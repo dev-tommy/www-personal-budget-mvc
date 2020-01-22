@@ -2,63 +2,7 @@
 
 {% block title %}Rejestracja{% endblock %}
 
-{% block footer %}
-    <script src="/js/hideShowPassword.min.js"></script>
-
-    <script>
-        $.validator.addMethod('validPassword',
-            function(value, element, param) {
-                if (value != '') {
-                    if (value.match(/.*[a-z]+.*/i) == null) {
-                        return false;
-                    }
-                    if (value.match(/.*\d+.*/i) == null) {
-                        return false;
-                    }
-                }
-
-                return true;
-            },
-            'Must contain at least one letter and one number'
-        );
-
-        $(document).ready(function() {
-            $('#formSignup').validate({
-                rules: {
-                    name: {
-                        required: true
-                    },
-                    email: {
-                        required: true,
-                        email: true,
-                        remote: '/account/validate-email'
-                    },
-                    password: {
-                        required: true,
-                        minlength: 8,
-                        validPassword: true
-                    }
-                },
-                messages: {
-                    email: {
-                        remote: 'email already taken'
-                    }
-                }
-            });
-
-            $('#inputPassword').hideShowPassword({
-                show: false,
-                innerToggle: 'focus'
-            });
-
-        });
-    </script>
-
-{% endblock %}
-
 {% block body %}
-
-
     <div class="container move-under-navbar">
         <div class="row">
             <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
@@ -72,8 +16,11 @@
                                         <i class="material-icons">account_box</i>
                                     </span>
                                 </div>
-                                <input type="text" class="form-control" id="inputName" name="name" placeholder="Nazwa użytkownika"
-                                    minlength="6" maxlength="50" required autofocus value="{{ user.name }}">
+                                <input type="text" class="form-control {{ isValid.name }}" id="inputName" name="name" placeholder="Nazwa użytkownika"
+                                    minlength="6" maxlength="50" autofocus value="{{ oldValues.name }}">
+                                <div class="invalid-feedback">
+                                    {{ warnings.name }}
+                                </div>
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
@@ -81,8 +28,11 @@
                                         <i class="material-icons">email</i>
                                     </span>
                                 </div>
-                                <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Adres email"
-                                    minlength="6" maxlength="50" required value="{{ user.email }}">
+                                <input type="email" class="form-control {{ isValid.email }}" id="inputEmail" name="email" placeholder="Adres email"
+                                    minlength="6" maxlength="50" value="{{ oldValues.email }}">
+                                <div class="invalid-feedback">
+                                    {{ warnings.email }}
+                                </div>
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
@@ -90,9 +40,12 @@
                                         <i class="material-icons">lock</i>
                                     </span>
                                 </div>
-                                <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Hasło"
-                                    minlength="8" maxlength="64" required pattern = "^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
-                                    title="Min. 8 chars, at least one letter and number">
+                                <input type="password" class="form-control {{ isValid.password }}" id="inputPassword" name="password" placeholder="Hasło"
+                                    minlength="8" maxlength="64" pattern = "^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                                    title="Hasło musi zawierać min. 8 znaków w tym przynajmniej jedną literę i cyfrę">
+                                <div class="invalid-feedback">
+                                    {{ warnings.password }}
+                                </div>
                             </div>
                         </div>
 
