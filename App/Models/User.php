@@ -6,7 +6,7 @@ use PDO;
 
 class User extends \Core\Model
 {
-    public $errors = [];
+    public $warnings = [];
 
     public function __construct($data = [])
     {
@@ -19,7 +19,7 @@ class User extends \Core\Model
     {
         $this->validate();
 
-        if (empty($this->errors)) {
+        if (empty($this->isValid)) {
             $password_hash = password_hash($this->password, PASSWORD_DEFAULT);
 
             $sql = 'INSERT INTO users (username, password_hash, email)
@@ -41,27 +41,39 @@ class User extends \Core\Model
     public function validate()
     {
         if ($this->name == '') {
-            $this->errors[] = 'Name is required';
+            $this->isValid['name'] = 'is-invalid';
+            $this->warnings['name'] = 'Nazwa użytkownika jest wymagana';
+            //$this->warnings[] = 'Name is required';
         }
 
         if (filter_var($this->email, FILTER_VALIDATE_EMAIL) === false) {
-            $this->errors[] = 'Invalid emial';
+            $this->isValid['email'] = 'is-invalid';
+            $this->warnings['email'] = 'Niepoprawny adres email';
+            //$this->warnings[] = 'Invalid emial';
         }
 
         if (static::emailExists($this->email)) {
-            $this->errors[] = 'Email already taken';
-        }
-
-        if (strlen($this->password) < 8) {
-            $this->errors[] = 'Please enter at least 8 chars for the password';
+            $this->isValid['email'] = 'is-invalid';
+            $this->warnings['email'] = 'Adres email już wcześniej został wykorzystany';
+            //$this->warnings[] = 'Email already taken';
         }
 
         if (preg_match('/.*[a-z]+.*/i', $this->password) == 0) {
-            $this->errors[] = 'Password needs at least one letter';
+            $this->isValid['password'] = 'is-invalid';
+            $this->warnings['password'] = 'Hasło musi zawierać przynajmniej jedną literę';
+            //$this->warnings[] = 'Password needs at least one letter';
         }
 
         if (preg_match('/.*\d+.*/i', $this->password) == 0) {
-            $this->errors[] = 'Password needs at least one number';
+            $this->isValid['password'] = 'is-invalid';
+            $this->warnings['password'] = 'Hasło musi zawierać przynajmniej jedną cyfrę';
+            //$this->warnings[] = 'Password needs at least one number';
+        }
+
+        if (strlen($this->password) < 8) {
+            $this->isValid['password'] = 'is-invalid';
+            $this->warnings['password'] = 'Hasło musi mieć minimum 8 znaków długości';
+            //$this->warnings[] = 'Please enter at least 8 chars for the password';
         }
     }
 
