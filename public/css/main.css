@@ -11,6 +11,10 @@ textarea
   min-height: 80px;
 }
 
+.navbar-toggler-bg-red {
+    background-color: #dd0033bd;
+}
+
 .bg-custom
 {
     background-color: #187c36!important;
