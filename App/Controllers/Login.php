@@ -33,13 +33,32 @@ class Login extends \Core\Controller
 
     public function createAction()
     {
-        $user = User::authenticate($_POST['email'], $_POST['password']);
+        if (isset($_POST['email']))
+        {
+            $email = $_POST['email'];
+        }
+        else
+        {
+            $email="";
+        }
+
+        if (isset($_POST['password'])) {
+            $password = $_POST['password'];
+        } else {
+            $password = "";
+        }
+        $user = User::authenticate($email, $password);
         if ($user) {
             Auth::login($user, false);
-            $this->redirect(Auth::getReturnToPage());
+            $this->redirect('add-income');
+            //$this->redirect(Auth::getReturnToPage());
         } else {
             View::renderTemplate('Signup/new.html', [
-                'email' => $_POST['email']
+                'email' => $email,
+                'alertshow' => 'true',
+                'alertmessage' => 'Niepoprawny email lub hasło!',
+                'isValid' => 'is-invalid',
+                'redNavbarToggler' => 'navbar-toggler-bg-red'
              ]);
         }
     }
