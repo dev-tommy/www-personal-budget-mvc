@@ -25,17 +25,17 @@ session_start();
 $router = new Core\Router();
 
 $router->add('', ['controller' => 'Signup', 'action' => 'new']);
-$router->add('incomes', ['controller' => 'Incomes', 'action' => 'add']);
-$router->add('expenses', ['controller' => 'Expenses', 'action' => 'add']);
-$router->add('balances', ['controller' => 'Balances', 'action' => 'showCurrentMonth']);
+$router->add('add-income', ['controller' => 'Incomes', 'action' => 'add']);
+$router->add('add-expense', ['controller' => 'Expenses', 'action' => 'add']);
+$router->add('show-balance', ['controller' => 'Balances', 'action' => 'showCurrentMonth']);
 $router->add('the-balance-of-the-current-month', ['controller' => 'Balances', 'action' => 'showCurrentMonth']);
 $router->add('the-balance-of-the-current-year', ['controller' => 'Balances', 'action' => 'showCurrentYear']);
 $router->add('the-balance-of-the-previous-month', ['controller' => 'Balances', 'action' => 'showPreviousMonth']);
 $router->add('the-balance-of-period', ['controller' => 'Balances', 'action' => 'showForPeriod']);
-$router->add('signup', ['controller' => 'Signup', 'action' => 'new']);
-$router->add('login', ['controller' => 'Login', 'action' => 'new']);
-$router->add('logout', ['controller' => 'Login', 'action' => 'destroy']);
-$router->add('{controller}/{action}');
+$router->add('new-user-registration', ['controller' => 'Signup', 'action' => 'new']);
+$router->add('user-login', ['controller' => 'Login', 'action' => 'new']);
+$router->add('log-out-user', ['controller' => 'Login', 'action' => 'destroy']);
+//$router->add('{controller}/{action}');
 //$router->add('{controller}/{id:\d+}/{action}');
 //$router->add('admin/{controller}/{action}', ['namespace' => 'Admin']);
 
