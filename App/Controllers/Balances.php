@@ -40,17 +40,27 @@ class Balances extends Authenticated
     {
         $alertShow = 'false';
         $alert = '';
+        $firstDayOfCurrentMonth = strtotime(date("Y-m") . "-01");
+        $lastDayOfCurrentMonth = strtotime("+1 month, -1 day", $firstDayOfCurrentMonth);
+
+        if (!isset($_GET["startDate"])) {
+            $_GET["startDate"] = date("Y-m-d", $firstDayOfCurrentMonth);
+        }
+        if (!isset($_GET["endDate"])) {
+
+            $_GET["endDate"] = date("Y-m-d", $lastDayOfCurrentMonth);
+        }
 
         $startDate = strtotime($_GET["startDate"]);
-        if ($startDate > strtotime(date("Y-m-d"))) {
-            $startDate = strtotime(date("Y-m-d"));
+        if ($startDate > $lastDayOfCurrentMonth) {
+            $startDate = $lastDayOfCurrentMonth;
             $alertShow = 'true';
             $alert = "Data początkowa była późniejsza od dzisiejszej! Skorygowano!";
         }
 
         $endDate = strtotime($_GET["endDate"]);
-        if ($endDate > strtotime(date("Y-m-d"))) {
-            $endDate = strtotime(date("Y-m-d"));
+        if ($endDate > $lastDayOfCurrentMonth) {
+            $endDate = $lastDayOfCurrentMonth;
             $alertShow = 'true';
             $alert = "Data końcowa była późniejsza od dzisiejszej! Skorygowano!";
         }
