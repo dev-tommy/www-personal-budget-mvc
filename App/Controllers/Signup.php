@@ -26,9 +26,18 @@ class Signup extends \Core\Controller
 
     public function createAction()
     {
+        if (!isset($_POST['name'])) {
+            $_POST['name']='';
+        }
+        if (!isset($_POST['email'])) {
+            $_POST['email'] = '';
+        }
+        if (!isset($_POST['password'])) {
+            $_POST['password'] = '';
+        }
         $user = new User($_POST);
         if ($user->save()) {
-            $this->redirect('/signup/success');
+            $this->redirect('/sign-up-success');
         } else {
             View::renderTemplate('Signup/new.html',
             [
