@@ -50,14 +50,14 @@ class Login extends \Core\Controller
         $user = User::authenticate($email, $password);
         if ($user) {
             Auth::login($user, false);
-            $this->redirect('add-income');
+            $this->redirect('/add-income');
             //$this->redirect(Auth::getReturnToPage());
         } else {
             View::renderTemplate('Signup/new.html', [
-                'email' => $email,
+                'oldEmailValue' => $email,
                 'alertshow' => 'true',
                 'alertmessage' => 'Niepoprawny email lub hasło!',
-                'isValid' => 'is-invalid',
+                'isLoginValid' => 'is-invalid',
                 'redNavbarToggler' => 'navbar-toggler-bg-red'
              ]);
         }
