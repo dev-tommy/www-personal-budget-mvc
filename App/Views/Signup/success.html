@@ -1,8 +1,35 @@
 {% extends "base.html" %}
 
-{% block title %}Sign up{% endblock %}
+{% block title %}Rejestracja{% endblock %}
 
 {% block body %}
-<h1>Sign up !!</h1>
-<p>Success!! You are registered!</p>
+<div class="container move-under-navbar">
+    <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+            <div class="card shadow-lg mb-5 bg-white rounded">
+                <div class="card-header bg-info card-topic text-center"> Gratulacje !!! </div>
+                <div class="card-body text-center">
+                    <i class="material-icons btn btn-success btn-sm px-2 my-2">done</i>
+                    <h4>Konto zostało poprawnie utworzone!</h4>
+                    <h4>Proszę się zalogować w menu!</h4>
+                </div>
+
+                <div class="card-footer bg-info text-white ">
+                    <form action="/">
+                        <div class="col-md-12 text-center">
+                            <div class="btn-group">
+                                <button class="btn btn-success btn-sm px-2" type="submit">
+                                    <i class="material-icons">add_circle</i>
+                                </button>
+                                <button class="btn btn-warning btn-sm pl-0 text-button" type="submit">
+                                    Ok
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

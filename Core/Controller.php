@@ -54,9 +54,7 @@ use \App\Flash;
     public function requireLogin()
     {
         if (!Auth::isLoggedIn()) {
-            Flash::addMessage('Please log in !!');
-            Auth::rememberRequestedPage();
-            $this->redirect('/login');
+            $this->redirect('/attempt-unautorized-entry');
         }
     }
  }

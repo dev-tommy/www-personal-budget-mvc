@@ -54,7 +54,7 @@ class Error
         if (\App\Config::SHOW_ERRORS) {
             Error::showDescription($exception);
         } else {
-            //Log::addException($exception);
+            Log::addException($exception);
             View::renderTemplate("$code.html");
         }
     }

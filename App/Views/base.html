@@ -21,27 +21,23 @@
 
 <body {% block body_onload %}{% endblock %}>
     <header>
-        <nav class="navbar navbar-dark bg-custom navbar-expand-lg"> <!-- fixed-top"> -->
-            <a class="navbar-brand" href="/"><img src="img/logo.png" width="36" height="36"
+        <nav class="navbar navbar-dark bg-custom navbar-expand-lg fixed-top">
+            <a class="navbar-brand" ><img src="/img/logo.png" width="36" height="36"
                     class="d-inline-block mr-1 align-bottom" alt="">
                 <span class="h3 text-warning">Budżet osobisty </span>
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainmenu" aria-controls="mainmenu" aria-expanded="false" aria-label="Przełącznik nawigacji">
-                <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler {{ redNavbarToggler }}" type="button" data-toggle="collapse" data-target="#mainmenu" aria-controls="mainmenu" aria-expanded="false" aria-label="Przełącznik nawigacji">
+                <span class="navbar-toggler-icon "></span>
             </button>
             {% block navbar %}
                 {% if not is_logged_in %}
                     <div class="collapse navbar-collapse" id="mainmenu">
                         <ul class="navbar-nav mr-auto"></ul>
-                        <form class="form-inline" action="/login/create" method="POST">
-                            <!--<input style="border-width:3px;" class="form-control border-danger mr-1 my-1" name="inputEmail" type="text"
-                                placeholder="błędny email" required autofocus value="{{ email }}">
-                            <input style="border-width:3px;" class="form-control border-danger mr-1 my-1" name="inputPassword"
-                                type="password" placeholder="lub błędne hasło" minlength="8" maxlength="64" required> -->
-                            <input class="form-control mr-1 my-1" id="inputEmail" name="email" type="text" placeholder="Email" required
-                                autofocus>
-                            <input class="form-control mr-1 my-1" id="inputPassword" name="password" type="password" placeholder="Hasło"
-                                minlength="8" maxlength="64" required>
+                        <form class="form-inline" action="/user-login" method="POST">
+                            <input class="form-control {{ isLoginValid }} mr-1 my-1" id="inputEmail" name="email" type="text" placeholder="Email"
+                                autofocus value='{{ oldEmailValue }}'>
+                            <input class="form-control {{ isLoginValid }} mr-1 my-1" id="inputPassword" name="password" type="password" placeholder="Hasło"
+                                minlength="8" maxlength="64" >
                             <div class="btn-group">
                                 <button class="btn btn-success btn-sm px-2 my-1" type="submit">
                                     <i class="material-icons">person</i>
@@ -56,18 +52,18 @@
                     <div class="collapse navbar-collapse pt-2" id="mainmenu">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item">
-                                <a class="nav-link {{ incomes_active }} h4" href="/Incomes"> Dodaj przychód </a>
+                                <a class="nav-link {{ incomes_active }} h4" href="/add-income"> Dodaj przychód </a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link {{ expenses_active }} h4" href="/Expenses"> Dodaj wydatek </a>
+                                <a class="nav-link {{ expenses_active }} h4" href="/add-expense"> Dodaj wydatek </a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link {{ balances_active }} h4" href="/Balances"> Przeglądaj bilans </a>
+                                <a class="nav-link {{ balances_active }} h4" href="/show-balance"> Przeglądaj bilans </a>
                             </li>
                         </ul>
-                        <form class="form-inline" action="/logout">
+                        <form class="form-inline" action="/log-out-user">
                             <div class="btn-group">
                             {% block balance_calendar%} {% endblock %}
                                 <button class="btn btn-danger btn-sm px-2 my-1" type="submit">

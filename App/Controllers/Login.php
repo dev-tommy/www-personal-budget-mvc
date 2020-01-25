@@ -33,18 +33,33 @@ class Login extends \Core\Controller
 
     public function createAction()
     {
-        $user = User::authenticate($_POST['email'], $_POST['password']);
-        $remember_me = isset($_POST['remember_me']);
-        if ($user) {
-            Auth::login($user, $remember_me);
-            Flash::addMessage('Login successful');
-            $this->redirect(Auth::getReturnToPage());
+        if (isset($_POST['email']))
+        {
+            $email = $_POST['email'];
+        }
+        else
+        {
+            $email="";
+        }
+
+        if (isset($_POST['password'])) {
+            $password = $_POST['password'];
         } else {
-            Flash::addMessage('Login unsuccessful');
-            View::renderTemplate('Login/new.html', [
-                'email' => $_POST['email'],
-                'remember_me' => $remember_me
-            ]);
+            $password = "";
+        }
+        $user = User::authenticate($email, $password);
+        if ($user) {
+            Auth::login($user, false);
+            $this->redirect('/add-income');
+            //$this->redirect(Auth::getReturnToPage());
+        } else {
+            View::renderTemplate('Signup/new.html', [
+                'oldEmailValue' => $email,
+                'alertshow' => 'true',
+                'alertmessage' => 'Niepoprawny email lub hasło!',
+                'isLoginValid' => 'is-invalid',
+                'redNavbarToggler' => 'navbar-toggler-bg-red'
+             ]);
         }
     }
 

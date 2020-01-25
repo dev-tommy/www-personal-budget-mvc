@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% set expenses_active = 'active' %}
 
 {% block title %}Dodaj wydatek{% endblock %}
 
@@ -13,7 +14,7 @@
                     <h4>Wydatek dodano poprawnie.</h4>
                 </div>
                 <div class="card-footer bg-info text-white ">
-                    <form action="/Expenses">
+                    <form action="/add-expense">
                         <div class="col-md-12 text-center">
                             <div class="btn-group">
                                 <button class="btn btn-success btn-sm px-2" type="submit">

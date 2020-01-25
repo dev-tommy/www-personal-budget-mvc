@@ -34,7 +34,34 @@
                         ]);
 
                 // Optional; add a title and set the width and height of the chart
-                var options = { 'title': 'Bilans wydatków', 'width': '1000', 'height': '1000' };
+                var options = {
+                    title: 'Bilans wydatków:',
+                    width: $(window).width() * 0.9,
+                    height: $(window).width() * 0.7,
+                    is3D: true,
+                    pieStartAngle: 45,
+                    chartArea: {
+                        left: '15%',
+                        top: 30,
+                        width: '80%',
+                        height: '70%'
+                        },
+                    titleTextStyle: {
+                        color: 'darkblue',
+                        fontName: 'Lobster',
+                        fontSize: '26',
+                        bold: 'false',
+                        italic: 'true'
+                        },
+                    legend: {
+                        position: 'left',
+                        alignment: 'center',
+                        textStyle: {
+                            color: 'blue',
+                            fontSize: '20%'
+                        },
+                    }
+                    };
 
                 // Display the chart inside the <div> element with id="piechart"
                 var chart = new google.visualization.PieChart(document.getElementById('piechart'));
@@ -52,7 +79,7 @@
             </div>
         </div>
     </div>
-    <div class="row my-4">
+    <div class="row mt-4">
         <div class="col-md-6 col-12 text-center">
             <div class="card shadow-lg mb-5 bg-white rounded">
                 <div class="card-header bg-info card-topic text-center"> Przychody </div>
@@ -125,9 +152,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-4 text-center" id="piechart">
-        </div>
-
+        <div class="mt-3" id="piechart"></div>
     </div>
 </div>
 {% endblock %}
