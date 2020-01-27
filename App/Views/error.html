@@ -2,8 +2,8 @@
 
 {% block title %}Development error{% endblock %}
 
-{% block body %}
-
+{% block main %}
+    <br /><br />
     <h1>Development error</h1>
     <p>Uncaught exception: {{ className }}</p>
     <p>Message: {{ message }}</p>
@@ -11,5 +11,5 @@
         <pre>{{ stackTrace }}</pre>
     </p>
     <p>Thrown in {{ fileName }} on line {{ lineNumber }}</p>
-
+    <br /><br />
 {% endblock %}

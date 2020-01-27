@@ -1,0 +1,52 @@
+<div class="modal fade" id="periodSelectionWindow" tabindex="0" role="dialog">
+    <div class="modal-dialog  modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="periodSelectionWindowTitle">Wybierz przediał czasu:</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true" class="text-danger">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <button type="button" class="btn btn-primary btn-lg btn-block" data-dismiss="modal"
+                    onclick="setPeriod('currentMonth')">Bieżący miesiąc</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block" data-dismiss="modal"
+                    onclick="setPeriod('previousMonth')">Poprzedni
+                    miesiąc</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block" data-dismiss="modal"
+                    onclick="setPeriod('currentYear')">Bieżący rok</button>
+                <div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text my-2">Od: </div>
+                        </div>
+                        <input type="date" id="fromDateBalance" class="form-control my-2 {{ isValid.fromDate }}"
+                            onclick="enableButton()" name="date" min="2000-01-01" required
+                            {% if default_date == 'true' %} value="{{ current_fromDate }}" {% else %}
+                            value="{{ oldValues.fromDate }}" {% endif %}>
+                        <div class="invalid-feedback">
+                            {{ warnings.fromDate }}
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text ">Do: </div>
+                        </div>
+                        <input type="date" id="toDateBalance" class="form-control {{ isValid.toDate }}"
+                            onclick="enableButton()" name="date" min="2000-01-01" required
+                            {% if default_date == 'true' %} value="{{ current_toDate }}" {% else %}
+                            value="{{ oldValues.toDate }}" {% endif %}>
+                        <div class="invalid-feedback">
+                            {{ warnings.toDate }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Anuluj</button>
+                <button type="submit" id="setBalanceDates" class="btn btn-success" data-dismiss="modal"
+                    onclick="showBalance('fromDateBalance', 'toDateBalance')">Ustaw</button>
+            </div>
+        </div>
+    </div>
+</div>
