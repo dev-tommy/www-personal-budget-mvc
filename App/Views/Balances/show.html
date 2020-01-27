@@ -19,93 +19,93 @@
     {% include '/Balances/googlePieChart.html' %}
 {% endblock %}
 
-{% block main %}
-<div class="container move-under-navbar">
-    <div class="row">
-        <div class="col-md-10 offset-md-1 text-center ">
-            <div id="periodBalanceCaption" class="card shadow p-2 sentence-period font-italic font-weight-light">
-                {{ periodBalanceMsg }}
-            </div>
-        </div>
-    </div>
-    <div class="row mt-4">
-        <div class="col-md-6 col-12 text-center">
-            <div class="card shadow-lg mb-5 bg-white rounded">
-                <div class="card-header bg-info card-topic text-center"> Przychody </div>
-                <div class="card-body">
-                    <table class="table table-bordered">
-                        <thead class="bg-success text-light">
-                            <tr>
-                                <th scope="col" class="text-left">Kategoria</th>
-                                <th scope="col" class="text-right">Kwota [zł]</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for income in incomes %}
-                            <tr>
-                                <th scope="row" class="text-left">{{ income.Category }}</th>
-                                <td class="text-right">{{ income.Sum_of_amounts }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                        <tfoot>
-                            <tr class="table-success">
-                                <th scope="row" class="text-left">Razem:</th>
-                                <td id="sum-of-incomes" class="text-right font-weight-bold text-warning bg-dark h4">
-                                    {{ totalIncomesAmount }}
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-12 text-center">
-            <div class="card shadow-lg mb-5 bg-white rounded">
-                <div class="card-header bg-info card-topic text-center"> Wydatki </div>
-                <div class="card-body">
-                    <table class="table table-bordered">
-                        <thead class="bg-danger text-light">
-                            <tr>
-                                <th scope="col" class="text-left">Kategoria</th>
-                                <th scope="col" class="text-right">Kwota [zł]</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for expense in expenses %}
-                            <tr>
-                                <th scope="row" class="text-left">{{ expense.Category }}</th>
-                                <td class="text-right">{{ expense.Sum_of_amounts }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                        <tfoot>
-                            <tr class="table-success">
-                                <th scope="row" class="text-left">Razem:</th>
-                                <td id="sum-of-expenses" class="text-right font-weight-bold text-warning bg-dark h4">
-                                   {{ totalExpensesAmount }}
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12 text-center">
-            <div>
-                <h3 id="balance"> Twój bilans: </h3>
-                <div class="h5" id="balanceComment"> </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="mt-3" id="piechart"></div>
-    </div>
-</div>
-{% endblock %}
-
 {% block modal %}
     {% include 'Balances/modal.html' %}
+{% endblock %}
+
+{% block main %}
+    <div class="container move-under-navbar">
+        <div class="row">
+            <div class="col-md-10 offset-md-1 text-center ">
+                <div id="periodBalanceCaption" class="card shadow p-2 sentence-period font-italic font-weight-light">
+                    {{ periodBalanceMsg }}
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-6 col-12 text-center">
+                <div class="card shadow-lg mb-5 bg-white rounded">
+                    <div class="card-header bg-info card-topic text-center"> Przychody </div>
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead class="bg-success text-light">
+                                <tr>
+                                    <th scope="col" class="text-left">Kategoria</th>
+                                    <th scope="col" class="text-right">Kwota [zł]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for income in incomes %}
+                                <tr>
+                                    <th scope="row" class="text-left">{{ income.Category }}</th>
+                                    <td class="text-right">{{ income.Sum_of_amounts }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr class="table-success">
+                                    <th scope="row" class="text-left">Razem:</th>
+                                    <td id="sum-of-incomes" class="text-right font-weight-bold text-warning bg-dark h4">
+                                        {{ totalIncomesAmount }}
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-12 text-center">
+                <div class="card shadow-lg mb-5 bg-white rounded">
+                    <div class="card-header bg-info card-topic text-center"> Wydatki </div>
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead class="bg-danger text-light">
+                                <tr>
+                                    <th scope="col" class="text-left">Kategoria</th>
+                                    <th scope="col" class="text-right">Kwota [zł]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for expense in expenses %}
+                                <tr>
+                                    <th scope="row" class="text-left">{{ expense.Category }}</th>
+                                    <td class="text-right">{{ expense.Sum_of_amounts }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr class="table-success">
+                                    <th scope="row" class="text-left">Razem:</th>
+                                    <td id="sum-of-expenses" class="text-right font-weight-bold text-warning bg-dark h4">
+                                    {{ totalExpensesAmount }}
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-center">
+                <div>
+                    <h3 id="balance"> Twój bilans: </h3>
+                    <div class="h5" id="balanceComment"> </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="mt-3" id="piechart"></div>
+        </div>
+    </div>
 {% endblock %}
