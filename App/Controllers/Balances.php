@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Date;
 use \Core\View;
 use \App\Models\Balance;
 
@@ -16,13 +17,92 @@ use \App\Models\Balance;
 
 class Balances extends Authenticated
 {
-    public $months = array('styczeń', 'luty', 'marzec', 'kwiecień', 'maj', 'czerwiec', 'lipiec', 'sierpień', 'wrzesień', 'październik', 'listopad', 'grudzień');
+    private function showTemplate($startDate, $endDate, $msg, $alertMsg=null)
+    {
+        $a['periodBalanceMsg'] = $msg;
+        $a['incomes'] = Balance::getIncomes($startDate, $endDate);
+        $a['expenses'] = Balance::getExpenses($startDate, $endDate);
+        $a['totalIncomesAmount'] = $this->calcSum($a['incomes']);
+        $a['totalExpensesAmount'] = $this->calcSum($a['expenses']);
+        $a['default_date'] = 'true';
+        $a['current_fromDate'] = Date::getFirstDayOfCurrentMonth();
+        $a['current_toDate'] = Date::getTodayDate();
+        $a['chartElements'] = $this->getChartElements($a['expenses']);
+
+        if (!empty($alertMsg)) {
+            $a['alertshow'] = 'true';
+            $a['alertmessage'] = $alertMsg;
+        }
+
+        View::renderTemplate('Balances/show.html', $a);
+    }
+
+    public function showForPeriodAction()
+    {
+        $alert = '';
+        if (!isset($_GET["startDate"])) {
+            $_GET["startDate"] = Date::getFirstDayOfCurrentMonth();
+        }
+        if (!isset($_GET["endDate"])) {
+            $_GET["endDate"] = Date::getLastDayOfCurrentMonth();
+        }
+
+        $startDate = strtotime($_GET["startDate"]);
+        if ($startDate > Date::rawDate(Date::getLastDayOfCurrentMonth())) {
+            $startDate = Date::rawDate(Date::getLastDayOfCurrentMonth());
+            $alert = "Data początkowa była późniejsza od ostatniego dnia bieżącego miesiąca! Skorygowano!";
+        }
+
+        $endDate = strtotime($_GET["endDate"]);
+        if ($endDate > Date::rawDate(Date::getLastDayOfCurrentMonth())) {
+            $endDate = Date::rawDate(Date::getLastDayOfCurrentMonth());
+            $alert = "Data końcowa była późniejsza od ostatniego dnia bieżącego miesiąca! Skorygowano!";
+        }
+
+        if ($startDate > $endDate) {
+            $startDate = $endDate;
+            $alert = "Data początkowa była późniejsza od końcowej! Skorygowano!";
+        }
+
+        $startDate = Date::convertDate($startDate);
+        $endDate = Date::convertDate($endDate);
+        $msg = "Bilans za okres:\n od " . $startDate . " do " . $endDate;
+
+        $this->showTemplate($startDate, $endDate, $msg, $alert);
+    }
+
+    public function showPreviousMonthAction()
+    {
+        $msg =  'Bilans z poprzedniego miesiąca [' . Date::getPreviousMonthName() . ']:';
+        $startDate = Date::getFirstDayOfPreviousMonth();
+        $endDate = Date::getLastDayOfPreviousMonth();
+
+        $this->showTemplate($startDate, $endDate, $msg);
+    }
+
+    public function showCurrentMonthAction()
+    {
+        $msg =  'Bilans z bieżącego miesiąca [' . Date::getCurrentMonthName() . ']:';
+        $startDate = Date::getFirstDayOfCurrentMonth();
+        $endDate = Date::getLastDayOfCurrentMonth();
+
+        $this->showTemplate($startDate, $endDate, $msg);
+    }
+
+    public function showCurrentYearAction()
+    {
+        $msg =  'Bilans z bieżącego roku [' . Date::getCurrentYear() . ']:';
+        $startDate = Date::getFirstDayOfCurrentYear();
+        $endDate = Date::getLastDayOfCurrentMonth();
+
+        $this->showTemplate($startDate, $endDate, $msg);
+    }
 
     private function calcSum($sqlArray)
     {
         $sum = 0.0;
         foreach ($sqlArray as $values) {
-           $sum += floatval($values['Sum_of_amounts']);
+            $sum += floatval($values['Sum_of_amounts']);
         }
         return $sum;
     }
@@ -34,136 +114,5 @@ class Balances extends Authenticated
             $chartElements[$expense['Category']] = $expense['Sum_of_amounts'];
         }
         return $chartElements;
-    }
-
-    public function showForPeriodAction()
-    {
-        $alertShow = 'false';
-        $alert = '';
-        $firstDayOfCurrentMonth = strtotime(date("Y-m") . "-01");
-        $lastDayOfCurrentMonth = strtotime("+1 month, -1 day", $firstDayOfCurrentMonth);
-
-        if (!isset($_GET["startDate"])) {
-            $_GET["startDate"] = date("Y-m-d", $firstDayOfCurrentMonth);
-        }
-        if (!isset($_GET["endDate"])) {
-
-            $_GET["endDate"] = date("Y-m-d", $lastDayOfCurrentMonth);
-        }
-
-        $startDate = strtotime($_GET["startDate"]);
-        if ($startDate > $lastDayOfCurrentMonth) {
-            $startDate = $lastDayOfCurrentMonth;
-            $alertShow = 'true';
-            $alert = "Data początkowa była późniejsza od dzisiejszej! Skorygowano!";
-        }
-
-        $endDate = strtotime($_GET["endDate"]);
-        if ($endDate > $lastDayOfCurrentMonth) {
-            $endDate = $lastDayOfCurrentMonth;
-            $alertShow = 'true';
-            $alert = "Data końcowa była późniejsza od dzisiejszej! Skorygowano!";
-        }
-
-        if ($startDate > $endDate) {
-            $startDate = $endDate;
-            $alertShow = 'true';
-            $alert = "Data początkowa była późniejsza od końcowej! Skorygowano!";
-        }
-
-        $startDate = date("Y-m-d", $startDate);
-        $endDate = date("Y-m-d", $endDate);
-        $msg = "Bilans za okres:\n od " . $startDate . " do " . $endDate;
-
-        $incomes = Balance::getIncomes($startDate, $endDate);
-        $expenses = Balance::getExpenses($startDate, $endDate);
-        View::renderTemplate('Balances/show.html', [
-            'incomes' => $incomes,
-            'expenses' => $expenses,
-            'periodBalanceMsg' => $msg,
-            'totalIncomesAmount' => $this->calcSum($incomes),
-            'totalExpensesAmount' => $this->calcSum($expenses),
-            'default_date' => 'true',
-            'current_fromDate' => date("Y-m")."-01",
-            'current_toDate' => date("Y-m-d"),
-            'alertshow' => $alertShow,
-            'alertmessage' => $alert,
-            'chartElements' => $this->getChartElements($expenses)
-        ]);
-    }
-
-    public function showPreviousMonthAction()
-    {
-        $startDate = strtotime(date("Y-m") . "-01");
-        $startDate = strtotime("-1 month", $startDate);
-        $endDate = strtotime("+1 month, -1 day", $startDate);
-        $previousMonthName =  $this->months[date("m", $startDate) - 1];
-
-        $startDate = date("Y-m-d", $startDate);
-        $endDate = date("Y-m-d", $endDate);
-        $msg = 'Bilans z poprzedniego miesiąca [' . $previousMonthName . ']:';
-
-        $incomes = Balance::getIncomes($startDate, $endDate);
-        $expenses = Balance::getExpenses($startDate, $endDate);
-        View::renderTemplate('Balances/show.html', [
-            'incomes' => $incomes,
-            'expenses' => $expenses,
-            'periodBalanceMsg' => $msg,
-            'totalIncomesAmount' => $this->calcSum($incomes),
-            'totalExpensesAmount' => $this->calcSum($expenses),
-            'default_date' => 'true',
-            'current_fromDate' => date("Y-m") . "-01",
-            'current_toDate' => date("Y-m-d"),
-            'chartElements' => $this->getChartElements($expenses)
-        ]);
-    }
-
-    public function showCurrentMonthAction()
-    {
-        $startDate = strtotime(date("Y-m") . "-01");
-        $endDate = strtotime("+1 month, -1 day", $startDate);
-        $currentMonthName =  $this->months[date("m") - 1];
-
-        $startDate = date("Y-m-d", $startDate);
-        $endDate = date("Y-m-d", $endDate);
-        $msg = 'Bilans z bieżącego miesiąca [' . $currentMonthName . ']:';
-
-        $incomes = Balance::getIncomes($startDate, $endDate);
-        $expenses = Balance::getExpenses($startDate, $endDate);
-        View::renderTemplate('Balances/show.html', [
-            'incomes' => $incomes,
-            'expenses' => $expenses,
-            'periodBalanceMsg' => $msg,
-            'totalIncomesAmount' => $this->calcSum($incomes),
-            'totalExpensesAmount' => $this->calcSum($expenses),
-            'default_date' => 'true',
-            'current_fromDate' => date("Y-m") . "-01",
-            'current_toDate' => date("Y-m-d"),
-            'chartElements' => $this->getChartElements($expenses)
-        ]);
-    }
-
-    public function showCurrentYearAction()
-    {
-        $startDate = strtotime(date("Y") . "-01-01");
-        $endDate = strtotime(date("Y-m-d"));
-
-        $startDate = date("Y-m-d", $startDate);
-        $endDate = date("Y-m-d", $endDate);
-        $msg = 'Bilans z bieżącego roku [' . date("Y") . ']:';
-
-        $incomes = Balance::getIncomes($startDate, $endDate);
-        $expenses = Balance::getExpenses($startDate, $endDate);
-        View::renderTemplate('Balances/show.html', [
-            'incomes' => $incomes,
-            'expenses' => $expenses,
-            'periodBalanceMsg' => $msg,
-            'totalIncomesAmount' => $this->calcSum($incomes),
-            'totalExpensesAmount' => $this->calcSum($expenses),
-            'default_date' => 'true',
-            'current_fromDate' => date("Y-m") . "-01",
-            'current_toDate' => date("Y-m-d"),
-            'chartElements' => $this->getChartElements($expenses)
-        ]);
     }
 }
