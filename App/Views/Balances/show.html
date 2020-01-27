@@ -1,8 +1,15 @@
 {% extends "base.html" %}
 {% set balances_active = 'active' %}
 
-{% block title %} Pokaż blians {% endblock %}
-{% block body_onload %} onload="calculateBalance(); drawChart();" {% endblock %}
+{% block title %}
+    Pokaż blians
+{% endblock %}
+
+{% block body_onload %}
+    onload="calculateBalance();
+    drawChart();"
+{% endblock %}
+
 {% block balance_calendar%}
     <button class="btn btn-primary btn-sm px-2 my-1" data-toggle="modal" data-target="#periodSelectionWindow" type="button">
         <i class="material-icons">calendar_today</i>
