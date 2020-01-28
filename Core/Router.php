@@ -1,15 +1,6 @@
 <?php
 
 namespace Core;
-/**
- * Router v0.1
- *
- * PHP version 7.3
- *
- * Created with course PHP MVC framework by author Dave Hollingworth
- * e-mail: tomasz.frydrychowicz.programista@gmail.com
- */
-
  class Router
  {
     protected $routes = [];

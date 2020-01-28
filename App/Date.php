@@ -2,28 +2,9 @@
 
 namespace App;
 
-/**
- * Date
- *
- * PHP version 7.3
-
- * e-mail: tomasz.frydrychowicz.programista@gmail.com
- */
-
 class Date
 {
-    protected $rawDate;
-
     public static $months = array('styczeń', 'luty', 'marzec', 'kwiecień', 'maj', 'czerwiec', 'lipiec', 'sierpień', 'wrzesień', 'październik', 'listopad', 'grudzień');
-
-    public function __construct($date_value = null)
-    {
-        if ($date_value) {
-            $this->rawDate = $date_value;
-        } else {
-            $this->rawDate = strtotime("today");;
-        }
-    }
 
     public static function rawDate($convertedDate)
     {
@@ -33,11 +14,6 @@ class Date
     public static function convertDate($rawDate)
     {
         return date("Y-m-d", $rawDate);
-    }
-
-    public function getDate()
-    {
-        return Date::convertDate($this->rawDate);
     }
 
     public static function getTodayDate()
@@ -84,10 +60,4 @@ class Date
     {
         return Date::convertDate(strtotime(date("Y") . "-01-01"));
     }
-
-
-
-
-
-
 }

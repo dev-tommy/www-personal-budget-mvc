@@ -2,14 +2,6 @@
 
 namespace Core;
 
-/**
- * Logger
- *
- * PHP version 7.3
- *
- * e-mail: tomasz.frydrychowicz.programista@gmail.com
- */
-
 class Log
 {
     public static function addException($exception)

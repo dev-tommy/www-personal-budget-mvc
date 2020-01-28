@@ -3,14 +3,6 @@
 namespace Core;
 
 use Core\Log;
-/**
- * Base model
- *
- * PHP version 7.3
- *
- * Created with course PHP MVC framework by author Dave Hollingworth
- * e-mail: tomasz.frydrychowicz.programista@gmail.com
- */
 
 class Error
 {

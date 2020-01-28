@@ -6,14 +6,6 @@ use App\Date;
 use \Core\View;
 use \App\Models\Balance;
 
-/**
- * Incomes controller v0.1
- *
- * PHP version 7.3
- *
- * e-mail: tomasz.frydrychowicz.programista@gmail.com
- */
-
 class Balances extends Authenticated
 {
     private function showTemplate($startDate, $endDate, $msg, $alertMsg=null)
