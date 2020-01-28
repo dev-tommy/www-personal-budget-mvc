@@ -2,15 +2,6 @@
 
 namespace App;
 
-/**
- * App configuration
- *
- * PHP version 7.3
- *
- * Created with course PHP MVC framework by author Dave Hollingworth
- * e-mail: tomasz.frydrychowicz.programista@gmail.com
- */
-
 class Config
 {
     //database config
