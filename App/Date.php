@@ -2,14 +2,6 @@
 
 namespace App;
 
-/**
- * Date
- *
- * PHP version 7.3
-
- * e-mail: tomasz.frydrychowicz.programista@gmail.com
- */
-
 class Date
 {
     protected $rawDate;

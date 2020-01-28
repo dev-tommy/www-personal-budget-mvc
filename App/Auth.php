@@ -5,15 +5,6 @@ namespace App;
 use App\Models\RememberedLogin;
 use App\Models\User;
 
-/**
- * App authentication
- *
- * PHP version 7.3
- *
- * Created with course PHP MVC framework by author Dave Hollingworth
- * e-mail: tomasz.frydrychowicz.programista@gmail.com
- */
-
 class Auth
 {
     public static function login($user, $remember_me)

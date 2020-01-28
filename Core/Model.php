@@ -6,15 +6,6 @@ use App\Config;
 use PDO;
 use PDOException;
 
-/**
- * Base model
- *
- * PHP version 7.3
- *
- * Created with course PHP MVC framework by author Dave Hollingworth
- * e-mail: tomasz.frydrychowicz.programista@gmail.com
- */
-
 abstract class Model
 {
     protected static function getDB()

@@ -2,15 +2,6 @@
 
 namespace Core;
 
-/**
-* View
-*
-* PHP version 7.3
-*
-* Created with course PHP MVC framework by author Dave Hollingworth
-* e-mail: tomasz.frydrychowicz.programista@gmail.com
-*/
-
 class View
 {
     public static function render($view, $args = [])
@@ -35,8 +26,8 @@ class View
             $twig = new \Twig\Environment($loader);
             $twig->addGlobal('is_logged_in', \App\Auth::isLoggedIn());
             $twig->addGlobal('current_user', \App\Auth::getUser());
-            $twig->addGlobal('flash_messages', \App\Flash::getMessage());
-            $twig->addGlobal('current_year', date("Y"));
+            //$twig->addGlobal('flash_messages', \App\Flash::getMessage());
+            //$twig->addGlobal('current_year', date("Y"));
         }
 
         echo $twig->render($template, $args);
