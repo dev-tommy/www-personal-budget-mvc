@@ -56,7 +56,7 @@
                         {% block balance_calendar%} {% endblock %}
                         <form class="form-inline" action="/show-settings">
                             <div class="btn-group mx-2">
-                                <button class="btn btn-secondary btn-sm px-2 my-1" type="submit">
+                                <button class="btn btn-secondary btn-sm px-2 my-1 {{ settings_active }}" aria-pressed="true" type="submit">
                                     <i class="material-icons">settings</i>
                                 </button>
                                 <button class="btn btn-warning btn-sm pl-0 my-1" type="submit">
