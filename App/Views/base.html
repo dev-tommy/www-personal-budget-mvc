@@ -52,9 +52,20 @@
                                 <a class="nav-link {{ balances_active }} h4" href="/show-balance"> Przeglądaj bilans </a>
                             </li>
                         </ul>
+
+                        {% block balance_calendar%} {% endblock %}
+                        <form class="form-inline" action="/settings">
+                            <div class="btn-group mx-2">
+                                <button class="btn btn-secondary btn-sm px-2 my-1" type="submit">
+                                    <i class="material-icons">settings</i>
+                                </button>
+                                <button class="btn btn-warning btn-sm pl-0 my-1" type="submit">
+                                    <span class="text-button"> Ustawienia </span>
+                                </button>
+                            </div>
+                        </form>
                         <form class="form-inline" action="/log-out-user">
-                            <div class="btn-group">
-                            {% block balance_calendar%} {% endblock %}
+                            <div class="btn-group mx-2">
                                 <button class="btn btn-danger btn-sm px-2 my-1" type="submit">
                                     <i class="material-icons">exit_to_app</i>
                                 </button>
