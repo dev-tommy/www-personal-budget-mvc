@@ -3,113 +3,33 @@
 
 {% block title %}Ustawienia{% endblock %}
 
+{% block modal %}
+    {% include 'Settings/income_modal.html' %}
+{% endblock %}
+
 {% block main %}
 <div class="container move-under-navbar">
     <div class="row">
         <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
-            <form action="/save-income" method="POST">
-                <div class="card shadow-lg mb-5 bg-white rounded">
-                    <div class="card-header bg-info card-topic text-center"> Ustawienia </div>
-                    <div class="card-body">
-
-                        <div>
-                            
-                        </div>
-
-                        <!--
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="material-icons">attach_money</i>
-                                </span>
-                            </div>
-                            <input name="amount" {# type="number" required #} class="form-control {{ isValid.amount }}"
-                                placeholder="Kwota" step="0.01" value="{{ oldValues.amount }}">
-                            <div class="invalid-feedback">
-                                {{ warnings.amount }}
-                            </div>
-                        </div>
-
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="material-icons">calendar_today</i>
-                                </span>
-                            </div>
-                            <input name="date" type="date" id="defaultToday" class="form-control {{ isValid.date }}"
-                                min="2000-01-01" {% if default_date == 'true' %} value="{{ current_date }}" {% else %}
-                                value="{{ oldValues.date }}" {% endif %}>
-                            <div class="invalid-feedback">
-                                {{ warnings.date }}
-                            </div>
-                        </div>
-
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="material-icons">shop</i>
-                                </span>
-                            </div>
-                            <select id="category" name="category" class="form-control {{ isValid.category }}"
-                                {# required #}>
-                                <option disabled value="" selected>Wybierz kategorię</option>
-                                {% for income in incomes %}
-                                <option value={{ income.id }}>{{ income.name }}</option>
-                                {% endfor %}
-                            </select>
-                            <script>
-                                document.getElementById("category").selectedIndex = "{{ oldValues.category }}";
-                            </script>
-                            <div class="invalid-feedback">
-                                {{ warnings.category }}
-                            </div>
-                        </div>
-
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="material-icons">comment</i>
-                                </span>
-                            </div>
-                            <textarea class="form-control {{ isValid.comment }} maxlength=180" name="comment" rows=4
-                                cols=45 placeholder="Komentarz (opcjonalnie):">{{ oldValues.comment }}</textarea>
-                            <div class="invalid-feedback">
-                                {{ warnings.comment }}
-                            </div>
-                        </div>
-                        -->
-
-
-                    </div>
-
-
-
-                    <div class="card-footer bg-info text-white">
-                        <div class="row">
-                            <div class="col-md-12 text-center">
-                                <div class="btn-group mr-5">
-                                    <button class="btn btn-success btn-sm px-2" name="button_submit" type="submit">
-                                        <i class="material-icons">add_circle</i>
-                                    </button>
-                                    <button class="btn btn-warning btn-sm pl-0 text-button" name="button_submit"
-                                        type="submit">
-                                        Dodaj
-                                    </button>
-                                </div>
-                                <div class="btn-group ml-5">
-                                    <button class="btn btn-danger btn-sm px-2" name="button_reset" type="submit">
-                                        <i class="material-icons">cancel</i>
-                                    </button>
-                                    <button class="btn btn-warning btn-sm pl-0 text-button" name="button_reset"
-                                        type="submit">
-                                        Wyczyść
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+            <div class="card shadow-lg mb-5 bg-white rounded">
+                <div class="card-header bg-info card-topic text-center"> Ustawienia </div>
+                <div class="card-body">
+                    <div class="input-group mb-3">
+                        <button class="btn btn-success btn-block" data-toggle="modal" data-target="#incomeSettings" type="button">
+                            <span class="text-button"> Przychody </span>
+                        </button>
+                        <button class="btn btn-danger btn-block" data-toggle="modal" data-target="#periodSelectionWindow" type="button">
+                            <span class="text-button"> Wydatki </span>
+                        </button>
+                        <button class="btn btn-primary btn-block mt-5" data-toggle="modal" data-target="#periodSelectionWindow" type="button">
+                            <span class="text-button"> Użytkownik </span>
+                        </button>
                     </div>
                 </div>
-            </form>
+                <div class="card-footer bg-info text-white">
+
+                </div>
+            </div>
         </div>
     </div>
 </div>
