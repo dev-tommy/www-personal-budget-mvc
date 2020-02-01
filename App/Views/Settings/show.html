@@ -5,6 +5,7 @@
 
 {% block modal %}
     {% include 'Settings/income_modal.html' %}
+    {% include 'Settings/expense_modal.html' %}
 {% endblock %}
 
 {% block main %}
@@ -16,12 +17,12 @@
                 <div class="card-body">
                     <div class="input-group mb-3">
                         <button class="btn btn-success btn-block" data-toggle="modal" data-target="#incomeSettings" type="button">
-                            <span class="text-button"> Przychody </span>
+                            <span class="text-button"> Przychód </span>
                         </button>
-                        <button class="btn btn-danger btn-block" data-toggle="modal" data-target="#periodSelectionWindow" type="button">
-                            <span class="text-button"> Wydatki </span>
+                        <button class="btn btn-danger btn-block" data-toggle="modal" data-target="#expenseSettings" type="button">
+                            <span class="text-button"> Wydatek </span>
                         </button>
-                        <button class="btn btn-primary btn-block mt-5" data-toggle="modal" data-target="#periodSelectionWindow" type="button">
+                        <button class="btn btn-primary btn-block mt-5" data-toggle="modal" data-target="#userSettings" type="button">
                             <span class="text-button"> Użytkownik </span>
                         </button>
                     </div>
