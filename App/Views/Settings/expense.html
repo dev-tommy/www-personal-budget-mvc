@@ -1,0 +1,39 @@
+<div class="card-header text-center bg-danger">
+    <button class="btn btn-danger btn-block" data-toggle="collapse" data-target="#expenseSettings" type="button">
+        <span class="text-button"> Wydatek </span>
+    </button>
+</div>
+<div id="expenseSettings" class="collapse" data-parent="#settings">
+    <div class="card-body">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control form-control-lg" placeholder="Dodaj nową kategorię wydatku"
+                aria-label="Add new expense category" aria-describedby="">
+            <div class="input-group-append">
+                <button class="btn btn-outline-success" type="button">
+                    <i class="material-icons">playlist_add</i>
+                </button>
+            </div>
+        </div>
+        <label for="editExpenseCategory">Edytuj wybraną kategorię</label>
+        <div class="input-group mb-3">
+            <select class="form-control form-control-lg" id="editExpenseCategory">
+                <option>1 (Limit: 500zł)</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+
+            <div class="input-group-append">
+                <button class="btn btn-outline-info" type="button">
+                    <i class="material-icons">edit</i>
+                </button>
+            </div>
+            <div class="input-group-append">
+                <button class="btn btn-outline-danger" type="button">
+                    <i class="material-icons">remove_circle</i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
