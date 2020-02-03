@@ -4,14 +4,162 @@
 {% block title %}Ustawienia{% endblock %}
 
 {% block modal %}
-    {% include 'Settings/incomeModal.html' %}
-    {% include 'Settings/expenseModal.html' %}
+    {% include 'Settings/askModal.html' %}
 {% endblock %}
 
 {% block main %}
 <div class="container move-under-navbar">
     <div class="row">
         <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+            <div class="card shadow-lg mb-5 bg-white rounded">
+                <div class="card-header bg-info card-topic text-center"> Ustawienia </div>
+                <div class="card-body">
+                    <div id="settings">
+                        <div class="card mb-3">
+                            <div class="card-header text-center bg-success">
+                                <button class="btn btn-success btn-block" data-toggle="collapse" data-target="#incomeSettings" type="button">
+                                    <span class="text-button"> Przychód </span>
+                                </button>
+                            </div>
+                            <div id="incomeSettings" class="collapse" data-parent="#settings">
+                                <div class="card-body">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control form-control-lg" placeholder="Dodaj nową kategorię przychodu"
+                                            aria-label="Add new income category" aria-describedby="">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-success" type="button">
+                                                <i class="material-icons">playlist_add</i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <label for="editIncomeCategory">Edytuj wybraną kategorię</label>
+                                    <div class="input-group mb-3">
+                                        <select class="form-control form-control-lg" id="editIncomeCategory">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                        </select>
+
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-info" type="button">
+                                                <i class="material-icons">edit</i>
+                                            </button>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-danger" data-toggle="modal" data-target="#askSettings" type="button">
+                                                <i class="material-icons">remove_circle</i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-3">
+                            <div class="card-header text-center bg-danger">
+                                <button class="btn btn-danger btn-block" data-toggle="collapse" data-target="#expenseSettings" type="button">
+                                    <span class="text-button"> Wydatek </span>
+                                </button>
+                            </div>
+                            <div id="expenseSettings" class="collapse" data-parent="#settings">
+                                <div class="card-body">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control form-control-lg" placeholder="Dodaj nową kategorię wydatku"
+                                            aria-label="Add new expense category" aria-describedby="">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-success" type="button">
+                                                <i class="material-icons">playlist_add</i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <label for="editExpenseCategory">Edytuj wybraną kategorię</label>
+                                    <div class="input-group mb-3">
+                                        <select class="form-control form-control-lg" id="editExpenseCategory">
+                                            <option>1 (Limit: 500zł)</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                        </select>
+
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-info" type="button">
+                                                <i class="material-icons">edit</i>
+                                            </button>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-danger" type="button">
+                                                <i class="material-icons">remove_circle</i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-3">
+                            <div class="card-header text-center bg-primary">
+                                <button class="btn btn-primary btn-block" data-toggle="collapse" data-target="#userSettings" type="button">
+                                    <span class="text-button"> Użytkownik </span>
+                                </button>
+                            </div>
+                            <div id="userSettings" class="collapse" data-parent="#settings">
+                                <div class="card-body">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control form-control-lg" placeholder="Nazwa użytkownika"
+                                            aria-label="Recipient's username" aria-describedby="">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-info" type="button">
+                                                <i class="material-icons">edit</i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control form-control-lg" placeholder="Email" aria-label="Recipient's username"
+                                            aria-describedby="">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-info" type="button">
+                                                <i class="material-icons">edit</i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control form-control-lg" placeholder="Hasło" aria-label="Recipient's username"
+                                            aria-describedby="">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-info" type="button">
+                                                <i class="material-icons">edit</i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="btn-group ml-3 my-3 float-left">
+                                        <button class="btn btn-danger btn-sm px-2" name="button_reset" type="submit">
+                                            <i class="material-icons">cancel</i>
+                                        </button>
+                                        <button class="btn btn-warning btn-sm pl-0 text-button" name="button_reset" type="submit">
+                                            Usuń konto
+                                        </button>
+                                    </div>
+                                    <div class="btn-group mr-3 my-3 float-right">
+                                        <button class="btn btn-success btn-sm px-2" name="button_submit" type="submit">
+                                            <i class="material-icons">add_circle</i>
+                                        </button>
+                                        <button class="btn btn-warning btn-sm pl-0 text-button" name="button_submit" type="submit">
+                                            Dodaj
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-info text-white">
+
+                </div>
+            </div>
+
+            <!--
             <div class="card shadow-lg mb-5 bg-white rounded">
                 <div class="card-header bg-info card-topic text-center"> Ustawienia </div>
                 <div class="card-body">
@@ -31,6 +179,8 @@
 
                 </div>
             </div>
+            -->
+
         </div>
     </div>
 </div>
