@@ -1,6 +1,6 @@
 <div class="card-header text-center bg-success">
     <button class="btn btn-success btn-block" data-toggle="collapse" data-target="#incomeSettings" type="button">
-        <span class="text-button"> Przychód </span>
+        <span class="text-button"> Przychody </span>
     </button>
 </div>
 <div id="incomeSettings" class="collapse" data-parent="#settings">
@@ -17,11 +17,9 @@
         <label for="editIncomeCategory">Edytuj wybraną kategorię</label>
         <div class="input-group mb-3">
             <select class="form-control form-control-lg" id="editIncomeCategory">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+                {% for category in incomeCategories %}
+                    <option value={{ category.id }}>{{ category.name }}</option>
+                {% endfor %}
             </select>
 
             <div class="input-group-append">
