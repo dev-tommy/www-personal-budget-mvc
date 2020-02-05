@@ -119,7 +119,7 @@ class Expense extends \Core\Model
         $userId = $_SESSION['user_id'];
         try {
             $db = static::getDB();
-            $sql = "SELECT id, name FROM expenses_category_assigned_to_userid_$userId";
+            $sql = "SELECT id, name, expense_limit FROM expenses_category_assigned_to_userid_$userId";
             $stmt = $db->query($sql);
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $result;
