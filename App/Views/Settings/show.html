@@ -7,6 +7,25 @@
     {% include 'Settings/askModal.html' %}
 {% endblock %}
 
+{% block javascript %}
+    <script>
+        $(document).ready(function () {
+            $("#incomeCategoryRemove").click(function () {
+                $("#askModalBody").html($("#editIncomeCategory option:selected").text());
+                $("#askSettings").modal();
+            });
+            $("#expenseCategoryRemove").click(function () {
+                $("#askModalBody").html($("#editExpenseCategory option:selected").text());
+                $("#askSettings").modal();
+            });
+            $("#paymentMethodRemove").click(function () {
+                $("#askModalBody").html($("#editPaymentMethod option:selected").text());
+                $("#askSettings").modal();
+            });
+        });
+    </script>
+{% endblock %}
+
 {% block main %}
 <div class="container move-under-navbar">
     <div class="row">
