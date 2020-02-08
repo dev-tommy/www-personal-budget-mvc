@@ -8,14 +8,20 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="card">
-                    <div class="card-body"> Wynagrodzenie </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="material-icons">payment</i>
+                        </span>
+                    </div>
+                    <input type="text" class="form-control form-control-lg bg-light pl-auto" id="askModalBody" value="element"
+                        aria-label="Add new income category" aria-describedby="" disabled="disabled">
                 </div>
             </div>
             <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" data-dismiss="modal">Anuluj</button>
-                    <button type="submit" id="removeCategory" class="btn btn-danger" data-dismiss="modal"
-                        onclick="">Usuń</button>
+                <button type="submit" id="removeElement" class="btn btn-danger mr-auto ml-3" data-dismiss="modal" onclick="">Usuń</button>
+                <button type="button" class="btn btn-warning mr-3" data-dismiss="modal">Anuluj</button>
+
             </div>
         </div>
     </div>
