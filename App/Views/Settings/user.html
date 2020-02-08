@@ -6,35 +6,35 @@
 <div id="userSettings" class="collapse" data-parent="#settings">
     <div class="card-body">
         <div class="input-group mb-3">
-            <input type="text" class="form-control form-control-lg" placeholder="Nazwa użytkownika"
-                aria-label="Recipient's username" aria-describedby="">
+            <input type="text" class="form-control form-control-lg" placeholder="{{ user.username }}"
+                aria-label="Username" aria-describedby="">
             <div class="input-group-append">
                 <button class="btn btn-outline-info" type="button">
-                    <i class="material-icons">edit</i>
+                    <i class="material-icons">save</i>
                 </button>
             </div>
         </div>
         <div class="input-group mb-3">
-            <input type="text" class="form-control form-control-lg" placeholder="Email"
-                aria-label="Recipient's username" aria-describedby="">
+            <input type="text" class="form-control form-control-lg" placeholder="{{ user.email }}"
+                aria-label="Email" aria-describedby="">
             <div class="input-group-append">
                 <button class="btn btn-outline-info" type="button">
-                    <i class="material-icons">edit</i>
+                    <i class="material-icons">save</i>
                 </button>
             </div>
         </div>
         <div class="input-group mb-3">
             <input type="text" class="form-control form-control-lg" placeholder="Hasło"
-                aria-label="Recipient's username" aria-describedby="">
+                aria-label="Password" aria-describedby="">
             <div class="input-group-append">
                 <button class="btn btn-outline-info" type="button">
-                    <i class="material-icons">edit</i>
+                    <i class="material-icons">save</i>
                 </button>
             </div>
         </div>
         <div class="btn-group ml-3 my-3 float-left">
             <button class="btn btn-danger btn-sm px-2" name="button_reset" type="submit">
-                <i class="material-icons">cancel</i>
+                <i class="material-icons">warning</i>
             </button>
             <button class="btn btn-warning btn-sm pl-0 text-button" name="button_reset" type="submit">
                 Usuń konto
@@ -42,10 +42,10 @@
         </div>
         <div class="btn-group mr-3 my-3 float-right">
             <button class="btn btn-success btn-sm px-2" name="button_submit" type="submit">
-                <i class="material-icons">add_circle</i>
+                <i class="material-icons">save</i>
             </button>
             <button class="btn btn-warning btn-sm pl-0 text-button" name="button_submit" type="submit">
-                Dodaj
+                Zapisz
             </button>
         </div>
 
