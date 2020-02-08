@@ -1,0 +1,47 @@
+<div class="card-header text-center bg-warning">
+    <button class="btn btn-warning btn-block" data-toggle="collapse" data-target="#paymentSettings" type="button">
+        <span class="text-button"> Rodzaje płatności </span>
+    </button>
+</div>
+<div id="paymentSettings" class="collapse" data-parent="#settings">
+    <div class="card-body">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="material-icons">payment</i>
+                </span>
+            </div>
+            <input type="text" class="form-control form-control-lg" placeholder="Dodaj nowy rodzaj płatności"
+                aria-label="Add new payment method" aria-describedby="">
+            <div class="input-group-append">
+                <button class="btn btn-outline-success" type="button">
+                    <i class="material-icons">playlist_add</i>
+                </button>
+            </div>
+        </div>
+        <label for="editPaymentMethod">Edytuj wybrany rodzaj płatności</label>
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="material-icons">payment</i>
+                </span>
+            </div>
+            <select class="form-control form-control-lg" id="paymentMethod">
+                {% for method in paymentMethods %}
+                <option value={{ method.id }}>{{ method.name }}</option>
+                {% endfor %}
+            </select>
+
+            <div class="input-group-append">
+                <button type="button" class="btn btn-outline-info" id="paymentMethodEdit">
+                    <i class="material-icons">edit</i>
+                </button>
+            </div>
+            <div class="input-group-append">
+                <button type="button" class="btn btn-outline-danger" id="paymentMethodRemove">
+                    <i class="material-icons">remove_circle</i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

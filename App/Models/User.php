@@ -32,7 +32,12 @@ class User extends \Core\Model
             $stmt->bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
             $stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
 
-            return $stmt->execute();
+            $isOk = $stmt->execute();
+            $this->id = 0;
+            if ($isOk) {
+                $isOk = $this->addNewUserTables($db->lastInsertId());
+            }
+            return $isOk;
         }
 
         return false;
@@ -110,6 +115,65 @@ class User extends \Core\Model
         $stmt->execute();
 
         return $stmt->fetch();
+    }
+
+    public function addNewUserTables($userId)
+    {
+        $db = static::getDB();
+        $isOk = true;
+
+        if (!$this->createIncomesTable($db, $userId)) $isOk = false;
+        if (!$this->cloneIncomesTable($db, $userId)) $isOk = false;
+
+        if (!$this->createExpensesTable($db, $userId)) $isOk = false;
+        if (!$this->cloneExpensesTable($db, $userId)) $isOk = false;
+
+        if (!$this->createPaymentTable($db, $userId)) $isOk = false;
+        if (!$this->clonePaymentTable($db, $userId)) $isOk = false;
+
+        return $isOk;
+    }
+
+    public function createIncomesTable($db, $userId)
+    {
+        $sqlCreateIncomesTable = "CREATE TABLE incomes_category_assigned_to_userid_$userId LIKE incomes_category_default";
+        $stmt = $db->prepare($sqlCreateIncomesTable);
+        return $stmt->execute();
+    }
+
+    public function cloneIncomesTable($db, $userId)
+    {
+        $sqlCloneIncomesTable = "INSERT INTO incomes_category_assigned_to_userid_$userId SELECT * FROM incomes_category_default";
+        $stmt = $db->prepare($sqlCloneIncomesTable);
+        return $stmt->execute();
+    }
+
+    public function createExpensesTable($db, $userId)
+    {
+        $sqlCreateExpensesTable = "CREATE TABLE expenses_category_assigned_to_userid_$userId LIKE expenses_category_default";
+        $stmt = $db->prepare($sqlCreateExpensesTable);
+        return $stmt->execute();
+    }
+
+    public function cloneExpensesTable($db, $userId)
+    {
+        $sqlCloneExpensesTable = "INSERT INTO expenses_category_assigned_to_userid_$userId SELECT * FROM expenses_category_default";
+        $stmt = $db->prepare($sqlCloneExpensesTable);
+        return $stmt->execute();
+    }
+
+    public function createPaymentTable($db, $userId)
+    {
+        $sqlCreatePaymentTable = "CREATE TABLE payment_methods_assigned_to_userid_$userId LIKE payment_methods_default";
+        $stmt = $db->prepare($sqlCreatePaymentTable);
+        return $stmt->execute();
+    }
+
+    public function clonePaymentTable($db, $userId)
+    {
+        $sqlClonePaymentTable = "INSERT INTO payment_methods_assigned_to_userid_$userId SELECT * FROM payment_methods_default";
+        $stmt = $db->prepare($sqlClonePaymentTable);
+        return $stmt->execute();
     }
 
     public function rememberLogin()

@@ -116,9 +116,10 @@ class Expense extends \Core\Model
 
     public static function getAllCategory()
     {
+        $userId = $_SESSION['user_id'];
         try {
             $db = static::getDB();
-            $sql = 'SELECT id, name FROM expenses_category_default';
+            $sql = "SELECT id, name, expense_limit FROM expenses_category_assigned_to_userid_$userId";
             $stmt = $db->query($sql);
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $result;
@@ -129,9 +130,10 @@ class Expense extends \Core\Model
 
     public static function getAllPayments()
     {
+        $userId = $_SESSION['user_id'];
         try {
             $db = static::getDB();
-            $sql = 'SELECT id, name FROM payment_methods_default';
+            $sql = "SELECT id, name FROM payment_methods_assigned_to_userid_$userId";
             $stmt = $db->query($sql);
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $result;

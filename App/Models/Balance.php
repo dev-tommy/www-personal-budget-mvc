@@ -17,7 +17,7 @@ class Balance extends \Core\Model
             SUM(i.amount) AS 'Sum_of_amounts'
         FROM
             incomes AS i,
-            incomes_category_default AS i_userid
+            incomes_category_assigned_to_userid_$id AS i_userid
         WHERE
             i_userid.id = i.income_category_assigned_to_user_id AND
             i.date_of_income >= '$startDate' AND
@@ -35,12 +35,13 @@ class Balance extends \Core\Model
 
     public static function getTotalIncomesAmount()
     {
+        $id = $_SESSION['user_id'];
         $sql = "
         SELECT
             SUM(i.amount) AS 'Total'
         FROM
             incomes AS i,
-            incomes_category_default AS i_userid
+            incomes_category_assigned_to_userid_$id AS i_userid
         WHERE
             i_userid.id = i.income_category_assigned_to_user_id AND
             i.date_of_income >= '2000-01-01' AND
@@ -57,12 +58,13 @@ class Balance extends \Core\Model
 
     public static function getTotalExpensesAmount()
     {
+        $id = $_SESSION['user_id'];
         $sql = "
         SELECT
             SUM(e.amount) AS 'Total'
         FROM
             expenses AS e,
-            expenses_category_default AS e_userid
+            expenses_category_assigned_to_userid_$id AS e_userid
         WHERE
             e_userid.id = e.expense_category_assigned_to_user_id AND
             e.date_of_expense >= '2000-01-01' AND
@@ -86,7 +88,7 @@ class Balance extends \Core\Model
             SUM(e.amount) AS 'Sum_of_amounts'
         FROM
             expenses AS e,
-            expenses_category_default AS e_userid
+            expenses_category_assigned_to_userid_$id AS e_userid
         WHERE
             e_userid.id = e.expense_category_assigned_to_user_id AND
             e.date_of_expense >= '$startDate' AND

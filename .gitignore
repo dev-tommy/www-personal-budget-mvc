@@ -9,5 +9,6 @@
 !*.htaccess
 !*.json
 !*.lock
+!*.ico
 vendor/*
 App/Config.php

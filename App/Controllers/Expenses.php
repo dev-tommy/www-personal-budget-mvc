@@ -34,7 +34,7 @@ class Expenses extends Authenticated
         } else {
             View::renderTemplate('Expenses/add.html', [
                 'alertshow' => 'true',
-                'alertmessage' => 'Przychód nie został dodany!',
+                'alertmessage' => 'Wydatek nie został dodany!',
                 'isValid' => $expense->isValid,
                 'warnings' => $expense->warnings,
                 'oldValues' => $_POST,

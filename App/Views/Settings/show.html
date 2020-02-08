@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% set settings_active = 'active' %}
+
+{% block title %}Ustawienia{% endblock %}
+
+{% block modal %}
+    {% include 'Settings/askModal.html' %}
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $(document).ready(function () {
+            $("#incomeCategoryRemove").click(function () {
+                $("#askModalBody").val($("#incomeCategory option:selected").text());
+                $("#askSettings").modal();
+            });
+            $("#expenseCategoryRemove").click(function () {
+                $("#askModalBody").val($("#expenseCategory option:selected").text());
+                $("#askSettings").modal();
+            });
+            $("#paymentMethodRemove").click(function () {
+                $("#askModalBody").val($("#paymentMethod option:selected").text());
+                $("#askSettings").modal();
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block main %}
+<div class="container move-under-navbar">
+    <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+            <div class="card shadow-lg mb-5 bg-white rounded">
+                <div class="card-header bg-info card-topic text-center"> Ustawienia </div>
+                <div class="card-body">
+                    <div id="settings">
+                        <div class="card mb-3">
+                            {% include 'Settings/income.html' %}
+                        </div>
+                        <div class="card mb-3">
+                            {% include 'Settings/expense.html' %}
+                        </div>
+                        <div class="card mb-3">
+                            {% include 'Settings/payment.html' %}
+                        </div>
+                        <div class="card mb-3">
+                            {% include 'Settings/user.html' %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-info text-white">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

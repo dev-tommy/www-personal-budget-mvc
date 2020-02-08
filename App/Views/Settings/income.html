@@ -1,0 +1,47 @@
+<div class="card-header text-center bg-success">
+    <button class="btn btn-success btn-block" data-toggle="collapse" data-target="#incomeSettings" type="button">
+        <span class="text-button"> Przychody </span>
+    </button>
+</div>
+<div id="incomeSettings" class="collapse" data-parent="#settings">
+    <div class="card-body">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="material-icons">shop</i>
+                </span>
+            </div>
+            <input type="text" class="form-control form-control-lg" placeholder="Dodaj nową kategorię przychodu"
+                aria-label="Add new income category" aria-describedby="">
+            <div class="input-group-append">
+                <button class="btn btn-outline-success" type="button">
+                    <i class="material-icons">playlist_add</i>
+                </button>
+            </div>
+        </div>
+        <label for="editIncomeCategory">Edytuj wybraną kategorię</label>
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="material-icons">shop</i>
+                </span>
+            </div>
+            <select class="form-control form-control-lg" id="incomeCategory">
+                {% for category in incomeCategories %}
+                    <option value={{ category.id }}>{{ category.name }}</option>
+                {% endfor %}
+            </select>
+
+            <div class="input-group-append">
+                <button type="button" class="btn btn-outline-info" id="incomeCategoryEdit">
+                    <i class="material-icons">edit</i>
+                </button>
+            </div>
+            <div class="input-group-append">
+                <button type="button" class="btn btn-outline-danger" id="incomeCategoryRemove">
+                    <i class="material-icons">remove_circle</i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
