@@ -11,15 +11,15 @@
     <script>
         $(document).ready(function () {
             $("#incomeCategoryRemove").click(function () {
-                $("#askModalBody").html($("#editIncomeCategory option:selected").text());
+                $("#askModalBody").val($("#incomeCategory option:selected").text());
                 $("#askSettings").modal();
             });
             $("#expenseCategoryRemove").click(function () {
-                $("#askModalBody").html($("#editExpenseCategory option:selected").text());
+                $("#askModalBody").val($("#expenseCategory option:selected").text());
                 $("#askSettings").modal();
             });
             $("#paymentMethodRemove").click(function () {
-                $("#askModalBody").html($("#editPaymentMethod option:selected").text());
+                $("#askModalBody").val($("#paymentMethod option:selected").text());
                 $("#askSettings").modal();
             });
         });

@@ -26,14 +26,14 @@
                     <i class="material-icons">payment</i>
                 </span>
             </div>
-            <select class="form-control form-control-lg" id="editPaymentMethod">
+            <select class="form-control form-control-lg" id="paymentMethod">
                 {% for method in paymentMethods %}
                 <option value={{ method.id }}>{{ method.name }}</option>
                 {% endfor %}
             </select>
 
             <div class="input-group-append">
-                <button type="button" class="btn btn-outline-info">
+                <button type="button" class="btn btn-outline-info" id="paymentMethodEdit">
                     <i class="material-icons">edit</i>
                 </button>
             </div>

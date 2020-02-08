@@ -26,14 +26,14 @@
                     <i class="material-icons">shop</i>
                 </span>
             </div>
-            <select class="form-control form-control-lg" id="editIncomeCategory">
+            <select class="form-control form-control-lg" id="incomeCategory">
                 {% for category in incomeCategories %}
                     <option value={{ category.id }}>{{ category.name }}</option>
                 {% endfor %}
             </select>
 
             <div class="input-group-append">
-                <button type="button" class="btn btn-outline-info">
+                <button type="button" class="btn btn-outline-info" id="incomeCategoryEdit">
                     <i class="material-icons">edit</i>
                 </button>
             </div>
