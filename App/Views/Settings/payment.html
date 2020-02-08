@@ -6,6 +6,11 @@
 <div id="paymentSettings" class="collapse" data-parent="#settings">
     <div class="card-body">
         <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="material-icons">payment</i>
+                </span>
+            </div>
             <input type="text" class="form-control form-control-lg" placeholder="Dodaj nowy rodzaj płatności"
                 aria-label="Add new payment method" aria-describedby="">
             <div class="input-group-append">
@@ -15,7 +20,12 @@
             </div>
         </div>
         <label for="editPaymentMethod">Edytuj wybrany rodzaj płatności</label>
-        <div class="input-group mb-3">
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="material-icons">payment</i>
+                </span>
+            </div>
             <select class="form-control form-control-lg" id="editPaymentMethod">
                 {% for method in paymentMethods %}
                 <option value={{ method.id }}>{{ method.name }}</option>

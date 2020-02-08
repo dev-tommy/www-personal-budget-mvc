@@ -6,6 +6,11 @@
 <div id="expenseSettings" class="collapse" data-parent="#settings">
     <div class="card-body">
         <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="material-icons">shop</i>
+                </span>
+            </div>
             <input type="text" class="form-control form-control-lg" placeholder="Dodaj nową kategorię wydatku"
                 aria-label="Add new expense category" aria-describedby="">
             <div class="input-group-append">
@@ -16,7 +21,12 @@
         </div>
         <label for="editExpenseCategory">Edytuj wybraną kategorię</label>
 
-        <div class="input-group mb-3">
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="material-icons">shop</i>
+                </span>
+            </div>
             <select class="form-control form-control-lg" id="editExpenseCategory">
 
                 {% for category in expenseCategories %}

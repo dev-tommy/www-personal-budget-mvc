@@ -6,7 +6,12 @@
 <div id="userSettings" class="collapse" data-parent="#settings">
     <div class="card-body">
         <div class="input-group mb-3">
-            <input type="text" class="form-control form-control-lg" placeholder="{{ user.username }}"
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="material-icons">account_box</i>
+                </span>
+            </div>
+            <input type="text" class="form-control form-control-lg" value="{{ user.username }}"
                 aria-label="Username" aria-describedby="">
             <div class="input-group-append">
                 <button class="btn btn-outline-info" type="button">
@@ -15,7 +20,12 @@
             </div>
         </div>
         <div class="input-group mb-3">
-            <input type="text" class="form-control form-control-lg" placeholder="{{ user.email }}"
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="material-icons">email</i>
+                </span>
+            </div>
+            <input type="email" class="form-control form-control-lg" value="{{ user.email }}"
                 aria-label="Email" aria-describedby="">
             <div class="input-group-append">
                 <button class="btn btn-outline-info" type="button">
@@ -24,7 +34,12 @@
             </div>
         </div>
         <div class="input-group mb-3">
-            <input type="text" class="form-control form-control-lg" placeholder="Hasło"
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="material-icons">lock</i>
+                </span>
+            </div>
+            <input type="text" class="form-control form-control-lg" placeholder="Nowe hasło"
                 aria-label="Password" aria-describedby="">
             <div class="input-group-append">
                 <button class="btn btn-outline-info" type="button">
