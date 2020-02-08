@@ -10,17 +10,6 @@
     drawChart();"
 {% endblock %}
 
-{% block balance_calendar%}
-    <div class="btn-group mx-2">
-        <button class="btn btn-primary btn-sm px-2 my-1" data-toggle="modal" data-target="#periodSelectionWindow" type="button">
-            <i class="material-icons">calendar_today</i>
-        </button>
-        <button class="btn btn-warning btn-sm pl-0 my-1" data-toggle="modal" data-target="#periodSelectionWindow" type="button">
-            <span class="text-button"> Bilans za.. </span>
-        </button>
-    </div>
-{% endblock %}
-
 {% block javascript %}
     {% include '/Balances/googlePieChart.html' %}
 {% endblock %}
