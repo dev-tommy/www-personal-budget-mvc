@@ -4,23 +4,49 @@
 {% block title %}Ustawienia{% endblock %}
 
 {% block modal %}
-    {% include 'Settings/askModal.html' %}
+    {% include 'Settings/askDeleteModal.html' %}
 {% endblock %}
 
 {% block javascript %}
     <script>
         $(document).ready(function () {
+            var elementSource = "";
+            var elementId = 0;
             $("#incomeCategoryRemove").click(function () {
-                $("#askModalBody").val($("#incomeCategory option:selected").text());
-                $("#askSettings").modal();
+                elementSource = "income";
+                $("#askModalBody").val($.trim($("#incomeCategory option:selected").text()));
+                elementId = $("#incomeCategory option:selected").val();
+                $("#askDelete").modal();
             });
             $("#expenseCategoryRemove").click(function () {
-                $("#askModalBody").val($("#expenseCategory option:selected").text());
-                $("#askSettings").modal();
+                elementSource = "expense";
+                $("#askModalBody").val($.trim($("#expenseCategory option:selected").text()));
+                elementId = $("#expenseCategory option:selected").val();
+                $("#askDelete").modal();
             });
             $("#paymentMethodRemove").click(function () {
-                $("#askModalBody").val($("#paymentMethod option:selected").text());
-                $("#askSettings").modal();
+                elementSource = "payment";
+                $("#askModalBody").val($.trim($("#paymentMethod option:selected").text()));
+                elementId = $("#paymentMethod option:selected").val();
+                $("#askDelete").modal();
+            });
+            $("#removeElement").click(function () {
+                $.post(
+                    "/element-remove",
+                    {
+                        source: elementSource,
+                        id: elementId
+                    },
+                    function(answer, status){
+                        if (status == "success")
+                        {
+                            $("#successModal").modal();
+                        } else {
+                            $("#failModal").modal();
+                        }
+
+                    }
+                );
             });
         });
     </script>
