@@ -27,6 +27,8 @@ class Settings extends Authenticated
 
     public function deleteAction()
     {
+        echo 'Usunięto element o id: '.$_POST['id']. ' z bazy: ' . $_POST['source'];
+
 
     }
 }
