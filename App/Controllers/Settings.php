@@ -24,6 +24,11 @@ class Settings extends Authenticated
             'user' => $user
         ]);
     }
+
+    public function deleteAction()
+    {
+
+    }
 }
 
 ?>
