@@ -37,6 +37,7 @@ $router->add('attempt-unautorized-entry', ['controller' => 'Login', 'action' => 
 $router->add('user-login', ['controller' => 'Login', 'action' => 'create']);
 $router->add('log-out-user', ['controller' => 'Login', 'action' => 'destroy']);
 $router->add('show-settings', ['controller' => 'Settings', 'action' => 'show']);
+$router->add('element-remove', ['controller' => 'Settings', 'action' => 'delete']);
 //$router->add('{controller}/{action}');
 //$router->add('{controller}/{id:\d+}/{action}');
 //$router->add('admin/{controller}/{action}', ['namespace' => 'Admin']);
