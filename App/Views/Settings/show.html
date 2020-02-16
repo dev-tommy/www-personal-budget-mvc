@@ -5,6 +5,8 @@
 
 {% block modal %}
     {% include 'Settings/askDeleteModal.html' %}
+    {% include 'Settings/successModal.html' %}
+    {% include 'Settings/failModal.html' %}
 {% endblock %}
 
 {% block javascript %}
@@ -31,6 +33,7 @@
                 $("#askDelete").modal();
             });
             $("#removeElement").click(function () {
+
                 $.post(
                     "/element-remove",
                     {
@@ -40,9 +43,10 @@
                     function(answer, status){
                         if (status == "success")
                         {
-                            $("#successModal").modal();
+                            $("#success").find(".modal-body").html(answer);
+                            $("#success").modal();
                         } else {
-                            $("#failModal").modal();
+                            $("#fail").modal();
                         }
 
                     }
