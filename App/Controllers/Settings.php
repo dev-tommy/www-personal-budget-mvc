@@ -27,26 +27,19 @@ class Settings extends Authenticated
 
     public function deleteAction()
     {
-        if (!isset($_POST['id']) || !isset($_POST['source'])) exit();
-
-        $isIdExist = 'false';
-
-        if ($_POST['source'] == 'income') $elements = Income::getAllCategory();
-        elseif ($_POST['source'] == 'expense') $elements = Expense::getAllCategory();
-        elseif ($_POST['source'] == 'payment') $elements = Expense::getAllPayments();
-
-        foreach ($elements as $element) {
-            if ($_POST['id'] == $element['id']) {
-                $isIdExist = 'true';
-            }
+        $answer = 'Wybrana pozycja nie istnieje';
+        if (!isset($_POST['id']) || !isset($_POST['source'])) {
+            exit($answer);
         }
-
-        if ($isIdExist == 'false') echo 'Wybrana kategoria nie istnieje';
-        else {
-
-
-            echo 'Usunięto element o id: '.$_POST['id']. ' z bazy: ' . $_POST['source'];
+        elseif ($_POST['source'] == 'income') {
+            $income = new Income($_POST);
+            $answer = $income->deleteCategory();
+            //$answer = 'Usunięto element o id: ' . $_POST['id'] . ' z bazy: ' . $_POST['source'];
         }
+        //elseif ($_POST['source'] == 'expense') $isIdExist = Expense::getAllCategory();
+        //elseif ($_POST['source'] == 'payment') $isIdExist = Expense::getAllPayments();
+
+        echo $answer;
     }
 }
 
