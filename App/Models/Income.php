@@ -39,6 +39,26 @@ class Income extends \Core\Model
         return false;
     }
 
+
+
+    public function isEmptyCategory()
+    {
+        $userId = $_SESSION['user_id'];
+
+        $sql = 'SELECT * FROM incomes WHERE user_id = :userId AND income_category_assigned_to_user_id = :categoryId';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return empty($stmt->fetch());
+    }
+
     public function validate()
     {
         if (!isset($this->amount) || ($this->amount == '')) {
@@ -98,6 +118,18 @@ class Income extends \Core\Model
     {
         $d = DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) === $date;
+    }
+
+    private function validateId()
+    {
+        $isExist = 'false';
+        $elements = static::getAllCategory();
+        foreach ($elements as $element) {
+            if ($this->id == $element['id']) {
+                $isExist = 'true';
+            }
+        }
+        return $isExist;
     }
 
     public static function getAllCategory()
