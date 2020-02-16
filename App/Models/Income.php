@@ -39,7 +39,17 @@ class Income extends \Core\Model
         return false;
     }
 
-
+    public function deleteCategory()
+    {
+        if ($this->validateId() == 'true') {
+            if ($this->isEmptyCategory() == 'true') {
+                return "Kategoria została usunięta";
+            }
+            return "Kategoria nie jest pusta";
+        } else {
+            return "Nie znaleziono kategorii";
+        }
+    }
 
     public function isEmptyCategory()
     {
