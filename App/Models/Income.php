@@ -42,10 +42,23 @@ class Income extends \Core\Model
     public function deleteCategory()
     {
         if ($this->validateId() == 'true') {
-            if ($this->isEmptyCategory() == 'true') {
-                return "Kategoria została usunięta";
+
+            if (empty($this->isEmptyCategory())) {
+
+                $userId = $_SESSION['user_id'];
+
+                $sql = "DELETE FROM incomes_category_assigned_to_userid_$userId WHERE id = :categoryId";
+
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
+                $stmt->execute();
+
+                $numberOfDeletedRows = $stmt->rowCount();
+                return "Kategoria została usunięta. Usunięto ". $numberOfDeletedRows;
+            } else {
+                return "Kategoria zawiera przychody. Czy chcesz ją usunąć? ";
             }
-            return "Kategoria nie jest pusta";
         } else {
             return "Nie znaleziono kategorii";
         }
@@ -66,7 +79,7 @@ class Income extends \Core\Model
 
         $stmt->execute();
 
-        return empty($stmt->fetch());
+        return $stmt->fetch();
     }
 
     public function validate()
