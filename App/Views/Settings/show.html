@@ -89,7 +89,7 @@
             });
 
             $("#editElement").click(function () {
-                $elementName = $.trim($("#askEditModalBody").val());
+                elementName = $.trim($("#askEditModalBody").val());
                 $.post(
                     "/element-edit",
                     {
