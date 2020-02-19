@@ -39,6 +39,27 @@ class Income extends \Core\Model
         return false;
     }
 
+
+    public function addCategory()
+    {
+        if (strlen($this->name) < 3) return "Nazwa kategorii musi zawierać minimum 3 znaki";
+
+        if ($this->existNameCategory() == 'false') {
+            $userId = $_SESSION['user_id'];
+
+            $sql = "INSERT INTO incomes_category_assigned_to_userid_$userId (name) VALUES (:categoryName)";
+
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':categoryName', $this->name, PDO::PARAM_STR);
+            $stmt->execute();
+
+            return "Kategoria została dodana ";
+        } else {
+            return "Kategoria już istnieje";
+        }
+    }
+
     public function deleteCategory()
     {
         if ($this->validateId() == 'true') {
@@ -149,6 +170,18 @@ class Income extends \Core\Model
         $elements = static::getAllCategory();
         foreach ($elements as $element) {
             if ($this->id == $element['id']) {
+                $isExist = 'true';
+            }
+        }
+        return $isExist;
+    }
+
+    private function existNameCategory()
+    {
+        $isExist = 'false';
+        $elements = static::getAllCategory();
+        foreach ($elements as $element) {
+            if ($this->name == $element['name']) {
                 $isExist = 'true';
             }
         }
