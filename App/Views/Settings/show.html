@@ -38,17 +38,27 @@
                 })
                 $("#askEdit").modal();
             });
+
+            $("#expenseCategoryAdd").click(function () {
+                elementSource = "expense";
+                $("#askAddModalBody").val($.trim($("#expenseCategoryName").val()));
+                elementName = $.trim($("#expenseCategoryName").val());
+                $("#askAdd").modal();
+            });
             $("#expenseCategoryRemove").click(function () {
                 elementSource = "expense";
                 $("#askDeleteModalBody").val($.trim($("#expenseCategory option:selected").text()));
                 elementId = $("#expenseCategory option:selected").val();
                 $("#askDelete").modal();
             });
-            $("#paymentMethodRemove").click(function () {
-                elementSource = "payment";
-                $("#askDeleteModalBody").val($.trim($("#paymentMethod option:selected").text()));
-                elementId = $("#paymentMethod option:selected").val();
-                $("#askDelete").modal();
+            $("#expenseCategoryEdit").click(function () {
+                elementSource = "expense";
+                $("#askEditModalBody").val($.trim($("#expenseCategory option:selected").text()));
+                elementId = $("#expenseCategory option:selected").val();
+                $('#askEdit').on('shown.bs.modal', function () {
+                    $('#askEditModalBody').focus();
+                })
+                $("#askEdit").modal();
             });
 
             $("#addElement").click(function () {
