@@ -59,6 +59,26 @@ class Expense extends \Core\Model
         }
     }
 
+    public function addMethod()
+    {
+        if (strlen($this->name) < 3) return "Nazwa rodzaju platnosci musi zawierać minimum 3 znaki";
+
+        if ($this->existNameCategory() == 'false') {
+            $userId = $_SESSION['user_id'];
+
+            $sql = "INSERT INTO payment_methods_assigned_to_userid_$userId (name) VALUES (:methodName)";
+
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':methodName', $this->name, PDO::PARAM_STR);
+            $stmt->execute();
+
+            return "Rodzaj platnosci został dodany ";
+        } else {
+            return "Rodzaj platnosci już istnieje";
+        }
+    }
+
     public function deleteCategory()
     {
         if ($this->validateCategoryId() == 'true') {
