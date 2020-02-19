@@ -132,6 +132,18 @@ class Expense extends \Core\Model
         return $d && $d->format($format) === $date;
     }
 
+    private function validateId()
+    {
+        $isExist = 'false';
+        $elements = static::getAllCategory();
+        foreach ($elements as $element) {
+            if ($this->id == $element['id']) {
+                $isExist = 'true';
+            }
+        }
+        return $isExist;
+    }
+
     public static function getAllCategory()
     {
         $userId = $_SESSION['user_id'];
