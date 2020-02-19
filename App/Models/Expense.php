@@ -39,6 +39,24 @@ class Expense extends \Core\Model
         return false;
     }
 
+    public function isEmptyCategory()
+    {
+        $userId = $_SESSION['user_id'];
+
+        $sql = 'SELECT * FROM expenses WHERE user_id = :userId AND expense_category_assigned_to_user_id = :categoryId';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
     public function validate()
     {
         if (!isset($this->amount) || ($this->amount == '')) {
