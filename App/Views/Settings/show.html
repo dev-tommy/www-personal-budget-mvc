@@ -61,6 +61,28 @@
                 $("#askEdit").modal();
             });
 
+            $("#paymentMethodAdd").click(function () {
+                elementSource = "payment";
+                $("#askAddModalBody").val($.trim($("#paymentMethodName").val()));
+                elementName = $.trim($("#paymentMethodName").val());
+                $("#askAdd").modal();
+            });
+            $("#paymentMethodRemove").click(function () {
+                elementSource = "payment";
+                $("#askDeleteModalBody").val($.trim($("#paymentMethod option:selected").text()));
+                elementId = $("#paymentMethod option:selected").val();
+                $("#askDelete").modal();
+            });
+            $("#paymentMethodEdit").click(function () {
+                elementSource = "payment";
+                $("#askEditModalBody").val($.trim($("#paymentMethod option:selected").text()));
+                elementId = $("#paymentMethod option:selected").val();
+                $('#askEdit').on('shown.bs.modal', function () {
+                    $('#askEditModalBody').focus();
+                })
+                $("#askEdit").modal();
+            });
+
             $("#addElement").click(function () {
                 $.post(
                     "/element-add",
