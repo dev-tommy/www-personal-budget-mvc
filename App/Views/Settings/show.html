@@ -33,6 +33,9 @@
                 elementSource = "income";
                 $("#askEditModalBody").val($.trim($("#incomeCategory option:selected").text()));
                 elementId = $("#incomeCategory option:selected").val();
+                $('#askEdit').on('shown.bs.modal', function () {
+                    $('#askEditModalBody').focus();
+                })
                 $("#askEdit").modal();
             });
             $("#expenseCategoryRemove").click(function () {
@@ -48,6 +51,23 @@
                 $("#askDelete").modal();
             });
 
+            $("#addElement").click(function () {
+                $.post(
+                    "/element-add",
+                    {
+                        source: elementSource,
+                        name: elementName
+                    },
+                    function (answer, status) {
+                        if (status == "success") {
+                            $("#success").find(".modal-body").html(answer);
+                            $("#success").modal();
+                        } else {
+                            $("#fail").modal();
+                        }
+                    }
+                );
+            });
 
             $("#removeElement").click(function () {
                 $.post(
@@ -68,23 +88,7 @@
                 );
             });
 
-             $("#addElement").click(function () {
-                $.post(
-                    "/element-add",
-                    {
-                        source: elementSource,
-                        name: elementName
-                    },
-                    function (answer, status) {
-                        if (status == "success") {
-                            $("#success").find(".modal-body").html(answer);
-                            $("#success").modal();
-                        } else {
-                            $("#fail").modal();
-                        }
-                    }
-                );
-            });
+
         });
     </script>
 {% endblock %}
