@@ -111,7 +111,7 @@ class Expense extends \Core\Model
 
                 $userId = $_SESSION['user_id'];
 
-                $sql = "DELETE FROM payments_methods_assigned_to_userid_$userId WHERE id = :methodId";
+                $sql = "DELETE FROM payment_methods_assigned_to_userid_$userId WHERE id = :methodId";
 
                 $db = static::getDB();
                 $stmt = $db->prepare($sql);
