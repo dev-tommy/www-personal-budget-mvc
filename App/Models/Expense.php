@@ -234,6 +234,18 @@ class Expense extends \Core\Model
         return $isExist;
     }
 
+    private function validateMethodId()
+    {
+        $isExist = 'false';
+        $elements = static::getAllPayments();
+        foreach ($elements as $element) {
+            if ($this->id == $element['id']) {
+                $isExist = 'true';
+            }
+        }
+        return $isExist;
+    }
+
     private function existNameCategory()
     {
         $isExist = 'false';
