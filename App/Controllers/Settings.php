@@ -84,6 +84,9 @@ class Settings extends Authenticated
         elseif ($_POST['source'] == 'payment') {
             $expense = new Expense($_POST);
             $answer = $expense->editMethod();
+        } elseif ($_POST['source'] == 'user') {
+            $user = new User($_POST);
+            $answer = $user->editUser();
         }
         echo $answer;
     }
