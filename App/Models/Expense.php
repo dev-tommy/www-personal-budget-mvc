@@ -144,6 +144,18 @@ class Expense extends \Core\Model
         return $isExist;
     }
 
+    private function existNameCategory()
+    {
+        $isExist = 'false';
+        $elements = static::getAllCategory();
+        foreach ($elements as $element) {
+            if ($this->name == $element['name']) {
+                $isExist = 'true';
+            }
+        }
+        return $isExist;
+    }
+
     public static function getAllCategory()
     {
         $userId = $_SESSION['user_id'];
