@@ -88,7 +88,25 @@
                 );
             });
 
-
+            $("#editElement").click(function () {
+                $elementName = $.trim($("#askEditModalBody").val());
+                $.post(
+                    "/element-edit",
+                    {
+                        source: elementSource,
+                        id: elementId,
+                        name: elementName
+                    },
+                    function (answer, status) {
+                        if (status == "success") {
+                            $("#success").find(".modal-body").html(answer);
+                            $("#success").modal();
+                        } else {
+                            $("#fail").modal();
+                        }
+                    }
+                );
+            });
         });
     </script>
 {% endblock %}
