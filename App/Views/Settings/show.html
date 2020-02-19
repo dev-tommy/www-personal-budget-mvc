@@ -55,7 +55,23 @@
                         } else {
                             $("#fail").modal();
                         }
+                    }
+                );
+            });
 
+             $("#addElement").click(function () {
+                $.post(
+                    "/element-add",
+                    {
+                        source: elementSource,
+                    },
+                    function (answer, status) {
+                        if (status == "success") {
+                            $("#success").find(".modal-body").html(answer);
+                            $("#success").modal();
+                        } else {
+                            $("#fail").modal();
+                        }
                     }
                 );
             });
