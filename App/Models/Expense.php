@@ -61,7 +61,7 @@ class Expense extends \Core\Model
 
     public function deleteCategory()
     {
-        if ($this->validateId() == 'true') {
+        if ($this->validateCategoryId() == 'true') {
 
             if (empty($this->isEmptyCategory())) {
 
@@ -88,7 +88,7 @@ class Expense extends \Core\Model
     {
         if (strlen($this->name) < 3) return "Nazwa kategorii musi zawierać minimum 3 znaki";
 
-        if ($this->validateId() == 'true') {
+        if ($this->validateCategoryId() == 'true') {
 
             if ($this->existNameCategory() == 'false') {
 
@@ -204,7 +204,7 @@ class Expense extends \Core\Model
         return $d && $d->format($format) === $date;
     }
 
-    private function validateId()
+    private function validateCategoryId()
     {
         $isExist = 'false';
         $elements = static::getAllCategory();
