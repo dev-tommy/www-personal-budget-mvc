@@ -63,7 +63,7 @@ class Expense extends \Core\Model
     {
         if (strlen($this->name) < 3) return "Nazwa rodzaju platnosci musi zawierać minimum 3 znaki";
 
-        if ($this->existNameCategory() == 'false') {
+        if ($this->existNameMethod() == 'false') {
             $userId = $_SESSION['user_id'];
 
             $sql = "INSERT INTO payment_methods_assigned_to_userid_$userId (name) VALUES (:methodName)";
@@ -94,13 +94,36 @@ class Expense extends \Core\Model
                 $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
                 $stmt->execute();
 
-                $numberOfDeletedRows = $stmt->rowCount();
-                return "Kategoria została usunięta. Usunięto " . $numberOfDeletedRows;
+                return "Kategoria została usunięta. Usunięto ";
             } else {
-                return "Kategoria zawiera przychody. Czy chcesz ją usunąć? ";
+                return "Kategoria zawiera wydatki. Czy chcesz ją usunąć? ";
             }
         } else {
             return "Nie znaleziono kategorii";
+        }
+    }
+
+    public function deleteMethod()
+    {
+        if ($this->validateMethodId() == 'true') {
+
+            if (empty($this->isEmptyMethod())) {
+
+                $userId = $_SESSION['user_id'];
+
+                $sql = "DELETE FROM payments_methods_assigned_to_userid_$userId WHERE id = :methodId";
+
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':methodId', $this->id, PDO::PARAM_INT);
+                $stmt->execute();
+
+                return "Metoda platnosci została usunięta. Usunięto ";
+            } else {
+                return "Metoda platnosci zostala juz uzyta. Czy chcesz ją usunąć? ";
+            }
+        } else {
+            return "Nie znaleziono metody platnosci!";
         }
     }
 
