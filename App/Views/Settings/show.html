@@ -29,6 +29,12 @@
                 elementId = $("#incomeCategory option:selected").val();
                 $("#askDelete").modal();
             });
+            $("#incomeCategoryEdit").click(function () {
+                elementSource = "income";
+                $("#askEditModalBody").val($.trim($("#incomeCategory option:selected").text()));
+                elementId = $("#incomeCategory option:selected").val();
+                $("#askEdit").modal();
+            });
             $("#expenseCategoryRemove").click(function () {
                 elementSource = "expense";
                 $("#askDeleteModalBody").val($.trim($("#expenseCategory option:selected").text()));
