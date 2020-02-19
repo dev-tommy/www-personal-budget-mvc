@@ -5,6 +5,7 @@
 
 {% block modal %}
     {% include 'Settings/askDeleteModal.html' %}
+    {% include 'Settings/askAddModal.html' %}
     {% include 'Settings/successModal.html' %}
     {% include 'Settings/failModal.html' %}
 {% endblock %}
@@ -14,26 +15,32 @@
         $(document).ready(function () {
             var elementSource = "";
             var elementId = 0;
+            $("#incomeCategoryAdd").click(function () {
+                elementSource = "income";
+                $("#askAddModalBody").val($.trim($("#incomeCategoryName").val()));
+                $("#askAdd").modal();
+            });
             $("#incomeCategoryRemove").click(function () {
                 elementSource = "income";
-                $("#askModalBody").val($.trim($("#incomeCategory option:selected").text()));
+                $("#askDeleteModalBody").val($.trim($("#incomeCategory option:selected").text()));
                 elementId = $("#incomeCategory option:selected").val();
                 $("#askDelete").modal();
             });
             $("#expenseCategoryRemove").click(function () {
                 elementSource = "expense";
-                $("#askModalBody").val($.trim($("#expenseCategory option:selected").text()));
+                $("#askDeleteModalBody").val($.trim($("#expenseCategory option:selected").text()));
                 elementId = $("#expenseCategory option:selected").val();
                 $("#askDelete").modal();
             });
             $("#paymentMethodRemove").click(function () {
                 elementSource = "payment";
-                $("#askModalBody").val($.trim($("#paymentMethod option:selected").text()));
+                $("#askDeleteModalBody").val($.trim($("#paymentMethod option:selected").text()));
                 elementId = $("#paymentMethod option:selected").val();
                 $("#askDelete").modal();
             });
-            $("#removeElement").click(function () {
 
+
+            $("#removeElement").click(function () {
                 $.post(
                     "/element-remove",
                     {
