@@ -11,8 +11,7 @@
                     <i class="material-icons">account_box</i>
                 </span>
             </div>
-            <input type="text" class="form-control form-control-lg" value="{{ user.username }}"
-                aria-label="Username" aria-describedby="">
+            <input type="text" class="form-control form-control-lg bg-light" value="{{ user.username }}" disabled = "disabled">
             <div class="input-group-append">
                 <button class="btn btn-outline-info" type="button" id="userNameEdit">
                     <i class="material-icons">edit</i>
@@ -25,8 +24,7 @@
                     <i class="material-icons">email</i>
                 </span>
             </div>
-            <input type="email" class="form-control form-control-lg" value="{{ user.email }}"
-                aria-label="Email" aria-describedby="">
+            <input type="email" class="form-control form-control-lg bg-light" value="{{ user.email }}" disabled = "disabled">
             <div class="input-group-append">
                 <button class="btn btn-outline-info" type="button"  id="userEmailEdit">
                     <i class="material-icons">edit</i>
@@ -39,8 +37,7 @@
                     <i class="material-icons">lock</i>
                 </span>
             </div>
-            <input type="text" class="form-control form-control-lg" placeholder="Nowe hasło"
-                aria-label="Password" aria-describedby="">
+            <input type="text" class="form-control form-control-lg bg-light" placeholder="Zmien hasło" disabled = "disabled">
             <div class="input-group-append">
                 <button class="btn btn-outline-info" type="button" id="userPasswordEdit">
                     <i class="material-icons">edit</i>
