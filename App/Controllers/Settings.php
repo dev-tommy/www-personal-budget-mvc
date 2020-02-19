@@ -41,6 +41,22 @@ class Settings extends Authenticated
 
         echo $answer;
     }
+
+    public function addAction()
+    {
+        $answer = 'Brak poprawnej pozycji do dodania';
+        if (!isset($_POST['source'])) {
+            exit($answer);
+        } elseif ($_POST['source'] == 'income') {
+            $income = new Income($_POST);
+            $answer = $income->addCategory();
+            //$answer = 'Usunięto element o id: ' . $_POST['id'] . ' z bazy: ' . $_POST['source'];
+        }
+        //elseif ($_POST['source'] == 'expense') $isIdExist = Expense::getAllCategory();
+        //elseif ($_POST['source'] == 'payment') $isIdExist = Expense::getAllPayments();
+
+        echo $answer;
+    }
 }
 
 ?>
