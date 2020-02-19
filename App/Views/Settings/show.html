@@ -4,8 +4,9 @@
 {% block title %}Ustawienia{% endblock %}
 
 {% block modal %}
-    {% include 'Settings/askDeleteModal.html' %}
     {% include 'Settings/askAddModal.html' %}
+    {% include 'Settings/askDeleteModal.html' %}
+    {% include 'Settings/askEditModal.html' %}
     {% include 'Settings/successModal.html' %}
     {% include 'Settings/failModal.html' %}
 {% endblock %}
