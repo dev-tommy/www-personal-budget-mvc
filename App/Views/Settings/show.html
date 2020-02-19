@@ -85,8 +85,8 @@
 
             $("#userNameEdit").click(function () {
                 elementSource = "user";
+                elementId = 1;
                 $("#askEditModalBody").val($.trim($("#userName").val()));
-                elementId = $("#paymentMethod option:selected").val();
                 $('#askEdit').on('shown.bs.modal', function () {
                     $('#askEditModalBody').focus();
                 })
@@ -95,6 +95,7 @@
 
             $("#userEmailEdit").click(function () {
                 elementSource = "user";
+                elementId = 2;
                 $("#askEditModalBody").val($.trim($("#userEmail").val()));
                 $('#askEdit').on('shown.bs.modal', function () {
                     $('#askEditModalBody').focus();
@@ -104,6 +105,7 @@
 
             $("#userPasswordEdit").click(function () {
                 elementSource = "user";
+                elementId = 3;
                 $("#askEditModalBody").val("");
                 $('#askEdit').on('shown.bs.modal', function () {
                     $('#askEditModalBody').focus();
