@@ -25,6 +25,22 @@ class Settings extends Authenticated
         ]);
     }
 
+    public function addAction()
+    {
+        $answer = 'Brak poprawnej pozycji do dodania';
+        if (!isset($_POST['source'])) {
+            exit($answer);
+        } elseif ($_POST['source'] == 'income') {
+            $income = new Income($_POST);
+            $answer = $income->addCategory();
+            //$answer = 'Usunięto element o id: ' . $_POST['id'] . ' z bazy: ' . $_POST['source'];
+        }
+        //elseif ($_POST['source'] == 'expense') $isIdExist = Expense::getAllCategory();
+        //elseif ($_POST['source'] == 'payment') $isIdExist = Expense::getAllPayments();
+
+        echo $answer;
+    }
+
     public function deleteAction()
     {
         $answer = 'Wybrana pozycja nie istnieje';
@@ -42,14 +58,14 @@ class Settings extends Authenticated
         echo $answer;
     }
 
-    public function addAction()
+    public function editAction()
     {
-        $answer = 'Brak poprawnej pozycji do dodania';
-        if (!isset($_POST['source'])) {
+        $answer = 'Wybrana pozycja nie istnieje';
+        if (!isset($_POST['id']) || !isset($_POST['source']) || !isset($_POST['name'])) {
             exit($answer);
         } elseif ($_POST['source'] == 'income') {
             $income = new Income($_POST);
-            $answer = $income->addCategory();
+            $answer = $income->editCategory();
             //$answer = 'Usunięto element o id: ' . $_POST['id'] . ' z bazy: ' . $_POST['source'];
         }
         //elseif ($_POST['source'] == 'expense') $isIdExist = Expense::getAllCategory();
