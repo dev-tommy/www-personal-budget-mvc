@@ -154,6 +154,33 @@ class Expense extends \Core\Model
         }
     }
 
+    public function editMethod()
+    {
+        if (strlen($this->name) < 3) return "Nazwa rodzaju platnosci musi zawierać minimum 3 znaki";
+
+        if ($this->validateMethodId() == 'true') {
+
+            if ($this->existNameMethod() == 'false') {
+
+                $userId = $_SESSION['user_id'];
+
+                $sql = "UPDATE payment_methods_assigned_to_userid_$userId SET name = :methodName WHERE id = :methodId";
+
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':methodId', $this->id, PDO::PARAM_INT);
+                $stmt->bindValue(':methodName', $this->name, PDO::PARAM_STR);
+                $stmt->execute();
+
+                return "Nazwa rodzaju platnosci została zmieniona";
+            } else {
+                return "Rodzaj platnosci o tej nazwie już istnieje";
+            }
+        } else {
+            return "Nie znaleziono rodzaju platnosci";
+        }
+    }
+
     public function isEmptyCategory()
     {
         $userId = $_SESSION['user_id'];
