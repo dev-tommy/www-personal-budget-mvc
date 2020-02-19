@@ -83,6 +83,34 @@
                 $("#askEdit").modal();
             });
 
+            $("#userNameEdit").click(function () {
+                elementSource = "user";
+                $("#askEditModalBody").val($.trim($("#userName").val()));
+                elementId = $("#paymentMethod option:selected").val();
+                $('#askEdit').on('shown.bs.modal', function () {
+                    $('#askEditModalBody').focus();
+                })
+                $("#askEdit").modal();
+            });
+
+            $("#userEmailEdit").click(function () {
+                elementSource = "user";
+                $("#askEditModalBody").val($.trim($("#userEmail").val()));
+                $('#askEdit').on('shown.bs.modal', function () {
+                    $('#askEditModalBody').focus();
+                })
+                $("#askEdit").modal();
+            });
+
+            $("#userPasswordEdit").click(function () {
+                elementSource = "user";
+                $("#askEditModalBody").val("");
+                $('#askEdit').on('shown.bs.modal', function () {
+                    $('#askEditModalBody').focus();
+                })
+                $("#askEdit").modal();
+            });
+
             $("#addElement").click(function () {
                 $.post(
                     "/element-add",
