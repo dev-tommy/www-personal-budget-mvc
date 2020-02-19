@@ -14,10 +14,12 @@
     <script>
         $(document).ready(function () {
             var elementSource = "";
+            var elementName = "";
             var elementId = 0;
             $("#incomeCategoryAdd").click(function () {
                 elementSource = "income";
                 $("#askAddModalBody").val($.trim($("#incomeCategoryName").val()));
+                elementName = $.trim($("#incomeCategoryName").val());
                 $("#askAdd").modal();
             });
             $("#incomeCategoryRemove").click(function () {
@@ -64,6 +66,7 @@
                     "/element-add",
                     {
                         source: elementSource,
+                        name: elementName
                     },
                     function (answer, status) {
                         if (status == "success") {
