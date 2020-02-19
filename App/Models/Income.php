@@ -85,6 +85,33 @@ class Income extends \Core\Model
         }
     }
 
+    public function editCategory()
+    {
+        if (strlen($this->name) < 3) return "Nazwa kategorii musi zawierać minimum 3 znaki";
+
+        if ($this->validateId() == 'true') {
+
+            if ($this->existNameCategory() == 'false') {
+
+                $userId = $_SESSION['user_id'];
+
+                $sql = "UPDATE incomes_category_assigned_to_userid_$userId SET name = :categoryName WHERE id = :categoryId";
+
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
+                $stmt->bindValue(':categoryName', $this->name, PDO::PARAM_STR);
+                $stmt->execute();
+
+                return "Nazwa kategorii została zmieniona";
+            } else {
+                return "Kategoria o tej nazwie już istnieje";
+            }
+        } else {
+            return "Nie znaleziono kategorii";
+        }
+    }
+
     public function isEmptyCategory()
     {
         $userId = $_SESSION['user_id'];
