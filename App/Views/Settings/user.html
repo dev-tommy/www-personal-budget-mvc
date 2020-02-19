@@ -11,7 +11,7 @@
                     <i class="material-icons">account_box</i>
                 </span>
             </div>
-            <input type="text" class="form-control form-control-lg bg-light" value="{{ user.username }}" disabled = "disabled">
+            <input type="text" class="form-control form-control-lg bg-light" id="userName" value="{{ user.username }}" disabled = "disabled">
             <div class="input-group-append">
                 <button class="btn btn-outline-info" type="button" id="userNameEdit">
                     <i class="material-icons">edit</i>
@@ -24,7 +24,7 @@
                     <i class="material-icons">email</i>
                 </span>
             </div>
-            <input type="email" class="form-control form-control-lg bg-light" value="{{ user.email }}" disabled = "disabled">
+            <input type="email" class="form-control form-control-lg bg-light" id="userEmail" value="{{ user.email }}" disabled = "disabled">
             <div class="input-group-append">
                 <button class="btn btn-outline-info" type="button"  id="userEmailEdit">
                     <i class="material-icons">edit</i>
