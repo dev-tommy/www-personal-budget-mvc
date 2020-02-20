@@ -31,17 +31,22 @@ class Settings extends Authenticated
         if (!isset($_POST['source'])) {
             exit($answer);
         }
-        elseif ($_POST['source'] == 'income') {
-            $income = new Income($_POST);
-            $answer = $income->addCategory();
-        }
-        elseif ($_POST['source'] == 'expense') {
-            $expense = new Expense($_POST);
-            $answer = $expense->addCategory();
-        }
-        elseif ($_POST['source'] == 'payment') {
-            $expense = new Expense($_POST);
-            $answer = $expense->addMethod();
+
+        switch ($_POST['source']) {
+            case 'income':
+                $income = new Income($_POST);
+                $answer = $income->addCategory();
+                break;
+            case 'expense':
+                $expense = new Expense($_POST);
+                $answer = $expense->addCategory();
+                break;
+            case 'payment':
+                $expense = new Expense($_POST);
+                $answer = $expense->addMethod();
+                break;
+            default:
+                exit($answer);
         }
         echo $answer;
     }
@@ -52,17 +57,22 @@ class Settings extends Authenticated
         if (!isset($_POST['id']) || !isset($_POST['source'])) {
             exit($answer);
         }
-        elseif ($_POST['source'] == 'income') {
-            $income = new Income($_POST);
-            $answer = $income->deleteCategory();
-        }
-        elseif ($_POST['source'] == 'expense') {
-            $expense = new Expense($_POST);
-            $answer = $expense->deleteCategory();
-        }
-        elseif ($_POST['source'] == 'payment') {
-            $expense = new Expense($_POST);
-            $answer = $expense->deleteMethod();
+
+        switch ($_POST['source']) {
+            case 'income':
+                $income = new Income($_POST);
+                $answer = $income->deleteCategory();
+                break;
+            case 'expense':
+                $expense = new Expense($_POST);
+                $answer = $expense->deleteCategory();
+                break;
+            case 'payment':
+                $expense = new Expense($_POST);
+                $answer = $expense->deleteMethod();
+                break;
+            default:
+                exit($answer);
         }
         echo $answer;
     }
@@ -95,6 +105,7 @@ class Settings extends Authenticated
             default:
                 exit($answer);
         }
+        echo $answer;
     }
 }
 
