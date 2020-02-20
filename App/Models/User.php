@@ -69,16 +69,30 @@ class User extends \Core\Model
 
     private function editUserPassword()
     {
-    }
+        $userId = $_SESSION['user_id'];
 
-    private function validateId()
-    {
-        if ($this->id != 1 || $this->id != 2 || $this->id != 3)
-        {
-            return false;
-        } else {
-            return true;
+        if (preg_match('/.*[a-z]+.*/i', $this->name) == 0) {
+            return 'Hasło musi zawierać przynajmniej jedną literę';
         }
+
+        if (preg_match('/.*\d+.*/i', $this->name) == 0) {
+            return 'Hasło musi zawierać przynajmniej jedną cyfrę';
+        }
+
+        if (strlen($this->name) < 8) {
+            return 'Hasło musi mieć minimum 8 znaków długości';
+        }
+
+        $password_hash = password_hash($this->name, PASSWORD_DEFAULT);
+
+        $sql = "UPDATE users SET password_hash = :userPassword WHERE id = $userId";
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userPassword', $password_hash, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return "Hasło zostało zmienione";
     }
 
     public function save()
