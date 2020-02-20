@@ -20,14 +20,11 @@ class User extends \Core\Model
         switch ($this->id)
         {
             case 1:
-                $this->editUserName();
-            break;
+                return $this->editUserName();
             case 2:
-                $this->editUserEmail();
-            break;
+                return $this->editUserEmail();
             case 3:
-                $this->editUserPassword();
-            break;
+                return $this->editUserPassword();
             default:
                 return "Błędne ID edytowanego pola!";
         }
@@ -35,23 +32,20 @@ class User extends \Core\Model
 
     private function editUserName()
     {
-        if (strlen($this->name) < 6) return "Nazwa uzytkownika musi skladać się z minimum 6 znaków";
-        if ($this->existUserName() == 'false') {
+        if (strlen($this->name) < 6)
+            return "Nazwa uzytkownika musi skladać się z minimum 6 znaków";
 
-            $userId = $_SESSION['user_id'];
+        $userId = $_SESSION['user_id'];
 
-            $sql = "UPDATE users SET username = :userName WHERE id = $userId";
+        $sql = "UPDATE users SET username = :userName WHERE id = $userId";
 
-            $db = static::getDB();
-            $stmt = $db->prepare($sql);
-            $stmt->bindValue(':userName', $this->name, PDO::PARAM_STR);
-            $stmt->execute();
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userName', $this->name, PDO::PARAM_STR);
+        $stmt->execute();
 
-            return "Nazwa użytkownika została zmieniona";
-        } else {
-            return "Nazwa użytkownika pozostała bez zmian";
-        }
-    }
+        return "Nazwa użytkownika została zmieniona";
+}
 
     private function editUserEmail()
     {
