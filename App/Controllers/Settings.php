@@ -73,22 +73,28 @@ class Settings extends Authenticated
         if (!isset($_POST['id']) || !isset($_POST['source']) || !isset($_POST['name'])) {
             exit($answer);
         }
-        elseif ($_POST['source'] == 'income') {
-            $income = new Income($_POST);
-            $answer = $income->editCategory();
+
+        switch($_POST['source'])
+        {
+            case 'income':
+                $income = new Income($_POST);
+                $answer = $income->editCategory();
+            break;
+            case 'expense':
+                $expense = new Expense($_POST);
+                $answer = $expense->editCategory();
+            break;
+            case 'payment':
+                $expense = new Expense($_POST);
+                $answer = $expense->editMethod();
+            break;
+            case 'user':
+                $user = new User($_POST);
+                $answer = $user->editUser();
+            break;
+            default:
+                exit($answer);
         }
-        elseif ($_POST['source'] == 'expense') {
-            $expense = new Expense($_POST);
-            $answer = $expense->editCategory();
-        }
-        elseif ($_POST['source'] == 'payment') {
-            $expense = new Expense($_POST);
-            $answer = $expense->editMethod();
-        } elseif ($_POST['source'] == 'user') {
-            $user = new User($_POST);
-            $answer = $user->editUser();
-        }
-        echo $answer;
     }
 }
 
