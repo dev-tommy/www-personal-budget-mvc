@@ -46,10 +46,18 @@ class Expense extends \Core\Model
         if ($this->existNameCategory() == 'false') {
             $userId = $_SESSION['user_id'];
 
-            $sql = "INSERT INTO expenses_category_assigned_to_userid_$userId (name) VALUES (:categoryName)";
+            if ($this->limit > 0)
+            {
+                $sql = "INSERT INTO expenses_category_assigned_to_userid_$userId (name, expense_limit) VALUES (:categoryName, :limitValue)";
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':limitValue', strval($this->limit), PDO::PARAM_STR);
+            } else {
+                $sql = "INSERT INTO expenses_category_assigned_to_userid_$userId (name) VALUES (:categoryName)";
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+            }
 
-            $db = static::getDB();
-            $stmt = $db->prepare($sql);
             $stmt->bindValue(':categoryName', $this->name, PDO::PARAM_STR);
             $stmt->execute();
 
