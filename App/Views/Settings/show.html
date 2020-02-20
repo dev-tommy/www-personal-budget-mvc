@@ -17,6 +17,8 @@
             var elementSource = "";
             var elementName = "";
             var elementId = 0;
+            var elementLimit = 0.0;
+
             $("#incomeCategoryAdd").click(function () {
                 elementSource = "income";
                 $("#askAddModalBody").val($.trim($("#incomeCategoryName").val()));
@@ -114,11 +116,13 @@
             });
 
             $("#addElement").click(function () {
+                elementLimit = $.trim($("#addLimitValue").val());
                 $.post(
                     "/element-add",
                     {
                         source: elementSource,
-                        name: elementName
+                        name: elementName,
+                        limit: elementLimit
                     },
                     function (answer, status) {
                         if (status == "success") {
@@ -152,12 +156,14 @@
 
             $("#editElement").click(function () {
                 elementName = $.trim($("#askEditModalBody").val());
+                elementLimit = $.trim($("#editLimitValue").val());
                 $.post(
                     "/element-edit",
                     {
                         source: elementSource,
                         id: elementId,
-                        name: elementName
+                        name: elementName,
+                        limit: elementLimit
                     },
                     function (answer, status) {
                         if (status == "success") {
@@ -170,19 +176,35 @@
                 );
             });
 
-            $("#limitValue").click(function () {
-                $("#limit").prop('checked', true);
+            $("#addLimitValue").click(function () {
+                $("#addLimit").prop('checked', true);
                 $(this).removeAttr('readonly');
                 $(this).focus();
             });
 
-            $('#limit').click(function(){
+            $('#addLimit').click(function(){
                 if($(this).prop("checked") == true){
-                    $("#limitValue").removeAttr('readonly');
-                    $("#limitValue").focus();
+                    $("#addLimitValue").removeAttr('readonly');
+                    $("#addLimitValue").focus();
                 }
                 else if($(this).prop("checked") == false){
-                    $("#limitValue").setAttr('readonly');
+                    $("#addLimitValue").setAttr('readonly');
+                }
+            });
+
+            $("#editLimitValue").click(function () {
+                $("#editLimit").prop('checked', true);
+                $(this).removeAttr('readonly');
+                $(this).focus();
+            });
+
+            $('#editLimit').click(function () {
+                if ($(this).prop("checked") == true) {
+                    $("#editLimitValue").removeAttr('readonly');
+                    $("#editLimitValue").focus();
+                }
+                else if ($(this).prop("checked") == false) {
+                    $("#editLimitValue").setAttr('readonly');
                 }
             });
         });
