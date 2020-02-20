@@ -169,6 +169,22 @@
                     }
                 );
             });
+
+            $("#limitValue").click(function () {
+                $("#limit").prop('checked', true);
+                $(this).removeAttr('readonly');
+                $(this).focus();
+            });
+
+            $('#limit').click(function(){
+                if($(this).prop("checked") == true){
+                    $("#limitValue").removeAttr('readonly');
+                    $("#limitValue").focus();
+                }
+                else if($(this).prop("checked") == false){
+                    $("#limitValue").setAttr('readonly');
+                }
+            });
         });
     </script>
 {% endblock %}
