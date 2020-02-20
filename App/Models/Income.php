@@ -75,7 +75,7 @@ class Income extends \Core\Model
                 $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
                 $stmt->execute();
 
-                return "Kategoria została usunięta. Usunięto ";
+                return "Kategoria została usunięta";
             } else {
                 return "Kategoria zawiera przychody. Czy chcesz ją usunąć? ";
             }

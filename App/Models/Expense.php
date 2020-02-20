@@ -94,7 +94,7 @@ class Expense extends \Core\Model
                 $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
                 $stmt->execute();
 
-                return "Kategoria została usunięta. Usunięto ";
+                return "Kategoria została usunięta";
             } else {
                 return "Kategoria zawiera wydatki. Czy chcesz ją usunąć? ";
             }
@@ -118,7 +118,7 @@ class Expense extends \Core\Model
                 $stmt->bindValue(':methodId', $this->id, PDO::PARAM_INT);
                 $stmt->execute();
 
-                return "Metoda platnosci została usunięta. Usunięto ";
+                return "Metoda platnosci została usunięta";
             } else {
                 return "Metoda platnosci zostala juz uzyta. Czy chcesz ją usunąć? ";
             }
