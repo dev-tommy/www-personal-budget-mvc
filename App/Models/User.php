@@ -15,6 +15,47 @@ class User extends \Core\Model
         }
     }
 
+    public function editUser()
+    {
+        switch ($this->id)
+        {
+            case 1:
+                $this->editUserName();
+            break;
+            case 2:
+                $this->editUserEmail();
+            break;
+            case 3:
+                $this->editUserPassword();
+            break;
+            default:
+                return "Błędne ID edytowanego pola!";
+        }
+    }
+
+    private function editUserName()
+    {
+
+    }
+
+    private function editUserEmail()
+    {
+    }
+
+    private function editUserPassword()
+    {
+    }
+
+    private function validateId()
+    {
+        if ($this->id != 1 || $this->id != 2 || $this->id != 3)
+        {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public function save()
     {
         $this->validate();
