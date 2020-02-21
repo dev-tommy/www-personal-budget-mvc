@@ -13,6 +13,55 @@
 
 {% block javascript %}
     <script>
+        function refreshCategoriesAndMethods(elementSource)
+        {
+            var url = "";
+            var select;
+            switch (elementSource) {
+                case 'income':
+                    url = "/get-all-incomes-categories";
+                    select = $('#incomeCategory');
+                    break;
+                case 'expense':
+                    url = "/get-all-expenses-categories";
+                    select = $('#expenseCategory');
+                    break;
+                case 'payment':
+                    url = "/get-all-payments-methods";
+                    select = $('#paymentMethod');
+                    break;
+                default:
+                    return;
+            }
+            $.post(
+                url,
+                function (answer) {
+                    select.empty();
+                    var categories = JSON.parse(answer);
+                    $.each(categories, function (i, categorie) {
+                        select
+                            .append($("<option/>")
+                                .attr("value", categorie["id"])
+                                .text(categorie["name"]));
+
+                        if (!isNaN(categorie["expense_limit"]) && categorie["expense_limit"] != null) {
+                            select
+                                .append($("<option/>")
+                                    .attr("value", "0")
+                                    .attr("class", "")
+                                    .attr("disabled", true)
+                                    .addClass("text-danger")
+                                    .css({
+                                        "font-style": "italic",
+                                        "font-style": "bold",
+                                        "font-size": "0.6em"
+                                    })
+                                    .text("Limit: " + categorie["expense_limit"] + " [zł/m-c]"));;
+                        }
+                    });
+                }
+            );
+        }
         $(document).ready(function () {
             var elementSource = "";
             var elementName = "";
@@ -25,54 +74,9 @@
                 }
             })
             $('#askAdd').on('hidden.bs.modal', function () {
-                var url = "";
-                var select;
-
                 $('[limit-show]').addClass("d-none");
-                switch(elementSource) {
-                    case 'income':
-                        url = "/get-all-incomes-categories";
-                        select = $('#incomeCategory');
-                        break;
-                    case 'expense':
-                        url = "/get-all-expenses-categories";
-                        select = $('#expenseCategory');
-                        break;
-                    case 'payment':
-                        url = "/get-all-payments-methods";
-                        select = $('#paymentMethod');
-                        break;
-                    default:
-                        return;
-                }
-                $.post(
-                    url,
-                    function (answer) {
-                        select.empty();
-                        var categories = JSON.parse(answer);
-                        $.each(categories, function(i, categorie) {
-                            select
-                                .append($("<option/>")
-                                .attr("value",categorie["id"])
-                                .text(categorie["name"]));
 
-                            if (!isNaN(categorie["expense_limit"]) && categorie["expense_limit"] != null) {
-                                select
-                                    .append($("<option/>")
-                                    .attr("value", "0")
-                                    .attr("class","")
-                                    .attr("disabled", true)
-                                    .addClass("text-danger")
-                                    .css({
-                                        "font-style": "italic",
-                                        "font-style": "bold",
-                                        "font-size": "0.6em"
-                                    })
-                                    .text("Limit: "+categorie["expense_limit"]+" [zł/m-c]"));                                   ;
-                            }
-                        });
-                    }
-                );
+                refreshCategoriesAndMethods(elementSource);
             })
 
             $('#askEdit').on('show.bs.modal', function () {
@@ -80,8 +84,14 @@
                     $('[limit-show]').removeClass("d-none");
                 }
             })
+
             $('#askEdit').on('hidden.bs.modal', function () {
                 $('[limit-show]').addClass("d-none");
+                refreshCategoriesAndMethods(elementSource);
+            })
+
+            $('#askDelete').on('hidden.bs.modal', function () {
+                refreshCategoriesAndMethods(elementSource);
             })
 
             $("#incomeCategoryAdd").click(function () {
