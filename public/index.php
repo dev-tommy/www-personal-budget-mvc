@@ -42,6 +42,7 @@ $router->add('element-remove', ['controller' => 'Settings', 'action' => 'delete'
 $router->add('element-edit', ['controller' => 'Settings', 'action' => 'edit']);
 $router->add('get-all-incomes-categories', ['controller' => 'Incomes', 'action' => 'getAllCategories']);
 $router->add('get-all-expenses-categories', ['controller' => 'Expenses', 'action' => 'getAllCategories']);
+$router->add('get-all-payments-methods', ['controller' => 'Expenses', 'action' => 'getAllMethods']);
 //$router->add('{controller}/{action}');
 //$router->add('{controller}/{id:\d+}/{action}');
 //$router->add('admin/{controller}/{action}', ['namespace' => 'Admin']);
