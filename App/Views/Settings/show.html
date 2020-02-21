@@ -19,6 +19,24 @@
             var elementId = 0;
             var elementLimit = 0.0;
 
+            $('#askAdd').on('show.bs.modal', function () {
+                if (elementSource == "expense") {
+                    $('[limit-show]').removeClass("d-none");
+                }
+            })
+            $('#askAdd').on('hidden.bs.modal', function () {
+                $('[limit-show]').addClass("d-none");
+            })
+
+            $('#askEdit').on('show.bs.modal', function () {
+                if (elementSource == "expense") {
+                    $('[limit-show]').removeClass("d-none");
+                }
+            })
+            $('#askEdit').on('hidden.bs.modal', function () {
+                $('[limit-show]').addClass("d-none");
+            })
+
             $("#incomeCategoryAdd").click(function () {
                 elementSource = "income";
                 $("#askAddModalBody").val($.trim($("#incomeCategoryName").val()));
@@ -46,6 +64,7 @@
                 $("#askAddModalBody").val($.trim($("#expenseCategoryName").val()));
                 elementName = $.trim($("#expenseCategoryName").val());
                 $("#askAdd").modal();
+
             });
             $("#expenseCategoryRemove").click(function () {
                 elementSource = "expense";
