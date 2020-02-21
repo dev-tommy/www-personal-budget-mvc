@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Date;
 use Core\Model;
 use DateTime;
 use PDO;
@@ -374,5 +375,33 @@ class Expense extends \Core\Model
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
+    }
+
+    public static function getTotalMonthlyExpenses($categoryId)
+    {
+
+        $startDate = Date::getFirstDayOfCurrentMonth();
+        $endDate = Date::getLastDayOfCurrentMonth();
+        $id = $_SESSION['user_id'];
+        $sql = "
+        SELECT
+            e_userid.name AS 'Category',
+            e_userid.expense_limit AS 'Limit',
+            SUM(e.amount) AS 'Sum_of_amounts'
+        FROM
+            expenses AS e,
+            expenses_category_assigned_to_userid_$id AS e_userid
+        WHERE
+            e_userid.id = e.expense_category_assigned_to_user_id AND
+            e.date_of_expense >= '$startDate' AND
+            e.date_of_expense <= '$endDate' AND
+            e.user_id='$id' AND
+            e.expense_category_assigned_to_user_id='$categoryId'
+        ";
+
+        $db = static::getDB();
+        $stmt = $db->query($sql);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        exit(var_dump($result));
     }
 }
