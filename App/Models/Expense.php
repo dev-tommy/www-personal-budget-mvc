@@ -402,6 +402,6 @@ class Expense extends \Core\Model
         $db = static::getDB();
         $stmt = $db->query($sql);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        exit(var_dump($result));
+        return $result;
     }
 }
