@@ -3,6 +3,14 @@
 
 {% block title %}Dodaj wydatek{% endblock %}
 
+{% block javascript %}
+    <script>
+         $(document).ready(function () {
+
+         });
+    </script>
+{% endblock %}
+
 {% block main %}
 <div class="container move-under-navbar">
     <div class="row">
@@ -17,9 +25,9 @@
                                     <i class="material-icons">attach_money</i>
                                 </span>
                             </div>
-                            <input {# type="number" required #} class="form-control  {{ isValid.amount }}" name="amount" placeholder="Kwota" step="0.01"
+                            <input {# type="number" required #} id="expenseAmount" class="form-control  {{ isValid.amount }}" name="amount" placeholder="Kwota" step="0.01"
                                 value="{{ oldValues.amount }}">
-                            <div class="invalid-feedback">
+                            <div class="invalid-feedback" id="expenseAmountWarning">
                                 {{ warnings.amount }}
                             </div>
                         </div>
@@ -71,7 +79,7 @@
                             <select id="category" name="category" class="form-control {{ isValid.category }}" {# required #}>
                                 <option disabled value="" selected>Wybierz kategorię</option>
                                 {% for category in categories %}
-                                <option value={{ category.id }}>{{ category.name }}</option>
+                                <option value={{ category.id }} limit="{{ category.expense_limit }}">{{ category.name }}</option>
                                 {% endfor %}
                             </select>
                             <script>
