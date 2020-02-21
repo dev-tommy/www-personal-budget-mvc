@@ -49,4 +49,10 @@ class Expenses extends Authenticated
         $expenses = Expense::getAllCategory();
         echo json_encode(array_values($expenses));
     }
+
+    public function getAllMethodsAction()
+    {
+        $methods = Expense::getAllPayments();
+        echo json_encode(array_values($methods));
+    }
 }
