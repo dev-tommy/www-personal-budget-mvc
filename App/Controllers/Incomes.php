@@ -39,6 +39,12 @@ class Incomes extends Authenticated
             ]);
         }
     }
+
+    public function getAllCategoriesAction()
+    {
+        $incomes = Income::getAllCategory();
+        echo json_encode(array_values($incomes));
+    }
 }
 
 
