@@ -25,7 +25,31 @@
                 }
             })
             $('#askAdd').on('hidden.bs.modal', function () {
+                var url = "";
+                var select;
+
                 $('[limit-show]').addClass("d-none");
+                switch(elementSource) {
+                    case 'income':
+                        url = "/get-all-incomes-categories";
+                        select = $('#incomeCategory');
+                        break;
+                    default:
+                        return;
+                }
+                $.post(
+                    url,
+                    function (answer) {
+                        select.empty();
+                        var categories = JSON.parse(answer);
+                        $.each(categories, function(i, categorie) {
+                            select
+                                .append($("<option/>")
+                                .attr("value",categorie["id"])
+                                .text(categorie["name"]));
+                        });
+                    }
+                );
             })
 
             $('#askEdit').on('show.bs.modal', function () {
