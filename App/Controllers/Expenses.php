@@ -43,4 +43,10 @@ class Expenses extends Authenticated
             ]);
         }
     }
+
+    public function getAllCategoriesAction()
+    {
+        $expenses = Expense::getAllCategory();
+        echo json_encode(array_values($expenses));
+    }
 }
