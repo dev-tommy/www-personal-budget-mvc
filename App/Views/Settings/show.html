@@ -38,6 +38,10 @@
                         url = "/get-all-expenses-categories";
                         select = $('#expenseCategory');
                         break;
+                    case 'payment':
+                        url = "/get-all-payments-methods";
+                        select = $('#paymentMethod');
+                        break;
                     default:
                         return;
                 }
