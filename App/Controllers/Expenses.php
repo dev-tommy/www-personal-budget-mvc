@@ -55,4 +55,13 @@ class Expenses extends Authenticated
         $methods = Expense::getAllPayments();
         echo json_encode(array_values($methods));
     }
+
+    public function getTotalMonthlyExpensesAction()
+    {
+        if (!isset($_POST['categoryId'])) exit(0);
+
+        $categoryId = $_POST['categoryId'];
+        $exepnsesSum = Expense::getTotalMonthlyExpenses($categoryId);
+        echo json_encode(array_values($exepnsesSum));
+    }
 }
