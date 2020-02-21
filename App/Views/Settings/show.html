@@ -34,6 +34,10 @@
                         url = "/get-all-incomes-categories";
                         select = $('#incomeCategory');
                         break;
+                    case 'expense':
+                        url = "/get-all-expenses-categories";
+                        select = $('#expenseCategory');
+                        break;
                     default:
                         return;
                 }
@@ -47,6 +51,21 @@
                                 .append($("<option/>")
                                 .attr("value",categorie["id"])
                                 .text(categorie["name"]));
+
+                            if (!isNaN(categorie["expense_limit"]) && categorie["expense_limit"] != null) {
+                                select
+                                    .append($("<option/>")
+                                    .attr("value", "0")
+                                    .attr("class","")
+                                    .attr("disabled", true)
+                                    .addClass("text-danger")
+                                    .css({
+                                        "font-style": "italic",
+                                        "font-style": "bold",
+                                        "font-size": "0.6em"
+                                    })
+                                    .text("Limit: "+categorie["expense_limit"]+" [zł/m-c]"));                                   ;
+                            }
                         });
                     }
                 );
