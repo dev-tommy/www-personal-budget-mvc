@@ -136,6 +136,7 @@
                 elementSource = "expense";
                 $("#askEditModalBody").val($.trim($("#expenseCategory option:selected").text()));
                 elementId = $("#expenseCategory option:selected").val();
+                $("#editLimitValue").val($("#limit"+elementId).attr("Limit"));
                 $('#askEdit').on('shown.bs.modal', function () {
                     $('#askEditModalBody').focus();
                 })
