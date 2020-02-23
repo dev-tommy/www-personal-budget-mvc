@@ -47,7 +47,9 @@
                         if (!isNaN(categorie["expense_limit"]) && categorie["expense_limit"] != null) {
                             select
                                 .append($("<option/>")
-                                    .attr("value", "0")
+                                    .attr("id", "limit"+categorie['id'])
+                                    .attr("value", categorie["id"])
+                                    .attr("limit", categorie["expense_limit"])
                                     .attr("class", "")
                                     .attr("disabled", true)
                                     .addClass("text-danger")
@@ -56,7 +58,7 @@
                                         "font-style": "bold",
                                         "font-size": "0.6em"
                                     })
-                                    .text("Limit: " + categorie["expense_limit"] + " [zł/m-c]"));;
+                                    .html('  &nbsp;&nbsp; &#8627; Limit: ' + categorie["expense_limit"] + ' [zł/m-c]'));
                         }
                     });
                 }
