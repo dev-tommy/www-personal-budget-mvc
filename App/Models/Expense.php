@@ -139,28 +139,42 @@ class Expense extends \Core\Model
     public function editCategory()
     {
         if (strlen($this->name) < 3) return "Nazwa kategorii musi zawierać minimum 3 znaki";
-
+        $userId = $_SESSION['user_id'];
+        $answer = "Błąd";
         if ($this->validateCategoryId() == 'true') {
-
             if ($this->existNameCategory() == 'false') {
-
-                $userId = $_SESSION['user_id'];
-
-                $sql = "UPDATE expenses_category_assigned_to_userid_$userId SET name = :categoryName WHERE id = :categoryId";
+                $sql = "UPDATE expenses_category_assigned_to_userid_:userId SET name = :categoryName WHERE id = :categoryId";
 
                 $db = static::getDB();
                 $stmt = $db->prepare($sql);
+                $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
                 $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
                 $stmt->bindValue(':categoryName', $this->name, PDO::PARAM_STR);
                 $stmt->execute();
 
-                return "Nazwa kategorii została zmieniona";
+                $answer = "Kategoria została zmieniona";
             } else {
-                return "Kategoria o tej nazwie już istnieje";
+                $answer = "Kategoria o tej nazwie już istnieje";
+            }
+
+            if ($this->limitCheckbox === "true") {
+                if (empty($this->limit)) {
+                    $this->limit = NULL;
+                }
+                $sql = "UPDATE expenses_category_assigned_to_userid_:userId SET expense_limit = :categoryLimit WHERE id = :categoryId";
+
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+                $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
+                $stmt->bindValue(':categoryLimit', $this->limit, PDO::PARAM_STR);
+                $stmt->execute();
+                $answer = "Kategoria została zmieniona";
             }
         } else {
             return "Nie znaleziono kategorii";
         }
+        return $answer;
     }
 
     public function editMethod()
@@ -403,5 +417,23 @@ class Expense extends \Core\Model
         $stmt = $db->query($sql);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
+    }
+
+    public static function getCategoryLimit($categoryId)
+    {
+        $userId = $_SESSION['user_id'];
+
+        $sql = 'SELECT expense_limit FROM expenses_category_assigned_to_userid_:userId WHERE id = :categoryId';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':categoryId', $categoryId, PDO::PARAM_INT);
+
+        //$stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetchColumn(0);
     }
 }
