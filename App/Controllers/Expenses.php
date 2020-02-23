@@ -61,7 +61,9 @@ class Expenses extends Authenticated
         if (!isset($_POST['categoryId'])) exit(0);
 
         $categoryId = $_POST['categoryId'];
-        $exepnsesSum = Expense::getTotalMonthlyExpenses($categoryId);
-        echo json_encode(array_values($exepnsesSum));
+        $exepnsesSum = array_values(Expense::getTotalMonthlyExpenses($categoryId));
+        $exepnsesSum[0]["Limit"] = Expense::getCategoryLimit($categoryId);
+
+        echo json_encode($exepnsesSum);
     }
 }
