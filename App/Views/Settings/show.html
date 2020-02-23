@@ -84,6 +84,7 @@
             $('#askEdit').on('show.bs.modal', function () {
                 if (elementSource == "expense") {
                     $('[limit-show]').removeClass("d-none");
+                    $("#editLimit").prop("checked", false);
                 }
             })
 
