@@ -33,7 +33,7 @@
                         {{ category.name }}
                     </option>
                     {% if category.expense_limit != null %}
-                        <option disabled value='0' class="text-danger" style="font-style:italic; font-style:bold; font-size: 0.6em;">
+                        <option id="limit{{category.id}}"value={{ category.id }} limit="{{ category.expense_limit }}" class="text-danger" disabled="disabled" style="font-style:italic; font-style:bold; font-size: 0.6em;">
                             &nbsp;&nbsp;&#8627; Limit: {{ category.expense_limit }} [zł/m-c]
                         </option>
                     {% endif %}
