@@ -236,6 +236,7 @@
             $("#editElement").click(function () {
                 elementName = $.trim($("#askEditModalBody").val());
                 elementLimit = $.trim($("#editLimitValue").val());
+                limitCheckbox = $("#editLimit").prop("checked");
                 $.post(
                     "/element-edit",
                     {
