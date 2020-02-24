@@ -429,9 +429,6 @@ class Expense extends \Core\Model
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
         $stmt->bindValue(':categoryId', $categoryId, PDO::PARAM_INT);
-
-        //$stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
-
         $stmt->execute();
 
         return $stmt->fetchColumn(0);
