@@ -21,7 +21,7 @@
                         var balance = categoryLimit - inputValue - categoryAmount;
                         if (categoryLimit > 0) {
                             if ((balance).toFixed(2) < 0) {
-                                $("#alertMessage").html(" Przekroczono limit o: <B>" + (-balance).toFixed(2) + " zł </B>");
+                                $("#alertMessage").html(" Przekroczono miesięczny limit o: <B>" + (-balance).toFixed(2) + " zł </B>");
                                 $("#alert").removeClass("d-none");
                             } else {
                                 $("#alert").addClass("d-none");
