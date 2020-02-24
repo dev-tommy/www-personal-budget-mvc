@@ -217,7 +217,6 @@ class Income extends \Core\Model
     public static function getAllCategory()
     {
         $userId = $_SESSION['user_id'];
-
         try {
             $db = static::getDB();
             $sql = "SELECT id, name FROM incomes_category_assigned_to_userid_$userId";
@@ -228,5 +227,19 @@ class Income extends \Core\Model
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
+    }
+
+    public static function getCategoryNameLike($containingName)
+    {
+        $userId = $_SESSION['user_id'];
+        $name = "%".$containingName."%";
+        $sql = 'SELECT name FROM incomes_category_assigned_to_userid_? WHERE LOWER(name) LIKE LOWER(?) LIMIT 5';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(1, $userId, PDO::PARAM_INT);
+        $stmt->bindValue(2, $name, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
