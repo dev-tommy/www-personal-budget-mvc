@@ -76,30 +76,33 @@
             $('#incomeCategoryName').keyup(function() {
                 var categoryName = $('#incomeCategoryName').val();
                 var url = "/get-incomes-categories-hints";
-                //var url = "/get-all-incomes-categories";
                 var hints = $("#incomeCategoryHints");
-                $.post(
-                    url,
-                    {
-                        categoryName : categoryName
-                    },
-                    function(answer) {
-                        hints.empty();
+                if (categoryName != '') {
+                    $.post(
+                        url,
+                        {
+                            categoryName : categoryName
+                        },
+                        function(answer) {
+                            hints.empty();
 
-                        var categoryHints = JSON.parse(answer);
-                        $.each(categoryHints, function (i, hint) {
-                            hints
-                            .append($("<li/>")
-                                .attr("class", "")
-                                .addClass("hint")
-                                .addClass("list-group-item")
-                                .addClass("small")
-                                .addClass("py-0")
-                                .text(hint['name'])
-                            );
-                        });
-                    }
-                );
+                            var categoryHints = JSON.parse(answer);
+                            $.each(categoryHints, function (i, hint) {
+                                hints
+                                .append($("<li/>")
+                                    .attr("class", "")
+                                    .addClass("hint")
+                                    .addClass("list-group-item")
+                                    .addClass("small")
+                                    .addClass("py-0")
+                                    .text(hint['name'])
+                                );
+                            });
+                        }
+                    );
+                } else {
+                    hints.empty();
+                }
             });
 
             $('#askAdd').on('show.bs.modal', function () {
