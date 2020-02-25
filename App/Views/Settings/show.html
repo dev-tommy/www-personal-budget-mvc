@@ -139,6 +139,39 @@
                 }
             });
 
+            $('#paymentMethodName').keyup(function () {
+                var methodName = $('#paymentMethodName').val();
+                var url = "/get-payments-methods-hints";
+                var hints = $("#paymentMethodHints");
+                if (methodName != '') {
+                    $.post(
+                        url,
+                        {
+                            methodName: methodName
+                        },
+                        function (answer) {
+                            hints.empty();
+
+                            var methodHints = JSON.parse(answer);
+                            $.each(methodHints, function (i, hint) {
+                                hints
+                                    .append($("<li/>")
+                                        .attr("class", "")
+                                        .addClass("hint")
+                                        .addClass("list-group-item")
+                                        .addClass("small")
+                                        .addClass("py-0")
+                                        .addClass("pl-5")
+                                        .text(hint['name'])
+                                    );
+                            });
+                        }
+                    );
+                } else {
+                    hints.empty();
+                }
+            });
+
             $('#askAdd').on('show.bs.modal', function () {
                 if (elementSource == "expense") {
                     $('[limit-show]').removeClass("d-none");
