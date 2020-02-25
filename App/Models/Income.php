@@ -240,16 +240,11 @@ class Income extends \Core\Model
     public static function getAllCategory()
     {
         $userId = $_SESSION['user_id'];
-        try {
-            $db = static::getDB();
-            $sql = "SELECT id, name FROM incomes_category_assigned_to_userid_$userId";
-            $stmt = $db->query($sql);
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $result;
-
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-        }
+        $db = static::getDB();
+        $sql = "SELECT id, name FROM incomes_category_assigned_to_userid_$userId";
+        $stmt = $db->query($sql);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
     public static function getCategoryNameLike($containingName)
