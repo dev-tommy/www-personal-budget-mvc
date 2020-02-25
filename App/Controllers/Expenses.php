@@ -66,4 +66,18 @@ class Expenses extends Authenticated
 
         echo json_encode($exepnsesSum);
     }
+
+    public function getCategoryNameLikeAction()
+    {
+        if (!isset($_POST['categoryName'])) {
+            $_POST['categoryName'] = '0';
+        }
+        $expensesCategory = Expense::getCategoryNameLike($_POST['categoryName']);
+        if ($expensesCategory) {
+            echo json_encode(array_values($expensesCategory));
+        } else {
+            $answer[0]["name"] = '';
+            echo json_encode($answer);
+        }
+    }
 }
