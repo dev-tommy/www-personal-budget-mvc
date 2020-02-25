@@ -80,4 +80,18 @@ class Expenses extends Authenticated
             echo json_encode($answer);
         }
     }
+
+    public function getMethodNameLikeAction()
+    {
+        if (!isset($_POST['methodName'])) {
+            $_POST['methodName'] = '0';
+        }
+        $paymentMethod = Expense::getMethodNameLike($_POST['methodName']);
+        if ($paymentMethod) {
+            echo json_encode(array_values($paymentMethod));
+        } else {
+            $answer[0]["name"] = '';
+            echo json_encode($answer);
+        }
+    }
 }
