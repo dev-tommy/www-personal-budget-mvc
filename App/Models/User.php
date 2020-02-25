@@ -37,26 +37,23 @@ class User extends \Core\Model
 
         if (DB::editTable("users", "username", $this->name, "str")) {
             return "Nazwa użytkownika została zmieniona";
-}
+        } else {
+            return "Nazwa użytkownika <B>nie została</B> zmieniona";
+        }
+    }
 
     private function editUserEmail()
     {
         if (filter_var($this->name, FILTER_VALIDATE_EMAIL) === false)
             return 'Niepoprawny adres email';
-
         if (static::emailExists($this->name))
             return "Adres email już zajęty. Proszę wybrać inny.";
 
-        $userId = $_SESSION['user_id'];
-
-        $sql = "UPDATE users SET email = :userEmail WHERE id = $userId";
-
-        $db = static::getDB();
-        $stmt = $db->prepare($sql);
-        $stmt->bindValue(':userEmail', $this->name, PDO::PARAM_STR);
-        $stmt->execute();
-
-        return "Adres email został zmieniony";
+        if (DB::editTable("users", "email", $this->name, "str")) {
+            return "Adres email został zmieniony";
+        } else {
+            return "Adres email <B>nie został</B> zmieniony";
+        }
     }
 
     private function editUserPassword()
