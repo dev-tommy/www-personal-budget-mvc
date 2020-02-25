@@ -439,7 +439,19 @@ class Expense extends \Core\Model
         $userId = $_SESSION['user_id'];
         $name = "%" . $containingName . "%";
         $sql = 'SELECT name FROM expenses_category_assigned_to_userid_? WHERE LOWER(name) LIKE LOWER(?) LIMIT 5';
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(1, $userId, PDO::PARAM_INT);
+        $stmt->bindValue(2, $name, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
+    public static function getMethodNameLike($containingName)
+    {
+        $userId = $_SESSION['user_id'];
+        $name = "%" . $containingName . "%";
+        $sql = 'SELECT name FROM payment_methods_assigned_to_userid_? WHERE LOWER(name) LIKE LOWER(?) LIMIT 5';
         $db = static::getDB();
         $stmt = $db->prepare($sql);
         $stmt->bindValue(1, $userId, PDO::PARAM_INT);
