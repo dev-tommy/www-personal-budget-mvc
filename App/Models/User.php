@@ -35,16 +35,8 @@ class User extends \Core\Model
         if (strlen($this->name) < 6)
             return "Nazwa uzytkownika musi skladać się z minimum 6 znaków";
 
-        $userId = $_SESSION['user_id'];
-
-        $sql = "UPDATE users SET username = :userName WHERE id = $userId";
-
-        $db = static::getDB();
-        $stmt = $db->prepare($sql);
-        $stmt->bindValue(':userName', $this->name, PDO::PARAM_STR);
-        $stmt->execute();
-
-        return "Nazwa użytkownika została zmieniona";
+        if (DB::editTable("users", "username", $this->name, "str")) {
+            return "Nazwa użytkownika została zmieniona";
 }
 
     private function editUserEmail()
