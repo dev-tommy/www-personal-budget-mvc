@@ -95,8 +95,42 @@
                                     .addClass("list-group-item")
                                     .addClass("small")
                                     .addClass("py-0")
+                                    .addClass("pl-5")
                                     .text(hint['name'])
                                 );
+                            });
+                        }
+                    );
+                } else {
+                    hints.empty();
+                }
+            });
+
+            $('#expenseCategoryName').keyup(function () {
+                var categoryName = $('#expenseCategoryName').val();
+                var url = "/get-expenses-categories-hints";
+                var hints = $("#expenseCategoryHints");
+                if (categoryName != '') {
+                    $.post(
+                        url,
+                        {
+                            categoryName: categoryName
+                        },
+                        function (answer) {
+                            hints.empty();
+
+                            var categoryHints = JSON.parse(answer);
+                            $.each(categoryHints, function (i, hint) {
+                                hints
+                                    .append($("<li/>")
+                                        .attr("class", "")
+                                        .addClass("hint")
+                                        .addClass("list-group-item")
+                                        .addClass("small")
+                                        .addClass("py-0")
+                                        .addClass("pl-5")
+                                        .text(hint['name'])
+                                    );
                             });
                         }
                     );
