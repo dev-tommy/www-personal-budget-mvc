@@ -1,25 +1,27 @@
 <div class="card-header text-center bg-success">
     <button class="btn btn-success btn-block" data-toggle="collapse" data-target="#incomeSettings" type="button">
-        <span class="text-button"> Przychody </span>
+        <span class="text-button"> Kategorie przychodów </span>
     </button>
 </div>
 <div id="incomeSettings" class="collapse" data-parent="#settings">
     <div class="card-body">
-        <div class="input-group mb-3">
+        <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text">
                     <i class="material-icons">shop</i>
                 </span>
             </div>
-            <input type="text" class="form-control form-control-lg" placeholder="Dodaj nową kategorię przychodu"
+            <input type="text" class="form-control form-control-lg" id="incomeCategoryName" placeholder="Dodaj nową kategorię przychodu"
                 aria-label="Add new income category" aria-describedby="">
             <div class="input-group-append">
-                <button class="btn btn-outline-success" type="button">
+                <button class="btn btn-outline-success" type="button" id="incomeCategoryAdd">
                     <i class="material-icons">playlist_add</i>
                 </button>
             </div>
         </div>
-        <label for="editIncomeCategory">Edytuj wybraną kategorię</label>
+        <ul id="incomeCategoryHints" class="list-group list-group-flush">
+        </ul>
+        <label for="editIncomeCategory" class="mt-3">Edytuj wybraną kategorię</label>
         <div class="input-group mb-1">
             <div class="input-group-prepend">
                 <span class="input-group-text">
@@ -39,7 +41,7 @@
             </div>
             <div class="input-group-append">
                 <button type="button" class="btn btn-outline-danger" id="incomeCategoryRemove">
-                    <i class="material-icons">remove_circle</i>
+                    <i class="material-icons">delete</i>
                 </button>
             </div>
         </div>

@@ -37,6 +37,16 @@ $router->add('attempt-unautorized-entry', ['controller' => 'Login', 'action' => 
 $router->add('user-login', ['controller' => 'Login', 'action' => 'create']);
 $router->add('log-out-user', ['controller' => 'Login', 'action' => 'destroy']);
 $router->add('show-settings', ['controller' => 'Settings', 'action' => 'show']);
+$router->add('element-add', ['controller' => 'Settings', 'action' => 'add']);
+$router->add('element-remove', ['controller' => 'Settings', 'action' => 'delete']);
+$router->add('element-edit', ['controller' => 'Settings', 'action' => 'edit']);
+$router->add('get-all-incomes-categories', ['controller' => 'Incomes', 'action' => 'getAllCategories']);
+$router->add('get-all-expenses-categories', ['controller' => 'Expenses', 'action' => 'getAllCategories']);
+$router->add('get-all-payments-methods', ['controller' => 'Expenses', 'action' => 'getAllMethods']);
+$router->add('get-total-expenses-of-category', ['controller' => 'Expenses', 'action' => 'getTotalMonthlyExpenses']);
+$router->add('get-incomes-categories-hints', ['controller' => 'Incomes', 'action' => 'getCategoryNameLike']);
+$router->add('get-expenses-categories-hints', ['controller' => 'Expenses', 'action' => 'getCategoryNameLike']);
+$router->add('get-payments-methods-hints', ['controller' => 'Expenses', 'action' => 'getMethodNameLike']);
 //$router->add('{controller}/{action}');
 //$router->add('{controller}/{id:\d+}/{action}');
 //$router->add('admin/{controller}/{action}', ['namespace' => 'Admin']);

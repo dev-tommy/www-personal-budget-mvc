@@ -1,26 +1,27 @@
 <div class="card-header text-center bg-danger">
     <button class="btn btn-danger btn-block" data-toggle="collapse" data-target="#expenseSettings" type="button">
-        <span class="text-button"> Wydatki </span>
+        <span class="text-button"> Kategorie wydatków </span>
     </button>
 </div>
 <div id="expenseSettings" class="collapse" data-parent="#settings">
     <div class="card-body">
-        <div class="input-group mb-3">
+        <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text">
                     <i class="material-icons">shop</i>
                 </span>
             </div>
-            <input type="text" class="form-control form-control-lg" placeholder="Dodaj nową kategorię wydatku"
+            <input type="text" class="form-control form-control-lg" id="expenseCategoryName" placeholder="Dodaj nową kategorię wydatku"
                 aria-label="Add new expense category" aria-describedby="">
             <div class="input-group-append">
-                <button class="btn btn-outline-success" type="button">
+                <button class="btn btn-outline-success" type="button" id="expenseCategoryAdd">
                     <i class="material-icons">playlist_add</i>
                 </button>
             </div>
         </div>
+        <ul id="expenseCategoryHints" class="list-group list-group-flush">
+        </ul>
         <label for="editExpenseCategory">Edytuj wybraną kategorię</label>
-
         <div class="input-group mb-1">
             <div class="input-group-prepend">
                 <span class="input-group-text">
@@ -34,7 +35,7 @@
                         {{ category.name }}
                     </option>
                     {% if category.expense_limit != null %}
-                        <option disabled value='0' class="text-danger" style="font-style:italic; font-style:bold; font-size: 0.6em;">
+                        <option id="limit{{category.id}}"value={{ category.id }} limit="{{ category.expense_limit }}" class="text-danger" disabled="disabled" style="font-style:italic; font-style:bold; font-size: 0.6em;">
                             &nbsp;&nbsp;&#8627; Limit: {{ category.expense_limit }} [zł/m-c]
                         </option>
                     {% endif %}
@@ -48,7 +49,7 @@
             </div>
             <div class="input-group-append">
                 <button  type="button" class="btn btn-outline-danger" id="expenseCategoryRemove">
-                    <i class="material-icons">remove_circle</i>
+                    <i class="material-icons">delete</i>
                 </button>
             </div>
         </div>

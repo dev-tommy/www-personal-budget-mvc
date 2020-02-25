@@ -3,6 +3,38 @@
 
 {% block title %}Dodaj wydatek{% endblock %}
 
+{% block javascript %}
+    <script>
+         $(document).ready(function () {
+            $("#expenseAmount").keyup(function(){
+                var categoryId = $("#category option:selected").val();
+                var inputValue = $("#expenseAmount").val();
+                $.post(
+                    "/get-total-expenses-of-category",
+                    {
+                        categoryId: categoryId
+                    },
+                    function (answer) {
+                        var expenseCategory = JSON.parse(answer);
+                        var categoryAmount = expenseCategory[0]['Sum_of_amounts'];
+                        var categoryLimit = expenseCategory[0]['Limit'];
+                        var balance = categoryLimit - inputValue - categoryAmount;
+                        if (categoryLimit > 0) {
+                            if ((balance).toFixed(2) < 0) {
+                                $("#alertMessage").html(" Przekroczono miesięczny limit o: <B>" + (-balance).toFixed(2) + " zł </B>");
+                                $("#alert").removeClass("d-none");
+                            } else {
+                                $("#alert").addClass("d-none");
+                            }
+                        }
+
+                    }
+                );
+            });
+         });
+    </script>
+{% endblock %}
+
 {% block main %}
 <div class="container move-under-navbar">
     <div class="row">
@@ -17,9 +49,9 @@
                                     <i class="material-icons">attach_money</i>
                                 </span>
                             </div>
-                            <input {# type="number" required #} class="form-control  {{ isValid.amount }}" name="amount" placeholder="Kwota" step="0.01"
+                            <input {# type="number" required #} id="expenseAmount" class="form-control  {{ isValid.amount }}" name="amount" placeholder="Kwota" step="0.01"
                                 value="{{ oldValues.amount }}">
-                            <div class="invalid-feedback">
+                            <div class="invalid-feedback" id="expenseAmountWarning">
                                 {{ warnings.amount }}
                             </div>
                         </div>
@@ -88,7 +120,7 @@
                                     <i class="material-icons">comment</i>
                                 </span>
                             </div>
-                            <textarea class="form-control {{ isValid.comment }} maxlength=180" name="comment" rows=4 cols=45
+                            <textarea id="comment" class="form-control {{ isValid.comment }} maxlength=180" name="comment" rows=4 cols=45
                                 placeholder="Komentarz (opcjonalnie):">{{ oldValues.comment }}</textarea>
                             <div class="invalid-feedback">
                                 {{ warnings.comment }}

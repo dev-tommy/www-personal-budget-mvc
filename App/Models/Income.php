@@ -39,6 +39,119 @@ class Income extends \Core\Model
         return false;
     }
 
+
+    public function addCategory()
+    {
+        if (strlen($this->name) < 3) return "Nazwa kategorii musi zawierać minimum 3 znaki";
+
+        if ($this->existNameCategory() == 'false') {
+            $userId = $_SESSION['user_id'];
+
+            $sql = "INSERT INTO incomes_category_assigned_to_userid_$userId (name) VALUES (:categoryName)";
+
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':categoryName', $this->name, PDO::PARAM_STR);
+            $stmt->execute();
+
+            return "Kategoria została dodana ";
+        } else {
+            return "Kategoria już istnieje";
+        }
+    }
+
+    public function deleteCategory()
+    {
+        if ($this->validateId() == 'true') {
+
+            if (empty($this->isEmptyCategory())) {
+
+                $userId = $_SESSION['user_id'];
+
+                $sql = "DELETE FROM incomes_category_assigned_to_userid_$userId WHERE id = :categoryId";
+
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
+                $stmt->execute();
+
+                return "Kategoria została usunięta";
+            } else {
+                $this->moveCategoryItems();
+
+                $userId = $_SESSION['user_id'];
+
+                $sql = "DELETE FROM incomes_category_assigned_to_userid_$userId WHERE id = :categoryId";
+
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
+                $stmt->execute();
+                return "Kategoria zawierała przychody! <br />Zostały one przeniesione do kategorii 'Inne' ";
+            }
+        } else {
+            return "Nie znaleziono kategorii";
+        }
+    }
+
+    public function editCategory()
+    {
+        if (strlen($this->name) < 3) return "Nazwa kategorii musi zawierać minimum 3 znaki";
+
+        if ($this->validateId() == 'true') {
+
+            if ($this->existNameCategory() == 'false') {
+
+                $userId = $_SESSION['user_id'];
+
+                $sql = "UPDATE incomes_category_assigned_to_userid_$userId SET name = :categoryName WHERE id = :categoryId";
+
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
+                $stmt->bindValue(':categoryName', $this->name, PDO::PARAM_STR);
+                $stmt->execute();
+
+                return "Nazwa kategorii została zmieniona";
+            } else {
+                return "Kategoria o tej nazwie już istnieje";
+            }
+        } else {
+            return "Nie znaleziono kategorii";
+        }
+    }
+
+    public function moveCategoryItems()
+    {
+        $userId = $_SESSION['user_id'];
+        $sql = 'UPDATE incomes SET income_category_assigned_to_user_id = 4 WHERE user_id = :userId AND income_category_assigned_to_user_id = :categoryId';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
+
+        $stmt->execute();
+    }
+
+    public function isEmptyCategory()
+    {
+        $userId = $_SESSION['user_id'];
+
+        $sql = 'SELECT * FROM incomes WHERE user_id = :userId AND income_category_assigned_to_user_id = :categoryId';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
     public function validate()
     {
         if (!isset($this->amount) || ($this->amount == '')) {
@@ -100,10 +213,33 @@ class Income extends \Core\Model
         return $d && $d->format($format) === $date;
     }
 
+    private function validateId()
+    {
+        $isExist = 'false';
+        $elements = static::getAllCategory();
+        foreach ($elements as $element) {
+            if ($this->id == $element['id']) {
+                $isExist = 'true';
+            }
+        }
+        return $isExist;
+    }
+
+    private function existNameCategory()
+    {
+        $isExist = 'false';
+        $elements = static::getAllCategory();
+        foreach ($elements as $element) {
+            if ($this->name == $element['name']) {
+                $isExist = 'true';
+            }
+        }
+        return $isExist;
+    }
+
     public static function getAllCategory()
     {
         $userId = $_SESSION['user_id'];
-
         try {
             $db = static::getDB();
             $sql = "SELECT id, name FROM incomes_category_assigned_to_userid_$userId";
@@ -114,5 +250,19 @@ class Income extends \Core\Model
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
+    }
+
+    public static function getCategoryNameLike($containingName)
+    {
+        $userId = $_SESSION['user_id'];
+        $name = "%".$containingName."%";
+        $sql = 'SELECT name FROM incomes_category_assigned_to_userid_? WHERE LOWER(name) LIKE LOWER(?) LIMIT 5';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(1, $userId, PDO::PARAM_INT);
+        $stmt->bindValue(2, $name, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

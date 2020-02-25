@@ -39,6 +39,26 @@ class Incomes extends Authenticated
             ]);
         }
     }
+
+    public function getAllCategoriesAction()
+    {
+        $incomes = Income::getAllCategory();
+        echo json_encode(array_values($incomes));
+    }
+
+    public function getCategoryNameLikeAction()
+    {
+        if (!isset($_POST['categoryName'])) {
+            $_POST['categoryName'] = '0';
+        }
+        $incomesCategory = Income::getCategoryNameLike($_POST['categoryName']);
+        if ($incomesCategory) {
+            echo json_encode(array_values($incomesCategory));
+        } else {
+            $answer[0]["name"] = '';
+            echo json_encode($answer);
+        }
+    }
 }
 
 

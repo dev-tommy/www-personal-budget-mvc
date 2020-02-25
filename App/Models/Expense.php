@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Date;
 use Core\Model;
 use DateTime;
 use PDO;
@@ -37,6 +38,252 @@ class Expense extends \Core\Model
             return $stmt->execute();
         }
         return false;
+    }
+
+    public function addCategory()
+    {
+        if (strlen($this->name) < 3) return "Nazwa kategorii musi zawierać minimum 3 znaki";
+
+        if ($this->existNameCategory() == 'false') {
+            $userId = $_SESSION['user_id'];
+
+            if ($this->limit > 0)
+            {
+                $sql = "INSERT INTO expenses_category_assigned_to_userid_$userId (name, expense_limit) VALUES (:categoryName, :limitValue)";
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':limitValue', strval($this->limit), PDO::PARAM_STR);
+            } else {
+                $sql = "INSERT INTO expenses_category_assigned_to_userid_$userId (name) VALUES (:categoryName)";
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+            }
+
+            $stmt->bindValue(':categoryName', $this->name, PDO::PARAM_STR);
+            $stmt->execute();
+
+            return "Kategoria została dodana ";
+        } else {
+            return "Kategoria już istnieje";
+        }
+    }
+
+    public function addMethod()
+    {
+        if (strlen($this->name) < 3) return "Nazwa rodzaju platnosci musi zawierać minimum 3 znaki";
+
+        if ($this->existNameMethod() == 'false') {
+            $userId = $_SESSION['user_id'];
+
+            $sql = "INSERT INTO payment_methods_assigned_to_userid_$userId (name) VALUES (:methodName)";
+
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':methodName', $this->name, PDO::PARAM_STR);
+            $stmt->execute();
+
+            return "Rodzaj platnosci został dodany ";
+        } else {
+            return "Rodzaj platnosci już istnieje";
+        }
+    }
+
+    public function deleteCategory()
+    {
+        if ($this->validateCategoryId() == 'true') {
+
+            if (empty($this->isEmptyCategory())) {
+
+                $userId = $_SESSION['user_id'];
+
+                $sql = "DELETE FROM expenses_category_assigned_to_userid_$userId WHERE id = :categoryId";
+
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
+                $stmt->execute();
+
+                return "Kategoria została usunięta";
+            } else {
+                $this->moveCategoryItems();
+
+                $userId = $_SESSION['user_id'];
+
+                $sql = "DELETE FROM expenses_category_assigned_to_userid_$userId WHERE id = :categoryId";
+
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
+                $stmt->execute();
+                return "Kategoria zawierała wydatki! <br />Zostały one przeniesione do kategorii 'Inne' ";
+            }
+        } else {
+            return "Nie znaleziono kategorii";
+        }
+    }
+
+    public function moveCategoryItems()
+    {
+        $userId = $_SESSION['user_id'];
+        $sql = 'UPDATE expenses SET expense_category_assigned_to_user_id = 28 WHERE user_id = :userId AND expense_category_assigned_to_user_id = :categoryId';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
+
+        $stmt->execute();
+    }
+
+    public function moveMethodsItems()
+    {
+        $userId = $_SESSION['user_id'];
+        $sql = 'UPDATE expenses SET payment_method_assigned_to_user_id = 8 WHERE user_id = :userId AND payment_method_assigned_to_user_id = :categoryId';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
+
+        $stmt->execute();
+    }
+
+    public function deleteMethod()
+    {
+        if ($this->validateMethodId() == 'true') {
+
+            if (empty($this->isEmptyMethod())) {
+
+                $userId = $_SESSION['user_id'];
+
+                $sql = "DELETE FROM payment_methods_assigned_to_userid_$userId WHERE id = :methodId";
+
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':methodId', $this->id, PDO::PARAM_INT);
+                $stmt->execute();
+
+                return "Metoda platnosci została usunięta";
+            } else {
+                $this->moveMethodsItems();
+
+                $userId = $_SESSION['user_id'];
+
+                $sql = "DELETE FROM payment_methods_assigned_to_userid_$userId WHERE id = :methodId";
+
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':methodId', $this->id, PDO::PARAM_INT);
+                $stmt->execute();
+                return "Zmieniono wybrany sposób płatności wydatków na 'Inne' ";
+            }
+        } else {
+            return "Nie znaleziono metody platnosci!";
+        }
+    }
+
+    public function editCategory()
+    {
+        if (strlen($this->name) < 3) return "Nazwa kategorii musi zawierać minimum 3 znaki";
+        $userId = $_SESSION['user_id'];
+        $answer = "Błąd";
+        if ($this->validateCategoryId() == 'true') {
+            if ($this->existNameCategory() == 'false') {
+                $sql = "UPDATE expenses_category_assigned_to_userid_:userId SET name = :categoryName WHERE id = :categoryId";
+
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+                $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
+                $stmt->bindValue(':categoryName', $this->name, PDO::PARAM_STR);
+                $stmt->execute();
+
+                $answer = "Kategoria została zmieniona";
+            } else {
+                $answer = "Kategoria o tej nazwie już istnieje";
+            }
+
+            if ($this->limitCheckbox === "true") {
+                if (empty($this->limit)) {
+                    $this->limit = NULL;
+                }
+                $sql = "UPDATE expenses_category_assigned_to_userid_:userId SET expense_limit = :categoryLimit WHERE id = :categoryId";
+
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+                $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
+                $stmt->bindValue(':categoryLimit', $this->limit, PDO::PARAM_STR);
+                $stmt->execute();
+                $answer = "Kategoria została zmieniona";
+            }
+        } else {
+            return "Nie znaleziono kategorii";
+        }
+        return $answer;
+    }
+
+    public function editMethod()
+    {
+        if (strlen($this->name) < 3) return "Nazwa rodzaju platnosci musi zawierać minimum 3 znaki";
+
+        if ($this->validateMethodId() == 'true') {
+
+            if ($this->existNameMethod() == 'false') {
+
+                $userId = $_SESSION['user_id'];
+
+                $sql = "UPDATE payment_methods_assigned_to_userid_$userId SET name = :methodName WHERE id = :methodId";
+
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':methodId', $this->id, PDO::PARAM_INT);
+                $stmt->bindValue(':methodName', $this->name, PDO::PARAM_STR);
+                $stmt->execute();
+
+                return "Nazwa rodzaju platnosci została zmieniona";
+            } else {
+                return "Rodzaj platnosci o tej nazwie już istnieje";
+            }
+        } else {
+            return "Nie znaleziono rodzaju platnosci";
+        }
+    }
+
+    public function isEmptyCategory()
+    {
+        $userId = $_SESSION['user_id'];
+
+        $sql = 'SELECT * FROM expenses WHERE user_id = :userId AND expense_category_assigned_to_user_id = :categoryId';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
+    public function isEmptyMethod()
+    {
+        $userId = $_SESSION['user_id'];
+
+        $sql = 'SELECT * FROM expenses WHERE user_id = :userId AND payment_method_assigned_to_user_id = :methodId';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':methodId', $this->id, PDO::PARAM_INT);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetch();
     }
 
     public function validate()
@@ -114,6 +361,54 @@ class Expense extends \Core\Model
         return $d && $d->format($format) === $date;
     }
 
+    private function validateCategoryId()
+    {
+        $isExist = 'false';
+        $elements = static::getAllCategory();
+        foreach ($elements as $element) {
+            if ($this->id == $element['id']) {
+                $isExist = 'true';
+            }
+        }
+        return $isExist;
+    }
+
+    private function validateMethodId()
+    {
+        $isExist = 'false';
+        $elements = static::getAllPayments();
+        foreach ($elements as $element) {
+            if ($this->id == $element['id']) {
+                $isExist = 'true';
+            }
+        }
+        return $isExist;
+    }
+
+    private function existNameCategory()
+    {
+        $isExist = 'false';
+        $elements = static::getAllCategory();
+        foreach ($elements as $element) {
+            if ($this->name == $element['name']) {
+                $isExist = 'true';
+            }
+        }
+        return $isExist;
+    }
+
+    private function existNameMethod()
+    {
+        $isExist = 'false';
+        $elements = static::getAllPayments();
+        foreach ($elements as $element) {
+            if ($this->name == $element['name']) {
+                $isExist = 'true';
+            }
+        }
+        return $isExist;
+    }
+
     public static function getAllCategory()
     {
         $userId = $_SESSION['user_id'];
@@ -140,5 +435,74 @@ class Expense extends \Core\Model
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
+    }
+
+    public static function getTotalMonthlyExpenses($categoryId)
+    {
+
+        $startDate = Date::getFirstDayOfCurrentMonth();
+        $endDate = Date::getLastDayOfCurrentMonth();
+        $id = $_SESSION['user_id'];
+        $sql = "
+        SELECT
+            e_userid.name AS 'Category',
+            e_userid.expense_limit AS 'Limit',
+            SUM(e.amount) AS 'Sum_of_amounts'
+        FROM
+            expenses AS e,
+            expenses_category_assigned_to_userid_$id AS e_userid
+        WHERE
+            e_userid.id = e.expense_category_assigned_to_user_id AND
+            e.date_of_expense >= '$startDate' AND
+            e.date_of_expense <= '$endDate' AND
+            e.user_id='$id' AND
+            e.expense_category_assigned_to_user_id='$categoryId'
+        ";
+
+        $db = static::getDB();
+        $stmt = $db->query($sql);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public static function getCategoryLimit($categoryId)
+    {
+        $userId = $_SESSION['user_id'];
+
+        $sql = 'SELECT expense_limit FROM expenses_category_assigned_to_userid_:userId WHERE id = :categoryId';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':categoryId', $categoryId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchColumn(0);
+    }
+
+    public static function getCategoryNameLike($containingName)
+    {
+        $userId = $_SESSION['user_id'];
+        $name = "%" . $containingName . "%";
+        $sql = 'SELECT name FROM expenses_category_assigned_to_userid_? WHERE LOWER(name) LIKE LOWER(?) LIMIT 5';
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(1, $userId, PDO::PARAM_INT);
+        $stmt->bindValue(2, $name, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function getMethodNameLike($containingName)
+    {
+        $userId = $_SESSION['user_id'];
+        $name = "%" . $containingName . "%";
+        $sql = 'SELECT name FROM payment_methods_assigned_to_userid_? WHERE LOWER(name) LIKE LOWER(?) LIMIT 5';
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(1, $userId, PDO::PARAM_INT);
+        $stmt->bindValue(2, $name, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
