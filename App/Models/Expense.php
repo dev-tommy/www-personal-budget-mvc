@@ -135,6 +135,19 @@ class Expense extends \Core\Model
         $stmt->execute();
     }
 
+    public function moveMethodsItems()
+    {
+        $userId = $_SESSION['user_id'];
+        $sql = 'UPDATE expenses SET payment_method_assigned_to_user_id = 8 WHERE user_id = :userId AND payment_method_assigned_to_user_id = :categoryId';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
+
+        $stmt->execute();
+    }
+
     public function deleteMethod()
     {
         if ($this->validateMethodId() == 'true') {
@@ -152,7 +165,17 @@ class Expense extends \Core\Model
 
                 return "Metoda platnosci została usunięta";
             } else {
-                return "Metoda platnosci zostala juz uzyta. Czy chcesz ją usunąć? ";
+                $this->moveMethodsItems();
+
+                $userId = $_SESSION['user_id'];
+
+                $sql = "DELETE FROM payment_methods_assigned_to_userid_$userId WHERE id = :methodId";
+
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':methodId', $this->id, PDO::PARAM_INT);
+                $stmt->execute();
+                return "Zmieniono wybrany sposób płatności wydatków na 'Inne' ";
             }
         } else {
             return "Nie znaleziono metody platnosci!";
