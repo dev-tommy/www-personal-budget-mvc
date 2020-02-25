@@ -49,7 +49,7 @@ class Incomes extends Authenticated
     public function getCategoryNameLikeAction()
     {
         if (!isset($_POST['categoryName'])) {
-            $_POST['categoryName'] = 'wyy';
+            $_POST['categoryName'] = '0';
         }
         $incomesCategory = Income::getCategoryNameLike($_POST['categoryName']);
         if ($incomesCategory) {
