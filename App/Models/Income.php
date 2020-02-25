@@ -77,7 +77,17 @@ class Income extends \Core\Model
 
                 return "Kategoria została usunięta";
             } else {
-                return "Kategoria zawiera przychody. Czy chcesz ją usunąć? ";
+                $this->moveCategoryItems();
+
+                $userId = $_SESSION['user_id'];
+
+                $sql = "DELETE FROM incomes_category_assigned_to_userid_$userId WHERE id = :categoryId";
+
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
+                $stmt->execute();
+                return "Kategoria zawierała przychody! <br />Zostały one przeniesione do kategorii 'Inne' ";
             }
         } else {
             return "Nie znaleziono kategorii";
@@ -109,6 +119,19 @@ class Income extends \Core\Model
         } else {
             return "Nie znaleziono kategorii";
         }
+    }
+
+    public function moveCategoryItems()
+    {
+        $userId = $_SESSION['user_id'];
+        $sql = 'UPDATE incomes SET income_category_assigned_to_user_id = 4 WHERE user_id = :userId AND income_category_assigned_to_user_id = :categoryId';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
+
+        $stmt->execute();
     }
 
     public function isEmptyCategory()

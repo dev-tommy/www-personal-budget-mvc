@@ -105,11 +105,34 @@ class Expense extends \Core\Model
 
                 return "Kategoria została usunięta";
             } else {
-                return "Kategoria zawiera wydatki. Czy chcesz ją usunąć? ";
+                $this->moveCategoryItems();
+
+                $userId = $_SESSION['user_id'];
+
+                $sql = "DELETE FROM expenses_category_assigned_to_userid_$userId WHERE id = :categoryId";
+
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
+                $stmt->execute();
+                return "Kategoria zawierała wydatki! <br />Zostały one przeniesione do kategorii 'Inne' ";
             }
         } else {
             return "Nie znaleziono kategorii";
         }
+    }
+
+    public function moveCategoryItems()
+    {
+        $userId = $_SESSION['user_id'];
+        $sql = 'UPDATE expenses SET expense_category_assigned_to_user_id = 28 WHERE user_id = :userId AND expense_category_assigned_to_user_id = :categoryId';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':categoryId', $this->id, PDO::PARAM_INT);
+
+        $stmt->execute();
     }
 
     public function deleteMethod()
