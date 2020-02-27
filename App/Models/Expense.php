@@ -118,14 +118,15 @@ class Expense extends \Core\Model
                 return "Kategoria zawierała wydatki! <br />Zostały one przeniesione do kategorii 'Inne' ";
             }
         } else {
-            return "Nie znaleziono kategorii";
+            return "Nie znaleziono kategorii lub jest zabezpieczona przed modyfikacją";
         }
     }
 
     public function moveCategoryItems()
     {
         $userId = $_SESSION['user_id'];
-        $sql = 'UPDATE expenses SET expense_category_assigned_to_user_id = 28 WHERE user_id = :userId AND expense_category_assigned_to_user_id = :categoryId';
+        $otherId = DB::getOtherExpensesCategoryId();
+        $sql = "UPDATE expenses SET expense_category_assigned_to_user_id = $otherId WHERE user_id = :userId AND expense_category_assigned_to_user_id = :categoryId";
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
@@ -138,7 +139,8 @@ class Expense extends \Core\Model
     public function moveMethodsItems()
     {
         $userId = $_SESSION['user_id'];
-        $sql = 'UPDATE expenses SET payment_method_assigned_to_user_id = 8 WHERE user_id = :userId AND payment_method_assigned_to_user_id = :categoryId';
+        $otherId = DB::getOtherPaymentMethodId();
+        $sql = "UPDATE expenses SET payment_method_assigned_to_user_id = $otherId WHERE user_id = :userId AND payment_method_assigned_to_user_id = :categoryId";
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
@@ -178,7 +180,7 @@ class Expense extends \Core\Model
                 return "Zmieniono wybrany sposób płatności wydatków na 'Inne' ";
             }
         } else {
-            return "Nie znaleziono metody platnosci!";
+            return "Nie znaleziono sposobu płatności lub jest zabezpieczony przed modyfikacją";
         }
     }
 
@@ -218,7 +220,7 @@ class Expense extends \Core\Model
                 $answer = "Kategoria została zmieniona";
             }
         } else {
-            return "Nie znaleziono kategorii";
+            return "Nie znaleziono kategorii lub jest zabezpieczona przed modyfikacją";
         }
         return $answer;
     }
@@ -246,7 +248,7 @@ class Expense extends \Core\Model
                 return "Rodzaj platnosci o tej nazwie już istnieje";
             }
         } else {
-            return "Nie znaleziono rodzaju platnosci";
+            return "Nie znaleziono sposobu płatności lub jest zabezpieczony przed modyfikacją";
         }
     }
 
@@ -364,6 +366,7 @@ class Expense extends \Core\Model
     private function validateCategoryId()
     {
         $isExist = 'false';
+        if (DB::getOtherExpensesCategoryId() == $this->id) return $isExist;
         $elements = static::getAllCategory();
         foreach ($elements as $element) {
             if ($this->id == $element['id']) {
@@ -376,6 +379,7 @@ class Expense extends \Core\Model
     private function validateMethodId()
     {
         $isExist = 'false';
+        if (DB::getOtherPaymentMethodId() == $this->id) return $isExist;
         $elements = static::getAllPayments();
         foreach ($elements as $element) {
             if ($this->id == $element['id']) {
@@ -390,7 +394,7 @@ class Expense extends \Core\Model
         $isExist = 'false';
         $elements = static::getAllCategory();
         foreach ($elements as $element) {
-            if ($this->name == $element['name']) {
+            if (strtolower($this->name) == strtolower($element['name'])) {
                 $isExist = 'true';
             }
         }
@@ -402,7 +406,7 @@ class Expense extends \Core\Model
         $isExist = 'false';
         $elements = static::getAllPayments();
         foreach ($elements as $element) {
-            if ($this->name == $element['name']) {
+            if (strtolower($this->name) == strtolower($element['name'])) {
                 $isExist = 'true';
             }
         }

@@ -2,11 +2,8 @@
 
 namespace App\Models;
 
-use App\Auth;
-use Core\Model;
 use DateTime;
 use PDO;
-use PDOException;
 
 class Income extends \Core\Model
 {
@@ -90,7 +87,7 @@ class Income extends \Core\Model
                 return "Kategoria zawierała przychody! <br />Zostały one przeniesione do kategorii 'Inne' ";
             }
         } else {
-            return "Nie znaleziono kategorii";
+            return "Nie znaleziono kategorii lub jest zabezpieczona przed modyfikacją";
         }
     }
 
@@ -117,14 +114,15 @@ class Income extends \Core\Model
                 return "Kategoria o tej nazwie już istnieje";
             }
         } else {
-            return "Nie znaleziono kategorii";
+            return "Nie znaleziono kategorii lub jest zabezpieczona przed modyfikacją";
         }
     }
 
     public function moveCategoryItems()
     {
         $userId = $_SESSION['user_id'];
-        $sql = 'UPDATE incomes SET income_category_assigned_to_user_id = 4 WHERE user_id = :userId AND income_category_assigned_to_user_id = :categoryId';
+        $otherId = DB::getOtherIncomesCategoryId();
+        $sql = "UPDATE incomes SET income_category_assigned_to_user_id = $otherId WHERE user_id = :userId AND income_category_assigned_to_user_id = :categoryId";
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
@@ -216,6 +214,8 @@ class Income extends \Core\Model
     private function validateId()
     {
         $isExist = 'false';
+        if (DB::getOtherIncomesCategoryId() == $this->id) return $isExist;
+
         $elements = static::getAllCategory();
         foreach ($elements as $element) {
             if ($this->id == $element['id']) {
@@ -230,7 +230,7 @@ class Income extends \Core\Model
         $isExist = 'false';
         $elements = static::getAllCategory();
         foreach ($elements as $element) {
-            if ($this->name == $element['name']) {
+            if (strtolower($this->name) == strtolower($element['name'])) {
                 $isExist = 'true';
             }
         }
@@ -240,16 +240,11 @@ class Income extends \Core\Model
     public static function getAllCategory()
     {
         $userId = $_SESSION['user_id'];
-        try {
-            $db = static::getDB();
-            $sql = "SELECT id, name FROM incomes_category_assigned_to_userid_$userId";
-            $stmt = $db->query($sql);
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $result;
-
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-        }
+        $db = static::getDB();
+        $sql = "SELECT id, name FROM incomes_category_assigned_to_userid_$userId";
+        $stmt = $db->query($sql);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
     public static function getCategoryNameLike($containingName)
