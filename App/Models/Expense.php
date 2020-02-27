@@ -218,7 +218,7 @@ class Expense extends \Core\Model
                 $answer = "Kategoria została zmieniona";
             }
         } else {
-            return "Nie znaleziono kategorii";
+            return "Nie znaleziono kategorii lub jest zabezpieczona przed modyfikacją";
         }
         return $answer;
     }
@@ -246,7 +246,7 @@ class Expense extends \Core\Model
                 return "Rodzaj platnosci o tej nazwie już istnieje";
             }
         } else {
-            return "Nie znaleziono rodzaju platnosci";
+            return "Nie znaleziono sposobu płatności lub jest zabezpieczony przed modyfikacją";
         }
     }
 
@@ -364,6 +364,7 @@ class Expense extends \Core\Model
     private function validateCategoryId()
     {
         $isExist = 'false';
+        if (DB::getOtherExpensesCategoryId() == $this->id) return $isExist;
         $elements = static::getAllCategory();
         foreach ($elements as $element) {
             if ($this->id == $element['id']) {
@@ -376,6 +377,7 @@ class Expense extends \Core\Model
     private function validateMethodId()
     {
         $isExist = 'false';
+        if (DB::getOtherPaymentMethodId() == $this->id) return $isExist;
         $elements = static::getAllPayments();
         foreach ($elements as $element) {
             if ($this->id == $element['id']) {
