@@ -2,11 +2,8 @@
 
 namespace App\Models;
 
-use App\Auth;
-use Core\Model;
 use DateTime;
 use PDO;
-use PDOException;
 
 class Income extends \Core\Model
 {
@@ -90,7 +87,7 @@ class Income extends \Core\Model
                 return "Kategoria zawierała przychody! <br />Zostały one przeniesione do kategorii 'Inne' ";
             }
         } else {
-            return "Nie znaleziono kategorii";
+            return "Nie znaleziono kategorii lub jest zabezpieczona przed modyfikacją";
         }
     }
 
@@ -117,7 +114,7 @@ class Income extends \Core\Model
                 return "Kategoria o tej nazwie już istnieje";
             }
         } else {
-            return "Nie znaleziono kategorii";
+            return "Nie znaleziono kategorii lub jest zabezpieczona przed modyfikacją";
         }
     }
 
@@ -216,6 +213,8 @@ class Income extends \Core\Model
     private function validateId()
     {
         $isExist = 'false';
+        if (DB::getOtherIncomesCategoryId() == $this->id) return $isExist;
+
         $elements = static::getAllCategory();
         foreach ($elements as $element) {
             if ($this->id == $element['id']) {
