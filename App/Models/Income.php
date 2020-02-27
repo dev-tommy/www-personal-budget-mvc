@@ -121,7 +121,8 @@ class Income extends \Core\Model
     public function moveCategoryItems()
     {
         $userId = $_SESSION['user_id'];
-        $sql = 'UPDATE incomes SET income_category_assigned_to_user_id = 4 WHERE user_id = :userId AND income_category_assigned_to_user_id = :categoryId';
+        $otherId = DB::getOtherIncomesCategoryId();
+        $sql = "UPDATE incomes SET income_category_assigned_to_user_id = $otherId WHERE user_id = :userId AND income_category_assigned_to_user_id = :categoryId";
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
