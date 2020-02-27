@@ -390,7 +390,7 @@ class Expense extends \Core\Model
         $isExist = 'false';
         $elements = static::getAllCategory();
         foreach ($elements as $element) {
-            if ($this->name == $element['name']) {
+            if (strtolower($this->name) == strtolower($element['name'])) {
                 $isExist = 'true';
             }
         }
@@ -402,7 +402,7 @@ class Expense extends \Core\Model
         $isExist = 'false';
         $elements = static::getAllPayments();
         foreach ($elements as $element) {
-            if ($this->name == $element['name']) {
+            if (strtolower($this->name) == strtolower($element['name'])) {
                 $isExist = 'true';
             }
         }
