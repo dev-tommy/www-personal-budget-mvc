@@ -63,4 +63,16 @@ class DB extends \Core\Model
 
         return $stmt->fetch()['id'];
     }
+
+    public static function getOtherExpensesCategoryId()
+    {
+        $userId = $_SESSION['user_id'];
+        $sql = "SELECT id FROM expenses_category_assigned_to_userid_$userId WHERE protected = 'other'";
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetch()['id'];
+    }
 }
