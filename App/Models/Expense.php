@@ -125,7 +125,8 @@ class Expense extends \Core\Model
     public function moveCategoryItems()
     {
         $userId = $_SESSION['user_id'];
-        $sql = 'UPDATE expenses SET expense_category_assigned_to_user_id = 28 WHERE user_id = :userId AND expense_category_assigned_to_user_id = :categoryId';
+        $otherId = DB::getOtherExpensesCategoryId();
+        $sql = "UPDATE expenses SET expense_category_assigned_to_user_id = $otherId WHERE user_id = :userId AND expense_category_assigned_to_user_id = :categoryId";
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
@@ -138,7 +139,8 @@ class Expense extends \Core\Model
     public function moveMethodsItems()
     {
         $userId = $_SESSION['user_id'];
-        $sql = 'UPDATE expenses SET payment_method_assigned_to_user_id = 8 WHERE user_id = :userId AND payment_method_assigned_to_user_id = :categoryId';
+        $otherId = DB::getOtherPaymentMethodId();
+        $sql = "UPDATE expenses SET payment_method_assigned_to_user_id = $otherId WHERE user_id = :userId AND payment_method_assigned_to_user_id = :categoryId";
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
