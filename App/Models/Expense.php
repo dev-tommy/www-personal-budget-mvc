@@ -118,7 +118,7 @@ class Expense extends \Core\Model
                 return "Kategoria zawierała wydatki! <br />Zostały one przeniesione do kategorii 'Inne' ";
             }
         } else {
-            return "Nie znaleziono kategorii";
+            return "Nie znaleziono kategorii lub jest zabezpieczona przed modyfikacją";
         }
     }
 
@@ -180,7 +180,7 @@ class Expense extends \Core\Model
                 return "Zmieniono wybrany sposób płatności wydatków na 'Inne' ";
             }
         } else {
-            return "Nie znaleziono metody platnosci!";
+            return "Nie znaleziono sposobu płatności lub jest zabezpieczony przed modyfikacją";
         }
     }
 
