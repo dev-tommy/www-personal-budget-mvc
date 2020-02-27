@@ -32,9 +32,9 @@ class User extends \Core\Model
 
     private function editUserName()
     {
-        if (strlen($this->name) < 6)
+        if (Validator::checkLength($this->name,6)) {
             return "Nazwa uzytkownika musi skladać się z minimum 6 znaków";
-
+        }
         if (DB::editTable("users", "username", $this->name, "str")) {
             return "Nazwa użytkownika została zmieniona";
         } else {
@@ -44,11 +44,12 @@ class User extends \Core\Model
 
     private function editUserEmail()
     {
-        if (filter_var($this->name, FILTER_VALIDATE_EMAIL) === false)
+        if (!Validator::checkEmailFormat($this->name)) {
             return 'Niepoprawny adres email';
-        if (static::emailExists($this->name))
+        }
+        if (static::emailExists($this->name)) {
             return "Adres email już zajęty. Proszę wybrać inny.";
-
+        }
         if (DB::editTable("users", "email", $this->name, "str")) {
             return "Adres email został zmieniony";
         } else {
@@ -58,35 +59,30 @@ class User extends \Core\Model
 
     private function editUserPassword()
     {
-        $userId = $_SESSION['user_id'];
-
-        if (preg_match('/.*[a-z]+.*/i', $this->name) == 0) {
+        if (!Validator::containLetter($this->name)) {
             return 'Hasło musi zawierać przynajmniej jedną literę';
         }
 
-        if (preg_match('/.*\d+.*/i', $this->name) == 0) {
+        if (!Validator::containNumber($this->name)) {
             return 'Hasło musi zawierać przynajmniej jedną cyfrę';
         }
 
-        if (strlen($this->name) < 8) {
+        if (Validator::checkLength($this->name, 8)) {
             return 'Hasło musi mieć minimum 8 znaków długości';
         }
 
         $password_hash = password_hash($this->name, PASSWORD_DEFAULT);
 
-        $sql = "UPDATE users SET password_hash = :userPassword WHERE id = $userId";
-
-        $db = static::getDB();
-        $stmt = $db->prepare($sql);
-        $stmt->bindValue(':userPassword', $password_hash, PDO::PARAM_STR);
-        $stmt->execute();
-
-        return "Hasło zostało zmienione";
+        if (DB::editTable("users", "password_hash", $password_hash, "str")) {
+            return "Hasło zostało zmienione";
+        } else {
+            return "Hasło <B>nie zostało</B> zmienione";
+        }
     }
 
     public function save()
     {
-        $this->validate();
+        $this->validateSaveData();
 
         if (empty($this->isValid)) {
             $password_hash = password_hash($this->password, PASSWORD_DEFAULT);
@@ -112,42 +108,36 @@ class User extends \Core\Model
         return false;
     }
 
-    public function validate()
+    public function validateSaveData()
     {
-        if (strlen($this->name) < 6) {
+        if (Validator::checkLength($this->name, 6)) {
             $this->isValid['name'] = 'is-invalid';
             $this->warnings['name'] = 'Nazwa użytkownika jest wymagana i musi mieć min. 6 znków';
-            //$this->warnings[] = 'Name is required';
         }
 
-        if (filter_var($this->email, FILTER_VALIDATE_EMAIL) === false) {
+        if (!Validator::checkEmailFormat($this->email)) {
             $this->isValid['email'] = 'is-invalid';
             $this->warnings['email'] = 'Niepoprawny adres email';
-            //$this->warnings[] = 'Invalid emial';
         }
 
         if (static::emailExists($this->email)) {
             $this->isValid['email'] = 'is-invalid';
             $this->warnings['email'] = 'Adres email już wcześniej został wykorzystany';
-            //$this->warnings[] = 'Email already taken';
         }
 
-        if (preg_match('/.*[a-z]+.*/i', $this->password) == 0) {
+        if (!Validator::containLetter($this->password)) {
             $this->isValid['password'] = 'is-invalid';
             $this->warnings['password'] = 'Hasło musi zawierać przynajmniej jedną literę';
-            //$this->warnings[] = 'Password needs at least one letter';
         }
 
-        if (preg_match('/.*\d+.*/i', $this->password) == 0) {
+        if (!Validator::containNumber($this->password)) {
             $this->isValid['password'] = 'is-invalid';
             $this->warnings['password'] = 'Hasło musi zawierać przynajmniej jedną cyfrę';
-            //$this->warnings[] = 'Password needs at least one number';
         }
 
-        if (strlen($this->password) < 8) {
+        if (Validator::checkLength($this->password, 8)) {
             $this->isValid['password'] = 'is-invalid';
             $this->warnings['password'] = 'Hasło musi mieć minimum 8 znaków długości';
-            //$this->warnings[] = 'Please enter at least 8 chars for the password';
         }
     }
 
@@ -158,32 +148,12 @@ class User extends \Core\Model
 
     public static function findByEmail($email)
     {
-        $sql = 'SELECT * FROM users WHERE email = :email';
-
-        $db = static::getDB();
-        $stmt = $db->prepare($sql);
-        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
-
-        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
-
-        $stmt->execute();
-
-        return $stmt->fetch();
+        return DB::findInTable('users', 'email', $email, 'str');
     }
 
     public static function findByID($id)
     {
-        $sql = 'SELECT * FROM users WHERE id = :id';
-
-        $db = static::getDB();
-        $stmt = $db->prepare($sql);
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-
-        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
-
-        $stmt->execute();
-
-        return $stmt->fetch();
+        return DB::findInTable('users', 'id', $id, 'int');
     }
 
     public function addNewUserTables($userId)
